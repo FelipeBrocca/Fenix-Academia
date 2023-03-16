@@ -8,9 +8,9 @@ const Header = () => {
         <header>
             <img src={logoFenix} className="logo-header" alt='logo-header' />
             <div className='burguer-menu'>
-                <div></div>
-                <div></div>
-                <div></div>
+                <div className='burguer-div'></div>
+                <div className='burguer-div'></div>
+                <div className='burguer-div'></div>
             </div>
         </header>
     )

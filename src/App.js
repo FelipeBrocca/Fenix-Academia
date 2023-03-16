@@ -1,18 +1,20 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Footer from './components/Footer/Footer';
-import Header from './components/Header/Header';
-import Home from './Pages/Home';
-import NotFound from './Pages/NotFound';
-
+import Layout from './components/Layout/Layout';
+import Footer from './components/Footer/Footer'
+import Login from './features/auth/Login/Login'
+import LoggedLayout from './components/Layout/LoggedLayout'
 
 function App() {
   return (
     <BrowserRouter>
-      <Header />
       <Routes>
-        <Route path='*' element={<NotFound />} />
-        <Route exact path='/' element={<Home />} />
-        {/* <Route exact /> */}
+        <Route path='/login' element={<Layout />}>
+          <Route index element={<Login />} />
+        </Route>
+
+        <Route path='/' element={<LoggedLayout />}>
+
+        </Route>
       </Routes>
       <Footer />
     </BrowserRouter>

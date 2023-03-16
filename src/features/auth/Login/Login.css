@@ -1,0 +1,74 @@
+.login-container{
+    width: 100%;
+    height: calc(100vh - 50px);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    position: relative;
+}
+.logo-login-container{
+    width: 95%;
+    max-width: 250px;
+    height: 250px;
+    position: relative;
+}
+.logo-login{
+    width: 100%;
+    height: auto;
+}
+.login-container > span{
+    width: 100%;
+    height: 250px;
+}
+.logo-login-skeleton{
+    width: 100%;
+    height: 150px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 25% 0;
+}
+.form-login-container{
+    width: 80%;
+    max-width: 350px;
+    height: 250px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.form-login{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+.input-login{
+    width: 100%;
+    height: 35px;
+    border-radius: 10px;
+    border: 1px solid rgb(142, 135, 135);
+    background-color: var(--white);
+    outline: none;
+    padding: 10px;
+    font-size: 16px;
+}
+.input-login::placeholder{
+    font-size: 16px;
+}
+.change-password{
+    align-self: flex-end;
+    color: var(--green);
+}
+.login-button{
+    width: 150px;
+    height: 40px;
+    align-self: center;
+    border: none;
+    border-radius: 20px;
+    color: var(--white);
+    font-size: 15px;
+    font-weight: bolder;
+    background-color: var(--orange);
+}

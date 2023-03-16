@@ -4,7 +4,6 @@ header{
     border-bottom-left-radius: 3px;
     border-bottom-right-radius: 3px;
     width: 95%;
-    margin: 0 auto;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -20,9 +19,10 @@ header{
     flex-direction: column;
     justify-content: space-around;
     padding: 15px;
+    box-sizing: content-box;
     cursor: pointer;
 }
-.burguer-menu > div{
+.burguer-div{
     background-color: var(--white);
     width: 100%;
     height: 2.5px;

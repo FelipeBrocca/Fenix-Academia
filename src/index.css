@@ -8,6 +8,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: 'Exo', sans-serif;
 }
 #root{
     width: calc(100vw - (100vw - 100%));
@@ -15,9 +16,18 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    align-items: center;
 }
 body{
     background-color: var(--black);
     overflow-x: hidden;
+}
+main{
+    min-height: calc(100vh - 230px);
+}
+.react-loading-skeleton{
+    --base-color: var(--black);
+    --highlight-color: #525252;
+    --animation-duration: 0.5s;
 }
 
