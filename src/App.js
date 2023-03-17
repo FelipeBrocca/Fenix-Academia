@@ -4,6 +4,8 @@ import Footer from './components/Footer/Footer'
 import Login from './features/auth/Login/Login'
 import LoggedLayout from './components/Layout/LoggedLayout'
 
+import Home from './Pages/Home'
+
 function App() {
   return (
     <BrowserRouter>
@@ -13,7 +15,7 @@ function App() {
         </Route>
 
         <Route path='/' element={<LoggedLayout />}>
-
+           <Route index element={<Home />} />
         </Route>
       </Routes>
       <Footer />

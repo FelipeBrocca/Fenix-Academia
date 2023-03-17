@@ -16,6 +16,11 @@
 .logo-login{
     width: 100%;
     height: auto;
+    animation: fadeIn ease 2s;
+    -webkit-animation: fadeIn ease 2s;
+    -moz-animation: fadeIn ease 2s;
+    -o-animation: fadeIn ease 2s;
+    -ms-animation: fadeIn ease 2s;
 }
 .login-container > span{
     width: 100%;
@@ -61,6 +66,9 @@
     align-self: flex-end;
     color: var(--green);
 }
+.change-password:hover{
+    color: aquamarine;
+}
 .login-button{
     width: 150px;
     height: 40px;
@@ -71,4 +79,32 @@
     font-size: 15px;
     font-weight: bolder;
     background-color: var(--orange);
+    cursor: pointer;
+}
+.login-button:hover{
+    background-color: rgb(246, 142, 39);
+}
+@keyframes fadeIn {
+  0% {opacity:0;}
+  100% {opacity:1;}
+}
+
+@-moz-keyframes fadeIn {
+  0% {opacity:0;}
+  100% {opacity:1;}
+}
+
+@-webkit-keyframes fadeIn {
+  0% {opacity:0;}
+  100% {opacity:1;}
+}
+
+@-o-keyframes fadeIn {
+  0% {opacity:0;}
+  100% {opacity:1;}
+}
+
+@-ms-keyframes fadeIn {
+  0% {opacity:0;}
+  100% {opacity:1;}
 }

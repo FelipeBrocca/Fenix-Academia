@@ -28,6 +28,6 @@ main{
 .react-loading-skeleton{
     --base-color: var(--black);
     --highlight-color: #525252;
-    --animation-duration: 0.5s;
+    --animation-duration: 0.7s;
 }
 
