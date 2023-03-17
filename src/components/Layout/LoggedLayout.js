@@ -1,14 +1,18 @@
-import { Outlet } from "react-router-dom"
+import { Navigate, Outlet } from "react-router-dom"
 import Header from "../Header/Header"
 
 const LoggedLayout = () => {
+    const auth = sessionStorage.getItem('token')
     return (
-        <>
-            <Header />
-            <main>
-                <Outlet />
-            </main>
-        </>
+        auth
+            ?
+            <>
+                <Header />
+                <main>
+                    <Outlet />
+                </main>
+            </>
+            : <Navigate to='/login' />
     )
 }
 
