@@ -32,4 +32,4 @@ export const updatePlayerRequest = async (id, player) => {
     })
 }
 
-export const deletePlayerRequest = async (id) => await axios.delete(`/players-hockey/${id}`)
+export const deletePlayerRequest = async (id) => await axios.delete(`http://localhost:3500/players-hockey/${id}`)

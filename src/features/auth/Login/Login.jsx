@@ -3,7 +3,6 @@ import LoginForm from "./LoginForm"
 import './Login.css'
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
-import logoFenix from '../../../public/images/logo-fenix1000.png'
 const Image = lazy(() => import('../../../components/Image/Image'))
 
 
@@ -13,7 +12,7 @@ const Login = () => {
             <div className="logo-login-container">
                 <Suspense fallback={<Skeleton className="logo-login-skeleton" />}>
                     <Image
-                        src={logoFenix}
+                        src={'https://res.cloudinary.com/dlah9v2do/image/upload/v1679333513/logo-fenix1000_yxf8dn.png'}
                         alt='logo-fenix'
                         className='logo-login' />
                 </Suspense>

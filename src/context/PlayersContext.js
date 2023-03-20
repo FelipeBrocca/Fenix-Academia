@@ -22,21 +22,35 @@ export const PlayersProvider = ({ children }) => {
         const res = await getPLayersRequest()
         setPlayers(res.data)
     }
-    useEffect(() => {
-        getPlayers()
-    }, [])
-
+    
+    const getPlayer = async (id) => {
+        const player = await playerDetailRequest(id)
+        return player.data
+    }
+    const createPlayer = async(player) => {
+        const create = await createPlayerRequest(player)
+        if(create){
+            setPlayers([...players, create.data])
+        } else {
+            alert('No se pudo crear el nuevo jugador')
+        }
+    }
     const eliminatePlayer = async(id) => {
         await deletePlayerRequest(id)
         setPlayers(players.filter(player => player._id !== id))
     }
-
+    
+    useEffect(() => {
+        getPlayers()
+    }, [])
 
     return(
         <playersContext.Provider value={{
             players,
             setPlayers,
             getPlayers,
+            getPlayer,
+            createPlayer,
             eliminatePlayer
         }}>
             {children}
