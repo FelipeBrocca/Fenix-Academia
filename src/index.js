@@ -1,14 +1,19 @@
-import React from 'react';
+import React, { StrictMode } from 'react';
 import ReactDOM from 'react-dom/client';
 
 import App from './App';
-import { PlayersProvider } from './context/PlayersContext';
 import './index.css';
+import { LoginProvider } from './context/LoginContext';
+import { PlayersProvider } from './context/PlayersContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <PlayersProvider>
-    <App />
-  </PlayersProvider>
+    <StrictMode>
+        <LoginProvider>
+            <PlayersProvider>
+                <App />
+            </PlayersProvider>
+        </LoginProvider>
+    </StrictMode>
 );
 

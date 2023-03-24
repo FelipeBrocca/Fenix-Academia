@@ -35,14 +35,15 @@ export const PlayersProvider = ({ children }) => {
             alert('No se pudo crear el nuevo jugador')
         }
     }
+    const updatePlayer = async(id, player) => {
+        const playerToEdit = await updatePlayerRequest(id, player)
+        setPlayers(players.map(player => (player._id === id ? playerToEdit.data : player)))
+    }
     const eliminatePlayer = async(id) => {
         await deletePlayerRequest(id)
         setPlayers(players.filter(player => player._id !== id))
     }
     
-    useEffect(() => {
-        getPlayers()
-    }, [])
 
     return(
         <playersContext.Provider value={{
@@ -51,7 +52,8 @@ export const PlayersProvider = ({ children }) => {
             getPlayers,
             getPlayer,
             createPlayer,
-            eliminatePlayer
+            updatePlayer,
+            eliminatePlayer    
         }}>
             {children}
         </playersContext.Provider>
