@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { usePlayers } from '../context/PlayersContext'
 import Image from '../components/Image/Image'
+import Loader from '../components/Loader/Loader'
 
 const PlayerProfile = () => {
 
@@ -18,7 +19,7 @@ const PlayerProfile = () => {
       setLoadingDelete(true)
       await eliminatePlayer(id)
       setLoadingDelete(false)
-      navigation('/')
+      navigation('/jugador/listado')
     } catch (error) {
       console.log(error);
     }
@@ -26,47 +27,50 @@ const PlayerProfile = () => {
 
   useEffect(() => {
     (async () => {
-        try {
-          if (params.id) {
-            const playerProfile = await getPlayer(params.id)
-            setPlayer(playerProfile)
-            setLoading(false)
-          }
-        } catch (error) {
-          setNoPlayerFound(true)
+      try {
+        if (params.id) {
+          const playerProfile = await getPlayer(params.id)
+          setPlayer(playerProfile)
           setLoading(false)
         }
+      } catch (error) {
+        setNoPlayerFound(true)
+        setLoading(false)
+      }
     })();
   }, [params.id, getPlayer])
-  
-   if(loading){
-    return <h2>Cargando...</h2>
-   } 
-   else if(noPlayerFound){
-    return <h1>No se encontro</h1>
-   }
-   else {
+
+  if (loading) {
+    return <Loader />
+  }
+  else if (noPlayerFound) {
+    return <h2 className='no-player-found'>No existe este jugador/a</h2>
+  }
+  else {
     return (
-      <div className='player-card'>
-        <div className='player-image-container'>
-          {
-            player.image
-              ? <Image src={player.image.url} alt='img-jug' className='player-image' />
-              : <Image src='https://res.cloudinary.com/dlah9v2do/image/upload/v1679335452/1200px-Breezeicons-actions-22-im-user.svg_ycuwsn.png' className='player-image' />
-          }
+      <main>
+      <Link to='/jugador/listado'>Volver</Link>
+        <div className='player-card'>
+          <div className='player-image-container'>
+            {
+              player.image
+                ? <Image src={player.image.url} alt='img-jug' className='player-image' />
+                : <Image src='https://res.cloudinary.com/dlah9v2do/image/upload/v1679335452/1200px-Breezeicons-actions-22-im-user.svg_ycuwsn.png' className='player-image' />
+            }
+          </div>
+          <p>{player.name}</p>
+          <p>{player.club}</p>
+          <p>{player.dni}</p>
+          <p>{player.active}</p>
+          <p>{player?.createdAt?.day}/{player?.createdAt?.month}/{player?.createdAt?.year}</p>
+          <p>{player.ensurance}</p>
+          <p>{player.pay}</p>
+          <p>{player.phone}</p>
+          <p>{player.role}</p>
+          <p>{player.birth}</p>
+          <button onClick={() => deletePlayer(player._id)}>{loadingDelete ? 'Cargando' : 'Eliminar'}</button>
         </div>
-        <p>{player.name}</p>
-        <p>{player.club}</p>
-        <p>{player.dni}</p>
-        <p>{player.active}</p>
-        <p>{player?.createdAt?.day}/{player?.createdAt?.month}/{player?.createdAt?.year}</p>
-        <p>{player.ensurance}</p>
-        <p>{player.pay}</p>
-        <p>{player.phone}</p>
-        <p>{player.role}</p>
-        <p>{player.birth}</p>
-        <button onClick={() => deletePlayer(player._id)}>{loadingDelete ? 'Cargando' : 'Eliminar'}</button>
-      </div>
+      </main>
     )
   }
 }

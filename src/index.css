@@ -1,5 +1,6 @@
 :root{
     --black: #363435;
+    --grey: #4b4545;
     --green: #00CAA6;
     --orange: #ED6E21;
     --white: #f2efe9;
@@ -23,7 +24,13 @@ body{
     overflow-x: hidden;
 }
 main{
+    width: calc(100vw - (100vw - 100%));
     min-height: calc(100vh - 230px);
+    padding: 20px 15px 20px 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
 }
 .backdropPopUp{
     position: fixed;
@@ -35,7 +42,7 @@ main{
     justify-content: center;
     align-items: center;
     animation: fade-in 300ms forwards;
-    background-color: rgba(206, 206, 206, 0.232);
+    background-color: rgba(0, 0, 0, 0.605);
     z-index: 90;
 }
 

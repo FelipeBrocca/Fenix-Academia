@@ -1,5 +1,7 @@
 import React, { useRef, useState } from 'react'
 import { usePlayers } from '../../context/PlayersContext'
+import Loader from '../Loader/Loader'
+
 
 const FormCreate = () => {
 
@@ -46,15 +48,15 @@ const FormCreate = () => {
     fileInputRef.current.value = "";
   };
 
-  const handleSubmit = async(event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     try {
       setLoading(true)
       await createPlayer(formData)
-      .then(() => {
-        setLoading(false)
-        resetForm();
-      })
+        .then(() => {
+          setLoading(false)
+          resetForm();
+        })
     } catch (error) {
       console.log(error);
     }
@@ -72,19 +74,23 @@ const FormCreate = () => {
         <input onChange={handleInputChange} value={formData.role} type='text' name='role' placeholder='Posicion' />
         <input onChange={handleInputChange} value={formData.birth} type='text' name='birth' placeholder='Nacimiento' />
         <div className='check-input-container'>
-          <label htmlFor='ensurance'>Esta asegurado</label>
+          <label htmlFor='ensurance'>Asegurado/a</label>
           <input onChange={handleInputChange} value={formData.ensurance} type='checkbox' name='ensurance' />
         </div>
         <div className='check-input-container'>
-          <label htmlFor='active'>Desactivar</label>
+          <label htmlFor='active'>Jugador/a activo</label>
           <input onChange={handleInputChange} value={formData.active} type='checkbox' name='active' defaultChecked='checked' />
         </div>
         <div className='check-input-container'>
-          <label htmlFor='pay'>Esta pago</label>
+          <label htmlFor='pay'>Pago de cuota</label>
           <input onChange={handleInputChange} value={formData.pay} type='checkbox' name='pay' />
         </div>
-        <button type='submit'>{loading ? 'Cargando' : 'Crear'}</button>
-        <button type='reset'>Cancelar</button>
+        <button type='submit' className='button-submit-create'>Crear</button>
+        {
+          loading
+          ? <Loader />
+          : <button type='reset' className='button-reset-create'>Cancelar</button>
+        }
       </form>
     </div>
   )

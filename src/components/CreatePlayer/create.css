@@ -1,5 +1,16 @@
+.create-button{
+    width: 90%;
+    align-self: center;
+    height: 50px;
+    border-radius: 10px;
+    border: none;
+    font-size: 18px;
+    background-color: var(--orange);
+    color: var(--white);
+    font-weight: bolder;
+}
 .create-form-container{
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     right: 0;
@@ -41,4 +52,25 @@
     align-self: center;
     width: 90%;
     min-height: 35px;
+}
+.button-submit-create{
+    width: 50%;
+    align-self: flex-end;
+    padding: 8px;
+    background-color: var(--green);
+    border: none;
+    font-size: 18px;
+    color: var(--white);
+    font-weight: 500;
+    border-radius: 10px;
+}
+.button-reset-create{
+    width: 40%;
+    align-self: flex-end;
+    border-radius: 10px;
+    border: none;
+    background-color: var(--orange);
+    padding: 5px;
+    color: var(--white);
+    margin-top: 15px;
 }

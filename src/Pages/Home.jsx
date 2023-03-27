@@ -5,9 +5,9 @@ const Home = () => {
 
 
   return (
-    <>
+    <main>
       <Link to='/jugador/listado'>Ver jugadores</Link>
-    </>
+    </main>
   )
 }
 

@@ -1,7 +1,8 @@
-import { createContext, useContext, useEffect, useState } from "react"
+import { createContext, useContext, useEffect, useState, useCallback } from "react"
 import {
     loggedInAuth,
-    loginRequest
+    loginRequest,
+    logoutRequest
 } from '../api/loginAPI'
 
 const loginContext = createContext()
@@ -14,14 +15,14 @@ export const useLogin = () => {
 export const LoginProvider = ({ children }) => {
     const [loggedIn, setLoggedIn] = useState(undefined)
 
-    const getLogged = async() => {
+    const getLogged = useCallback(async() => {
         try {
             const loggedInRes = await loggedInAuth()
             setLoggedIn(loggedInRes.data)
         } catch (error) {
             console.log(error);
         }
-    }
+    }, [])
     const logIn = async(user) => {
         try {
             await loginRequest(user)
@@ -30,17 +31,26 @@ export const LoginProvider = ({ children }) => {
             console.log(error);
         }
     }
+    const logOut = useCallback(async() => {
+        try {
+            await logoutRequest()
+        } catch (error) {
+            console.log(error);
+        }
+    }, [])
 
     useEffect(() => {
         getLogged()
-    }, [])
+    }, [getLogged])
+
 
     return(
         <loginContext.Provider value={{
             logIn,
             getLogged,
             loggedIn,
-            setLoggedIn   
+            setLoggedIn,
+            logOut   
         }}>
             {children}
         </loginContext.Provider>
