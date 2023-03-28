@@ -12,9 +12,7 @@ const PlayersPage = () => {
                 <h2>Lista de jugadores</h2>
                 <CreateModal />
                 <SearchPlayer />
-                <div className='players-list'>
-                    <PlayersList />
-                </div>
+                <PlayersList />
             </div>
         </main>
     )

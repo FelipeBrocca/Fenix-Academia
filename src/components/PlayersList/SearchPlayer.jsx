@@ -6,7 +6,7 @@ const SearchPlayer = () => {
 
   const { players } = usePlayers()
   const [busqueda, setBusqueda] = useState('')
-  const [playersSearch, setPlayersSearch] = useState(players)
+  const [playersSearch, setPlayersSearch] = useState([])
 
 const filter = (busqueda) => {
   let busquedaRes = players.filter(player => {
@@ -30,13 +30,15 @@ const filter = (busqueda) => {
         <div className={`search-filter-container ${busqueda ? 'active' : 'disabled'}`}>
          <ul>
           {
-            busqueda
+            busqueda && playersSearch[0]
             ? playersSearch.map(player => {
               return (
                 <ItemSearch name={player.name} id={player._id} key={player._id} />
               )
             })
-            : ''
+            : busqueda && !playersSearch[0]
+            ? <li>No se encontraron resultados</li>
+            :  '' 
           }
          </ul>
     </div>

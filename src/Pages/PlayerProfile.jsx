@@ -61,12 +61,13 @@ const PlayerProfile = () => {
           <p>{player.name}</p>
           <p>{player.club}</p>
           <p>{player.dni}</p>
-          <p>{player.active}</p>
+          <p>{player.active ? 'Activo' : ''}</p>
           <p>{player?.createdAt?.day}/{player?.createdAt?.month}/{player?.createdAt?.year}</p>
-          <p>{player.ensurance}</p>
-          <p>{player.pay}</p>
+          <p>{player.ensurance ? 'Asegurado' : ''}</p>
+          <p>{player.pay ? 'Pago' : ''}</p>
           <p>{player.phone}</p>
           <p>{player.role}</p>
+          <p>{player.role2 ? player.role2 : ''}</p>
           <p>{player.birth}</p>
           <button onClick={() => deletePlayer(player._id)}>{loadingDelete ? 'Cargando' : 'Eliminar'}</button>
         </div>

@@ -17,7 +17,9 @@ const CreateModal = () => {
       <button className='create-button' onClick={() => setCreate(!create)}>+ Agregar jugador/a</button>
       {
         create
-          ? <FormCreate />
+          ? <FormCreate>
+            <button className='close-create-form' onClick={() => setCreate(!create)}>X</button>
+          </FormCreate>
           : ''
       }
     </>

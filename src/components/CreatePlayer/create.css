@@ -1,10 +1,11 @@
 .create-button{
     width: 90%;
+    max-width: 200px;
     align-self: center;
-    height: 50px;
     border-radius: 10px;
     border: none;
     font-size: 18px;
+    padding: 15px 0px;
     background-color: var(--orange);
     color: var(--white);
     font-weight: bolder;
@@ -21,7 +22,7 @@
     max-width: 600px;
     height: 90%;
     overflow-y: auto;
-    max-height: 600px;
+    max-height: 650px;
     background-color: var(--black);
     z-index: 100;
     display: flex;
@@ -38,7 +39,7 @@
     gap: 10px;
     overflow-y: auto;
 }
-.create-form > input[type='text'], input[type='tel']{
+.create-form > input[type='text'], input[type='tel'], select{
     outline: none;
     border-radius: 5px;
     border: none;
@@ -73,4 +74,49 @@
     padding: 5px;
     color: var(--white);
     margin-top: 15px;
+}
+.check-input-container{
+    display: flex;
+    padding-left: 20px;
+    gap: 10px;
+}
+.check-input-container > input{
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    outline: none;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+.check-input-container > input::before{
+    content: "";
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: none;
+    background-color: var(--white);
+    vertical-align: middle;
+    border-radius: 50px;
+}
+.check-input-container > input:checked::before{
+    content: "\2713";
+    background-color: var(--green);
+    color: var(--white);
+    font-size: 18px;
+    text-align: center;
+    line-height: 20px;   
+    font-weight: bolder;
+}
+.close-create-form{
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    border: none;
+    border-radius: 50%;
+    background-color: transparent;
+    color: var(--white);
+    font-size: 20px;
+    font-weight: bolder;
+    padding: 3px;
 }
