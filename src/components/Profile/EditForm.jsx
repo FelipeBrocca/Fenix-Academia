@@ -7,10 +7,8 @@ import CreateClub from '../CreateClub/CreateClub'
 import Resizer from 'react-image-file-resizer';
 
 
-
-const FormCreate = ({ children }) => {
-
-  const { createPlayer } = usePlayers()
+const EditForm = ({ children, player, id }) => {
+  const { updatePlayer } = usePlayers()
   const { clubs } = useClubs()
   const [loading, setLoading] = useState(false)
   const [month, setMonth] = useState('')
@@ -19,17 +17,35 @@ const FormCreate = ({ children }) => {
   const [formClubs, setFormClubs] = useState(false)
   const [clubsSelect, setClubsSelect] = useState([])
   const [formData, setFormData] = useState({
-    image: null,
-    name: '',
-    dni: '',
-    phone: '',
-    club: '',
-    role: [],
-    birth: '',
-    ensurance: false,
-    active: true,
-    pay: false,
+    image: player.image,
+    name: player.name,
+    dni: player.dni,
+    phone: player.phone,
+    club: player.club,
+    role: player.role,
+    birth: player.birth,
+    ensurance: player.ensurance,
+    active: player.active,
+    pay: player.pay,
   });
+
+  const handleResetRolesClub = () => {
+    const newRoles = player.role.map(role => {
+      return {
+        value: role,
+        label: role
+      };
+    });
+    setRoles(newRoles);
+    if(player.club){
+      setClubSelected(player.club)
+    }
+  }
+  
+  useEffect(() => {
+    handleResetRolesClub()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   useEffect(() => {
     const date = new Date()
@@ -63,6 +79,10 @@ const FormCreate = ({ children }) => {
     )
   }, [])
 
+  const handleCreateClub = () => {
+    setFormClubs(!formClubs)
+  }
+
   const resizeFile = (file) =>
     new Promise((resolve) => {
       Resizer.imageFileResizer(
@@ -78,10 +98,6 @@ const FormCreate = ({ children }) => {
         "file"
       );
     });
-
-  const handleCreateClub = () => {
-    setFormClubs(!formClubs)
-  }
 
   const fileInputRef = useRef(null)
   const ensuranceRef = useRef(null);
@@ -105,11 +121,10 @@ const FormCreate = ({ children }) => {
     const selectOptions = clubs.map(club => ({
       value: club.name,
       label: club.name
-    }))
+    }));
     setClubsSelect(selectOptions);
-  }, [clubs]);
-
-
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleFileChange = async (event) => {
     const file = event.target.files[0];
@@ -117,22 +132,20 @@ const FormCreate = ({ children }) => {
     setFormData({ ...formData, image: image });
   };
 
-
   const resetForm = () => {
     setFormData({
-      image: null,
-      name: "",
-      dni: "",
-      phone: "",
-      club: "",
-      role: [],
-      birth: "",
-      ensurance: false,
-      active: true,
-      pay: false,
+      image: player.image,
+      name: player.name,
+      dni: player.dni,
+      phone: player.phone,
+      club: player.club,
+      role: player.role,
+      birth: player.birth,
+      ensurance: player.ensurance,
+      active: player.active,
+      pay: player.pay,
     });
-    setRoles([]);
-    setClubSelected('')
+    handleResetRolesClub();
     fileInputRef.current.value = "";
     ensuranceRef.current.checked = false;
     payRef.current.checked = false;
@@ -146,29 +159,29 @@ const FormCreate = ({ children }) => {
     }))
   }, [roles])
 
+
   useEffect(() => {
     setFormData(prevData => ({
-      ...prevData, club: clubSelected.value
+      ...prevData, club: clubSelected.value ? clubSelected.value : clubSelected
     }))
   }, [clubSelected])
+
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
       setLoading(true);
-      await createPlayer(formData);
+      await updatePlayer(id, formData);
       setLoading(false);
       resetForm();
     } catch (error) {
       console.log(error);
     }
   }
-
-
   return (
     <>
       <div className='create-form-container'>
-        <h3>Crear nuevo jugador/a</h3>
+        <h3>Editar jugador/a</h3>
         {children}
         <form className='create-form' encType='multipart/form-data' onSubmit={handleSubmit}>
           <label className='form-create-label-image' htmlFor="image">Imagen de perfil</label>
@@ -178,11 +191,11 @@ const FormCreate = ({ children }) => {
           <input onChange={handleInputChange} value={formData.phone} type='tel' name='phone' placeholder='Telefono' required />
           <div className='clubs-container-form-create'>
             <div className='select-clubs'>
-              <Select name='club' placeholder='Seleccione club' options={clubsSelect} onChange={setClubSelected} value={clubSelected} />
+              <Select name='club' options={clubsSelect} onChange={setClubSelected} placeholder={player.club} value={clubSelected} />
             </div>
             <span className='button-modal-create-club' onClick={handleCreateClub}>+</span>
           </div>
-          <Select name='role' options={roleOptions} isMulti isClearable onChange={setRoles} className='clubs-container-form-create' placeholder='Seleccione posiciones' value={roles} />
+          <Select name='role' options={roleOptions} isMulti isClearable onChange={setRoles} className='clubs-container-form-create' value={roles} />
           <input onChange={handleInputChange} value={formData.birth} type='text' name='birth' placeholder='Nacimiento' required />
           <div className='check-input-container'>
             <label htmlFor='ensurance'>Asegurado/a</label>
@@ -196,7 +209,7 @@ const FormCreate = ({ children }) => {
             <label htmlFor='pay'>Pago de {month}</label>
             <input onChange={handleInputChange} value={formData.pay} type='checkbox' name='pay' ref={payRef} />
           </div>
-          <button type='submit' className='button-submit-create'>Crear</button>
+          <button type='submit' className='button-submit-create'>Editar</button>
           {
             loading
               ? <Loader />
@@ -215,4 +228,7 @@ const FormCreate = ({ children }) => {
   )
 }
 
-export default FormCreate
+export default EditForm
+
+
+

@@ -24,7 +24,7 @@
     padding: 8px;
     color: var(--white);
 }
-.players-list > ul > li > p{
+.players-list > ul > li > p.p-name{
     width: 90%;
 }
 .players-list > ul > li > a{
@@ -97,4 +97,47 @@
   .container-selects-filter{
     display: flex;
     gap: 5px;
+    width: 100%;
   }
+  .container-selects-filter > select{
+    width: 48%;
+    gap: 4%;
+  }
+  .icon-alert{
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+    border: 2px solid var(--orange);
+    border-radius: 50%;
+    background-color: transparent;
+    color: var(--orange);
+    display: grid;
+    place-items: center;
+    font-size: 14px;
+  }
+  .icon-alert2{
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--green);
+    border-radius: 50%;
+    background-color: transparent;
+    color: var(--orange);
+    display: grid;
+    place-items: center;
+    font-size: 14px;
+    margin-right: 5px;
+  }
+  .icon-alert-container{
+    align-self: center;
+    text-align: right;
+  }
+  .p-filter{
+    width: 60px;
+    text-align: right;
+    margin-right: 5px;
+    font-size: 12px;
+    align-self: center;
+  }
+ .item-player-link-to-profile{
+  align-self: center;
+ }

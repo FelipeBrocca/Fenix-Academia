@@ -1,15 +1,20 @@
 import axios from 'axios';
 
-export const getPLayersRequest = async () => await axios.get('/players-hockey')
+export const getPLayersRequest = async () => await axios.get('http://localhost:3500/players-hockey')
 
-export const playerDetailRequest = async (id) => await axios.get(`/players-hockey/${id}`)
+export const playerDetailRequest = async (id) => await axios.get(`http://localhost:3500/players-hockey/${id}`)
 
 export const createPlayerRequest = async (player) => {
     const form = new FormData()
 
-    for(let key in player){
-        form.append(key, player[key])
-    }
+    for (let key in player) {
+        let value = player[key];
+        if (key === "role") {
+          value = JSON.stringify(value);
+        }
+        form.append(key, value);
+      }
+      
 
     return await axios.post('http://localhost:3500/players-hockey', form, {
         headers: {
@@ -22,10 +27,14 @@ export const updatePlayerRequest = async (id, player) => {
     const form = new FormData()
 
     for(let key in player){
-        form.append(key, player[key])
+        let value = player[key];
+        if (key === "role") {
+            value = JSON.stringify(value);
+          }
+          form.append(key, value);
     }
 
-    return await axios.put(`/players-hockey/${id}`, form, {
+    return await axios.put(`http://localhost:3500/players-hockey/${id}`, form, {
         headers: {
             "Content-Type": "multipart/form-data"
         }

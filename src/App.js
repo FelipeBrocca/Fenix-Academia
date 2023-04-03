@@ -10,6 +10,8 @@ import LoggedLayout from './components/Layout/LoggedLayout'
 import Home from './Pages/Home'
 import PlayersPage from './Pages/PlayersPage'
 import PlayerProfile from './Pages/PlayerProfile'
+import { ClubsProvider } from './context/ClubsContext';
+import { PlayersProvider } from './context/PlayersContext';
 
 
 
@@ -27,24 +29,28 @@ function App() {
                         ? (<Route path='/' element={
                             <>
                                 <Header />
-                                <LoggedLayout />
+                                <ClubsProvider>
+                                    <PlayersProvider>
+                                        <LoggedLayout />
+                                    </PlayersProvider>
+                                </ClubsProvider>
                             </>
-                           }>
+                        }>
                             <Route path="/" element={<Home />} />
                             <Route path="/jugador/listado" element={<PlayersPage />} />
                             <Route path="/jugador/listado/:id" element={<PlayerProfile />} />
                         </Route>)
-                        
-                        : loggedIn === undefined 
-                        ? <Route path='*' element={<Loading />} />
-
-                        : <Route path='*' element={<Login />} />
+                        //page loading
+                        : loggedIn === undefined
+                            ? <Route path='*' element={<Loading />} />
+                            //not logged
+                            : <Route path='*' element={<Login />} />
                 }
             </Routes>
             {
                 loggedIn !== undefined
-                ? <Footer />
-                : ''
+                    ? <Footer />
+                    : ''
             }
         </BrowserRouter>
     );

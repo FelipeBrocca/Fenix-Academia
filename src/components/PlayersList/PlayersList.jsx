@@ -3,15 +3,18 @@ import { usePlayers } from '../../context/PlayersContext'
 import Loader from '../Loader/Loader'
 import ItemPlayer from './ItemPlayer'
 import './PlayersList.css'
+import { useClubs } from '../../context/ClubsContext'
 
 const PlayersList = () => {
 
     const { players } = usePlayers();
+    const { clubs } = useClubs()
     const [playersToFilt, setPlayersToFilt] = useState([]);
     const [loading, setLoading] = useState(true);
     const [filter, setFilter] = useState('')
-    const [payFilter, setPayFilter] = useState('initial');
-
+    const [payFilter, setPayFilter] = useState('');
+    const [roleFilter, setRoleFilter] = useState('');
+    const [clubFilter, setClubFilter] = useState('');
 
 
     useEffect(() => {
@@ -23,24 +26,36 @@ const PlayersList = () => {
         const value = event.target.value;
         setFilter(value);
         if (value !== 'pay') {
-            setPayFilter('initial');
+            setPayFilter('');
         }
     };
 
     const handlePayFilterChange = (e) => {
         setPayFilter(e.target.value);
     };
+    const handleRoleFilterChange = (e) => {
+        setRoleFilter(e.target.value)
+    }
+    const handleClubFilterChange = (e) => {
+        setClubFilter(e.target.value)
+    }
 
-    const filteredPlayers = playersToFilt?.filter((player) => {
+
+    const filteredPayPlayers = playersToFilt?.filter(({ _id, pay, name }) => {
         if (payFilter === 'true') {
-            return player.pay === true;
+            return pay === true;
         } else if (payFilter === 'false') {
-            return player.pay === false;
+            return pay === false;
         } else {
             return true;
         }
     });
-
+    const filteredRolePlayers = playersToFilt?.filter(({ role }) =>
+        role.includes(roleFilter)
+    );
+    const filteredClubPlayers = playersToFilt?.filter(({ club }) =>
+        club.includes(clubFilter)
+        );
 
     return (
         <>
@@ -61,17 +76,17 @@ const PlayersList = () => {
                         </select>
                     }
                     {filter === 'club' &&
-                        <select id='pay-filter-select' onChange={handlePayFilterChange} value={payFilter}>
+                        <select id='pay-filter-select' onChange={handleClubFilterChange} value={clubFilter}>
                             <option value={null}>--Seleccionar filtro--</option>
-                            <option value='club1'>Club 1</option>
-                            <option value='club2'>Club 2</option>
-                            <option value='club3'>Club 3</option>
-                            <option value='club4'>Club 4</option>
-                            <option value='club5'>Club 5</option>
+                            {
+                                clubs.map(({name, _id}) => (
+                                    <option value={name} key={_id}>{name}</option> 
+                                ))
+                            }
                         </select>
                     }
                     {filter === 'role' &&
-                        <select id='pay-filter-select' onChange={handlePayFilterChange} value={payFilter}>
+                        <select id='pay-filter-select' onChange={handleRoleFilterChange} value={roleFilter}>
                             <option value={null}>--Seleccionar filtro--</option>
                             <option value='Arquero/a'>Arquero/a</option>
                             <option value='Arrastrador/a'>Arrastrador/a</option>
@@ -88,29 +103,51 @@ const PlayersList = () => {
                         ? <Loader />
                         : <ul>
                             {
-                                payFilter === 'initial'
-                                    ? playersToFilt?.map((player) => (
+                                filter === 'pay'
+                                    ? filteredPayPlayers?.map(({ _id, name, pay }) => (
                                         <ItemPlayer
-                                            id={player._id}
-                                            name={player.name}
-                                            pay={player.pay}
-                                            role={player.role}
-                                            role2={player.role2 ? player.role2 : null}
-                                            club={player.club}
-                                            key={player._id}
+                                            key={_id}
+                                            id={_id}
+                                            name={name}
+                                            pay={pay}
                                         />
                                     ))
-                                    : filteredPlayers?.map((player) => (
-                                        <ItemPlayer
-                                            id={player._id}
-                                            name={player.name}
-                                            pay={player.pay}
-                                            role={player.role}
-                                            role2={player.role2 ? player.role2 : null}
-                                            club={player.club}
-                                            key={player._id}
-                                        />
-                                    ))}
+                                    : filter === 'role' && roleFilter && roleFilter !== '--Seleccionar filtro--'
+                                        ? filteredRolePlayers[0] 
+                                        ? filteredRolePlayers?.map(({ _id, name, pay, ensurance }) => (
+                                            <ItemPlayer
+                                                key={_id}
+                                                id={_id}
+                                                name={name}
+                                                pay={pay}
+                                                roleFilter={roleFilter}
+                                                ensurance={ensurance}
+                                            />
+                                        ))
+                                        : <p>No hay jugadores/as de este puesto</p>
+                                        : filter === 'club' && clubFilter && clubFilter !== '--Seleccionar filtro--'
+                                        ? filteredClubPlayers[0]
+                                        ? filteredClubPlayers?.map(({_id, name, pay, ensurance, club}) => (
+                                            <ItemPlayer
+                                                key={_id}
+                                                id={_id}
+                                                name={name}
+                                                pay={pay}
+                                                club={club}
+                                                ensurance={ensurance}
+                                            />
+                                        ))
+                                        : <p>No hay jugadores/as de este club</p>
+                                        : playersToFilt?.map(({ _id, name, pay, ensurance }) => (
+                                            <ItemPlayer
+                                                key={_id}
+                                                id={_id}
+                                                name={name}
+                                                pay={pay}
+                                                ensurance={ensurance}
+                                            />
+                                        ))
+                            }
                         </ul>
                 }
             </div>

@@ -1,0 +1,25 @@
+.top-profile{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+.player-card{
+    color: var(--white);
+    width: 100%;
+    height: 100%;
+}
+.back-to-list{
+    align-self: flex-start;
+    color: var(--white);
+    padding: 10px;
+    background-color: var(--grey);
+    text-decoration: none;
+    border-radius: 10px;
+}
+.player-image{
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 4px solid var(--green);
+    object-fit: cover;
+}

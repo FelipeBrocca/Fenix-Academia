@@ -51,7 +51,7 @@ main{
     --highlight-color: #525252;
     --animation-duration: 0.7s;
 }
-.player-image-container{
+/* .player-image-container{
     width: 200px;
     height: 200px;
     border-radius: 50%;
@@ -61,5 +61,5 @@ main{
     width: 100%;
     height: 100%;
     border-radius: 50%;
-}
+} */
 

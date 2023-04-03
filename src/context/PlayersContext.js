@@ -1,4 +1,4 @@
-import { createContext, useContext, useCallback, useState, useEffect } from "react"
+import { createContext, useContext, useCallback, useState } from "react"
 import {
     getPLayersRequest,
     playerDetailRequest,
@@ -43,13 +43,6 @@ export const PlayersProvider = ({ children }) => {
         await deletePlayerRequest(id)
         setPlayers(players.filter(player => player._id !== id))
     }
-
-    useEffect(() => {
-        (async () => {
-            await getPlayers()
-        })()
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
 
 
     return (

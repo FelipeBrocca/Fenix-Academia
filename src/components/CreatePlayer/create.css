@@ -9,6 +9,7 @@
     background-color: var(--orange);
     color: var(--white);
     font-weight: bolder;
+    cursor: pointer;
 }
 .create-form-container{
     position: fixed;
@@ -22,7 +23,7 @@
     max-width: 600px;
     height: 90%;
     overflow-y: auto;
-    max-height: 650px;
+    max-height: 700px;
     background-color: var(--black);
     z-index: 100;
     display: flex;
@@ -38,6 +39,13 @@
     flex-direction: column;
     gap: 10px;
     overflow-y: auto;
+}
+.form-create-label-image{
+    width: 90%;
+    align-self: center;
+}
+select{
+    cursor: pointer;
 }
 .create-form > input[type='text'], input[type='tel'], select{
     outline: none;
@@ -64,6 +72,7 @@
     color: var(--white);
     font-weight: 500;
     border-radius: 10px;
+    cursor: pointer;
 }
 .button-reset-create{
     width: 40%;
@@ -74,11 +83,13 @@
     padding: 5px;
     color: var(--white);
     margin-top: 15px;
+    cursor: pointer;
 }
 .check-input-container{
     display: flex;
-    padding-left: 20px;
     gap: 10px;
+    width: 90%;
+    align-self: center;
 }
 .check-input-container > input{
     appearance: none;
@@ -119,4 +130,128 @@
     font-size: 20px;
     font-weight: bolder;
     padding: 3px;
+    cursor: pointer;
+}
+.close-create-form:hover{
+    color: var(--orange);
+}
+.button-modal-create-club{
+    align-self: center;
+    background-color: var(--grey);
+    border-radius: 10px;
+    width: 15%;
+    display: grid;
+    place-items: center;
+    height: 100%;
+    font-size: 24px;
+    font-weight: bolder;
+    cursor: pointer;
+}
+.create-club-modal{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.827);
+    z-index: 100;
+    display: grid;
+    place-items: center;
+}
+.create-club-modal > form{
+    width: 100%;
+    max-width: 250px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 15px;
+    background-color: var(--black);
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px 0px black;
+}
+.create-club-modal > form > input{
+    width: 100%;
+    height: 30px;
+    padding-left: 10px;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+}
+.create-club-modal > form > div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+}
+.create-club-modal > form > div > button{
+    width: 40%;
+    height: 30px;
+    border-radius: 10px;
+    background-color: var(--green);
+    border: none;
+    color: var(--white);
+    font-weight: bolder;
+    font-size: 16px;
+    cursor: pointer;
+}
+.create-club-modal > form > div > span{
+    color: var(--orange);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    cursor: pointer;
+}
+.clubs-container-form-create{
+    display: flex;
+    align-self: center;
+    width: 90%;
+    justify-content: space-between;
+}
+.select-clubs{
+    width: 80%;
+    color: var(--grey);
+}
+.roles-selected{
+    width: 90%;
+    align-self: center;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+.roles-selected > li{
+    list-style: none;
+    max-width: 150px;
+    padding: 5px 5px;
+    background-color: var(--grey);
+    text-align: center;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    font-size: 13px;
+}
+.roles-selected > li > p{
+    border-left: 1px solid var(--white);
+    padding-left: 5px;
+    cursor: pointer;
+}
+.roles-selected > li > p:hover{
+    color: var(--orange);
+}
+div.css-13cymwt-control,
+div.css-t3ipsp-control
+{
+    width: 100%;
+    background-color: var(--white);
+    border: none;
+    outline: none;
+    min-height: 34px;
+    font-size: 14px;
+    border-radius: 5px;
+}
+div.css-1nmdiq5-menu{
+    background-color: var(--white);
+    color: var(--black);
+}
+div.css-1nmdiq5-menu > div > div:hover{
+    background-color: rgb(233, 229, 229);
 }
