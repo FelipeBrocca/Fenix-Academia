@@ -15,6 +15,8 @@ const FormCreate = ({ children }) => {
   const [loading, setLoading] = useState(false)
   const [month, setMonth] = useState('')
   const [roles, setRoles] = useState([])
+  const [monthsPay, setMonthsPay] = useState([])
+  const [trainsPayed, setTrainsPayed] = useState(0)
   const [clubSelected, setClubSelected] = useState('')
   const [formClubs, setFormClubs] = useState(false)
   const [clubsSelect, setClubsSelect] = useState([])
@@ -35,13 +37,25 @@ const FormCreate = ({ children }) => {
       }
     },
     active: true,
-    pay: false,
+    pay: {
+      monthlyFee: false,
+      trainingFee: false,
+      monthsPayed: [],
+      trainsPayed: 0,
+      createdAt: {
+        day: new Date().getDate(),
+        month: new Date().getMonth() + 1,
+        year: new Date().getFullYear()
+      }
+    }
   });
 
   const fileInputRef = useRef()
   const ensuranceRef = useRef();
   const ensurancePayRef = useRef()
-  const payRef = useRef();
+  const payMonthlyRef = useRef();
+  const payTrainRef = useRef();
+
 
   const date = new Date()
   const todayMonth = date.getMonth()
@@ -77,6 +91,21 @@ const FormCreate = ({ children }) => {
     )
   }, [todayMonth])
 
+  const monthlyFeeOptions = [
+    { value: 0, label: 'Enero' },
+    { value: 1, label: 'Febrero' },
+    { value: 2, label: 'Marzo' },
+    { value: 3, label: 'Abril' },
+    { value: 4, label: 'Mayo' },
+    { value: 5, label: 'Junio' },
+    { value: 6, label: 'Julio' },
+    { value: 7, label: 'Agosto' },
+    { value: 8, label: 'Septiembre' },
+    { value: 9, label: 'Octubre' },
+    { value: 10, label: 'Noviembre' },
+    { value: 11, label: 'Diciembre' },
+  ]
+
   const roleOptions = [
     { value: 'Arquero/a', label: 'Arquero/a' },
     { value: 'Arrastrador/a', label: 'Arrastrador/a' },
@@ -111,6 +140,30 @@ const FormCreate = ({ children }) => {
     }))
   }, [clubSelected])
 
+  useEffect(() => {
+    const monthsPayValue = monthsPay.map((month) => ({
+      value: month.value,
+      label: month.label 
+    }))
+    setFormData((prevData) => ({
+      ...prevData,
+      pay: {
+        ...prevData.pay,
+        monthsPayed: monthsPayValue
+      }
+    }))
+  }, [monthsPay])
+  useEffect(() => {
+    setFormData((prevData) => ({
+      ...prevData,
+      pay: {
+        ...prevData.pay,
+        trainsPayed: parseInt(trainsPayed)
+      }
+    }))
+  }, [trainsPayed])
+
+
   const handleInputChange = (event) => {
     const { name, value, type, checked } = event.target;
     const inputValue = type === 'checkbox' ? checked : value;
@@ -125,6 +178,18 @@ const FormCreate = ({ children }) => {
         [name]: checked
       }
     })
+  }
+  const handlePaymentChange = (e) => {
+    const { name, checked } = e.target
+    setFormData({
+      ...formData, pay: {
+        ...formData.pay,
+        [name]: checked
+      }
+    })
+  }
+  const handleTrainsPayment = (e) => {
+    setTrainsPayed(e.target.value)
   }
 
   const handleFileChange = async (event) => {
@@ -167,14 +232,27 @@ const FormCreate = ({ children }) => {
         }
       },
       active: true,
-      pay: false,
+      pay: {
+        monthlyFee: false,
+        trainingFee: false,
+        monthlyUntil: [],
+        trainsPayed: 0,
+        createdAt: {
+          day: new Date().getDate(),
+          month: new Date().getMonth() + 1,
+          year: new Date().getFullYear()
+        }
+      }
     });
     setRoles([]);
     setClubSelected('')
+    setMonthsPay([])
+    setTrainsPayed(0)
     fileInputRef.current.value = "";
     ensurancePayRef.current.checked = false;
     ensuranceRef.current.checked = false;
-    payRef.current.checked = false;
+    payMonthlyRef.current.checked = false;
+    payTrainRef.current.checked = false;
   };
 
 
@@ -208,27 +286,47 @@ const FormCreate = ({ children }) => {
           <input onChange={handleInputChange} value={formData.phone} type='tel' name='phone' placeholder='Telefono' required />
           <div className='clubs-container-form-create'>
             <div className='select-clubs'>
-              <Select name='club' placeholder='Seleccione club' options={clubsSelect} onChange={setClubSelected} value={clubSelected} />
+              <Select name='club' placeholder='Seleccione club' options={clubsSelect} onChange={setClubSelected} value={clubSelected} required />
             </div>
             <span className='button-modal-create-club' onClick={handleCreateClub}>+</span>
           </div>
-          <Select name='role' options={roleOptions} isMulti isClearable onChange={setRoles} className='clubs-container-form-create' placeholder='Seleccione posiciones' value={roles} />
-          <input onChange={handleInputChange} value={formData.birth} type='date' name='birth' placeholder='Nacimiento' required />
+          <Select name='role' options={roleOptions} isMulti isClearable onChange={setRoles} className='clubs-container-form-create' placeholder='Seleccione posiciones' value={roles} required />
+          <input onChange={handleInputChange} value={formData.birth} type='date' name='birth' placeholder='Nacimiento' max="2022-01-01" required />
           <div className='check-input-container'>
             <label htmlFor='active'>Jugador/a activo</label>
             <input onChange={handleInputChange} value={formData.active} type='checkbox' name='active' defaultChecked='checked' />
           </div>
-          <div className='check-input-container'>
-            <label htmlFor='pay'>Pago de {month}</label>
-            <input onChange={handleInputChange} value={formData.pay} type='checkbox' name='pay' ref={payRef} />
+
+
+
+          <div className='check-input-container payment'>
+              <div>
+              <label htmlFor='pay'>Pago mensual</label>
+              <input onChange={handlePaymentChange} value={formData.pay.monthlyFee} type='checkbox' name='monthlyFee' ref={payMonthlyRef} />
+            </div>
+            {
+              formData.pay.monthlyFee 
+              ? <Select required isMulti isClearable options={monthlyFeeOptions} onChange={setMonthsPay} value={monthsPay} /> : ''
+            }
+            <div>
+              <label htmlFor='pay'>Pago por sesiones</label>
+              <input onChange={handlePaymentChange} value={formData.pay.trainingFee} type='checkbox' name='trainingFee' ref={payTrainRef} />
+            </div>
+            {
+              formData.pay.trainingFee ? <input className='numb-of-sessions' type='number' name='trainsPayed' placeholder='Cantidad de sesiones' onChange={handleTrainsPayment} value={trainsPayed}  /> : ''
+            }
           </div>
+
+
+
+
           <div className='check-input-container ensurance'>
             <div>
-              <label htmlFor='ensurance'>Pago Seguro</label>
+              <label htmlFor='ensurance'>Pago seguro</label>
               <input onChange={handleSecureChange} value={formData.ensurance.paysec} type='checkbox' name='paysec' ref={ensurancePayRef} />
             </div>
             <div className={formData.ensurance.paysec === true ? '' : 'display-none'}>
-              <label htmlFor='ensurance'>Asegurado/a</label>
+              <label htmlFor='ensurance'>Habilitación seguro</label>
               <input onChange={handleSecureChange} value={formData.ensurance.secured} type='checkbox' name='secured' ref={ensuranceRef} />
             </div>
           </div>

@@ -124,4 +124,52 @@
     height: 10px;
     transform: translate(-50%, -50%) rotate(45deg);
   }
-  
+  .months-payed-list{
+    list-style: none;
+    font-size: 14px;
+    display: flex;
+    flex-direction: column;
+  }
+  .modal-eliminate{
+    width: calc(100vw - (100vw - 100%));
+    height: calc(100vh - (100vh - 100%));
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: grid;
+    place-items: center;
+    background-color: rgba(0, 0, 0, 0.641);
+  }
+  .elim-confirmation{
+    width: 250px;
+    background-color: var(--grey);
+    height: 150px;
+    color: var(--white);
+    padding: 15px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+  }
+  .elim-confirmation > h3{
+    height: 60%;
+  }
+  .elim-confirmation > div{
+    height: 40%;
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-end;
+  }
+  .elim-confirmation > div > button{
+    padding: 8px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    color: var(--white);
+    font-weight: bolder;
+  }
+  .button-eliminate-confirm{
+    background-color: var(--orange);
+  }
+  .button-eliminate-cancel{
+    background-color: var(--black);
+  }

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { usePlayers } from '../../context/PlayersContext'
 import Image from '../Image/Image'
+import Loader from '../Loader/Loader'
 import './Profile.css'
 
 const PlayersProfile = ({ player }) => {
@@ -10,6 +11,7 @@ const PlayersProfile = ({ player }) => {
     const navigation = useNavigate()
     const birthPlayer = player.birth instanceof Date ? player.birth : new Date(player.birth)
     const [age, setAge] = useState('')
+    const [elimModal, setElimModal] = useState(false)
 
 
     useEffect(() => {
@@ -85,12 +87,57 @@ const PlayersProfile = ({ player }) => {
                     }
                 </li>
                 <li className='profile-data-item'>
-                    <label>Pago hasta: {player.pay ? 'Pago' : ''}</label>
+                    <label>Pago cuota:</label>
+                    <p>{player.pay.monthlyFee ? <span className="ok-icon"></span> : '-'}</p>
+                    {
+                        player.pay.monthlyFee
+                            ? <>
+                                <label>Mes/es pagos:</label>
+                                <ul className='months-payed-list'>
+                                    {
+                                        player.pay.monthsPayed.map((month) => (
+                                            <li key={month.value} className='months-payed-listed'>{month.label}</li>
+                                        ))
+                                    }
+                                </ul>
+                            </>
+                            : ''
+                    }
                 </li>
+                <li className='profile-data-item'>
+                    <label>Pago por sesión:</label>
+                    <p>{player.pay.trainingFee ? <span className="ok-icon"></span> : '-'}</p>
+                    {
+                        player.pay.trainingFee
+                            ? <>
+                                <label>Cantidad:</label>
+                                <p>{player.pay.trainsPayed}</p>
+                            </>
+                            : ''
+                    }
+                </li>
+                <button onClick={() => setElimModal(!elimModal)}>Eliminar jugador</button>
+                {
+                    elimModal
+                        ? <div className='modal-eliminate'>
+                            <div className='elim-confirmation'>
+                                <h3>Estas seguro de querer eliminar a {player.name}?</h3>
+                                {
+                                    loadingDelete
+                                        ? <Loader />
+                                        : <div>
+                                            <button className='button-eliminate-confirm' onClick={() => deletePlayer(player._id)}>Eliminar</button>
+                                            <button className='button-eliminate-cancel' onClick={() => setElimModal(!elimModal)}>Cancelar</button>
+                                        </div>
+                                }
+                            </div>
+                        </div>
+                        : ''
+                }
             </ul>
-            <button onClick={() => deletePlayer(player._id)}>{loadingDelete ? 'Cargando' : 'Eliminar'}</button>
         </div>
     )
 }
 
 export default PlayersProfile
+{/* <button onClick={() => deletePlayer(player._id)}>{loadingDelete ? <Loader /> : 'Eliminar jugador'}</button> */ }
