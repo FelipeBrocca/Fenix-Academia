@@ -3,10 +3,21 @@
     justify-content: space-between;
     width: 100%;
 }
+.edit-button{
+    border: none;
+    cursor: pointer;
+    background-color: var(--orange);
+    color: var(--white);
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 500;
+}
 .player-card{
     color: var(--white);
     width: 100%;
     height: 100%;
+    padding: 40px 0px;
 }
 .back-to-list{
     align-self: flex-start;
@@ -23,3 +34,94 @@
     border: 4px solid var(--green);
     object-fit: cover;
 }
+.profile-data-list{
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    align-items: center;
+    gap: 15px;
+}
+.profile-data-item{
+    width: 100%;
+    display: flex;
+    gap: 15px;
+    font-size: 18px;
+    border-bottom: 2px solid var(--grey);
+}
+.profile-data-item > label{
+    color: rgb(179, 179, 179);
+}
+.profile-data-item.ensurance{
+    flex-direction: column;
+}
+.profile-data-item.ensurance > label{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.roles-in-profile{
+    list-style: none;
+}
+.ok-icon {
+  width: 20px;
+  height: 20px;
+  background-color: green;
+  border-radius: 50%;
+  display: inline-block;
+  position: relative;
+}
+
+.ok-icon:before {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 60%;
+  left: 35%;
+  width: 6px;
+  height: 2px;
+  background-color: white;
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.ok-icon:after {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 60%;
+  width: 10px;
+  height: 2px;
+  background-color: white;
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+.red-cross-icon {
+    width: 20px;
+    height: 20px;
+    background-color: red;
+    border-radius: 50%;
+    display: inline-block;
+    position: relative;
+  }
+  
+  .red-cross-icon:before,
+  .red-cross-icon:after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    background-color: white;
+  }
+  
+  .red-cross-icon:before {
+    width: 10px;
+    height: 2px;
+    transform: translate(-50%, -50%) rotate(45deg);
+  }
+  
+  .red-cross-icon:after {
+    width: 2px;
+    height: 10px;
+    transform: translate(-50%, -50%) rotate(45deg);
+  }
+  

@@ -47,7 +47,7 @@
 select{
     cursor: pointer;
 }
-.create-form > input[type='text'], input[type='tel'], select{
+.create-form > input[type='text'], input[type='tel'], input[type='date'], select{
     outline: none;
     border-radius: 5px;
     border: none;
@@ -91,6 +91,18 @@ select{
     width: 90%;
     align-self: center;
 }
+.check-input-container.ensurance{
+    border: 1px solid var(--grey);
+    flex-direction: column;
+    padding: 10px;
+}
+.check-input-container.ensurance > div.display-none{
+    display: none;
+}
+.check-input-container.ensurance > div{
+    display: flex;
+    gap: 30px;
+}
 .check-input-container > input{
     appearance: none;
     -webkit-appearance: none;
@@ -111,6 +123,34 @@ select{
     border-radius: 50px;
 }
 .check-input-container > input:checked::before{
+    content: "\2713";
+    background-color: var(--green);
+    color: var(--white);
+    font-size: 18px;
+    text-align: center;
+    line-height: 20px;   
+    font-weight: bolder;
+}
+.check-input-container > div > input{
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    outline: none;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+.check-input-container > div > input::before{
+    content: "";
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: none;
+    background-color: var(--white);
+    vertical-align: middle;
+    border-radius: 50px;
+}
+.check-input-container > div > input:checked::before{
     content: "\2713";
     background-color: var(--green);
     color: var(--white);
@@ -255,3 +295,4 @@ div.css-1nmdiq5-menu{
 div.css-1nmdiq5-menu > div > div:hover{
     background-color: rgb(233, 229, 229);
 }
+

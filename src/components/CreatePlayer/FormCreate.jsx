@@ -26,14 +26,28 @@ const FormCreate = ({ children }) => {
     club: '',
     role: [],
     birth: '',
-    ensurance: false,
+    ensurance: {
+      secured: false,
+      paysec: false,
+      until: {
+        month: '',
+        year: ''
+      }
+    },
     active: true,
     pay: false,
   });
 
+  const fileInputRef = useRef()
+  const ensuranceRef = useRef();
+  const ensurancePayRef = useRef()
+  const payRef = useRef();
+
+  const date = new Date()
+  const todayMonth = date.getMonth()
+  const todayYear = date.getFullYear()
+
   useEffect(() => {
-    const date = new Date()
-    const todayMonth = date.getMonth()
     setMonth(
       todayMonth === 0
         ? 'Enero'
@@ -61,7 +75,63 @@ const FormCreate = ({ children }) => {
                               ? 'Diciembre'
                               : ''
     )
-  }, [])
+  }, [todayMonth])
+
+  const roleOptions = [
+    { value: 'Arquero/a', label: 'Arquero/a' },
+    { value: 'Arrastrador/a', label: 'Arrastrador/a' },
+    { value: 'Defensa', label: 'Defensa' },
+    { value: 'Volante', label: 'Volante' },
+    { value: 'Delantero/a', label: 'Delantero/a' }
+  ]
+
+  const handleCreateClub = () => {
+    setFormClubs(!formClubs)
+  }
+
+  useEffect(() => {
+    const selectOptions = clubs.map(club => ({
+      value: club.name,
+      label: club.name
+    }))
+    setClubsSelect(selectOptions);
+  }, [clubs]);
+
+  useEffect(() => {
+    const roleValues = roles.map((role) => role.value);
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      role: roleValues,
+    }))
+  }, [roles])
+
+  useEffect(() => {
+    setFormData(prevData => ({
+      ...prevData, club: clubSelected.value
+    }))
+  }, [clubSelected])
+
+  const handleInputChange = (event) => {
+    const { name, value, type, checked } = event.target;
+    const inputValue = type === 'checkbox' ? checked : value;
+    setFormData({ ...formData, [name]: inputValue });
+  };
+
+  const handleSecureChange = (e) => {
+    const { name, checked } = e.target
+    setFormData({
+      ...formData, ensurance: {
+        ...formData.ensurance,
+        [name]: checked
+      }
+    })
+  }
+
+  const handleFileChange = async (event) => {
+    const file = event.target.files[0];
+    const image = await resizeFile(file);
+    setFormData({ ...formData, image: image });
+  };
 
   const resizeFile = (file) =>
     new Promise((resolve) => {
@@ -79,45 +149,6 @@ const FormCreate = ({ children }) => {
       );
     });
 
-  const handleCreateClub = () => {
-    setFormClubs(!formClubs)
-  }
-
-  const fileInputRef = useRef(null)
-  const ensuranceRef = useRef(null);
-  const payRef = useRef(null);
-
-  const handleInputChange = (event) => {
-    const { name, value, type, checked } = event.target;
-    const inputValue = type === 'checkbox' ? checked : value;
-    setFormData({ ...formData, [name]: inputValue });
-  };
-
-  const roleOptions = [
-    { value: 'Arquero/a', label: 'Arquero/a' },
-    { value: 'Arrastrador/a', label: 'Arrastrador/a' },
-    { value: 'Defensa', label: 'Defensa' },
-    { value: 'Volante', label: 'Volante' },
-    { value: 'Delantero/a', label: 'Delantero/a' }
-  ]
-
-  useEffect(() => {
-    const selectOptions = clubs.map(club => ({
-      value: club.name,
-      label: club.name
-    }))
-    setClubsSelect(selectOptions);
-  }, [clubs]);
-
-
-
-  const handleFileChange = async (event) => {
-    const file = event.target.files[0];
-    const image = await resizeFile(file);
-    setFormData({ ...formData, image: image });
-  };
-
-
   const resetForm = () => {
     setFormData({
       image: null,
@@ -127,35 +158,34 @@ const FormCreate = ({ children }) => {
       club: "",
       role: [],
       birth: "",
-      ensurance: false,
+      ensurance: {
+        secured: false,
+        paysec: false,
+        until: {
+          month: '',
+          year: ''
+        }
+      },
       active: true,
       pay: false,
     });
     setRoles([]);
     setClubSelected('')
     fileInputRef.current.value = "";
+    ensurancePayRef.current.checked = false;
     ensuranceRef.current.checked = false;
     payRef.current.checked = false;
   };
 
-  useEffect(() => {
-    const roleValues = roles.map((role) => role.value);
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      role: roleValues,
-    }))
-  }, [roles])
-
-  useEffect(() => {
-    setFormData(prevData => ({
-      ...prevData, club: clubSelected.value
-    }))
-  }, [clubSelected])
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
       setLoading(true);
+      if (formData.ensurance.paysec && formData.ensurance.secured) {
+        formData.ensurance.until.month = month
+        formData.ensurance.until.year = todayYear + 1
+      }
       await createPlayer(formData);
       setLoading(false);
       resetForm();
@@ -183,11 +213,7 @@ const FormCreate = ({ children }) => {
             <span className='button-modal-create-club' onClick={handleCreateClub}>+</span>
           </div>
           <Select name='role' options={roleOptions} isMulti isClearable onChange={setRoles} className='clubs-container-form-create' placeholder='Seleccione posiciones' value={roles} />
-          <input onChange={handleInputChange} value={formData.birth} type='text' name='birth' placeholder='Nacimiento' required />
-          <div className='check-input-container'>
-            <label htmlFor='ensurance'>Asegurado/a</label>
-            <input onChange={handleInputChange} value={formData.ensurance} type='checkbox' name='ensurance' ref={ensuranceRef} />
-          </div>
+          <input onChange={handleInputChange} value={formData.birth} type='date' name='birth' placeholder='Nacimiento' required />
           <div className='check-input-container'>
             <label htmlFor='active'>Jugador/a activo</label>
             <input onChange={handleInputChange} value={formData.active} type='checkbox' name='active' defaultChecked='checked' />
@@ -195,6 +221,16 @@ const FormCreate = ({ children }) => {
           <div className='check-input-container'>
             <label htmlFor='pay'>Pago de {month}</label>
             <input onChange={handleInputChange} value={formData.pay} type='checkbox' name='pay' ref={payRef} />
+          </div>
+          <div className='check-input-container ensurance'>
+            <div>
+              <label htmlFor='ensurance'>Pago Seguro</label>
+              <input onChange={handleSecureChange} value={formData.ensurance.paysec} type='checkbox' name='paysec' ref={ensurancePayRef} />
+            </div>
+            <div className={formData.ensurance.paysec === true ? '' : 'display-none'}>
+              <label htmlFor='ensurance'>Asegurado/a</label>
+              <input onChange={handleSecureChange} value={formData.ensurance.secured} type='checkbox' name='secured' ref={ensuranceRef} />
+            </div>
           </div>
           <button type='submit' className='button-submit-create'>Crear</button>
           {

@@ -1,8 +1,13 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import EditForm from './EditForm'
+import { usePlayers } from '../../context/PlayersContext'
 
 const EditModal = ({player, id}) => {
     const [create, setCreate] = useState(false)
+    const {players} = usePlayers()
+    useEffect(() => {
+        setCreate(false)
+    }, [players])
 
     return (
         <>
@@ -12,7 +17,7 @@ const EditModal = ({player, id}) => {
                     </div>
                     : ''
             }
-            <button className='create-button' onClick={() => setCreate(!create)}>Editar jugador/a</button>
+            <button className='edit-button' onClick={() => setCreate(!create)}>Editar jugador/a</button>
             {
                 create
                     ? <EditForm player={player} id={id}>

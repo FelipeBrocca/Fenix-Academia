@@ -9,7 +9,7 @@ export const createPlayerRequest = async (player) => {
 
     for (let key in player) {
         let value = player[key];
-        if (key === "role") {
+        if (key === "role" || key === "ensurance") {
           value = JSON.stringify(value);
         }
         form.append(key, value);
@@ -28,7 +28,7 @@ export const updatePlayerRequest = async (id, player) => {
 
     for(let key in player){
         let value = player[key];
-        if (key === "role") {
+        if (key === "role" || key === "ensurance") {
             value = JSON.stringify(value);
           }
           form.append(key, value);
