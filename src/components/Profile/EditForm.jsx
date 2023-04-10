@@ -35,7 +35,6 @@ const EditForm = ({ children, player, id }) => {
         year: player.ensurance.until.year
       }
     },
-    active: player.active,
     pay: {
       monthlyFee: player.pay.monthlyFee,
       trainingFee: player.pay.trainingFee,
@@ -256,7 +255,6 @@ const EditForm = ({ children, player, id }) => {
           year: player.ensurance.until.year
         }
       },
-      active: player.active,
       pay: {
         monthlyFee: player.pay.monthlyFee,
         trainingFee: player.pay.trainingFee,

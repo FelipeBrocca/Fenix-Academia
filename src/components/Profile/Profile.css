@@ -27,6 +27,24 @@
     text-decoration: none;
     border-radius: 10px;
 }
+.player-image-container{
+  position: relative;
+}
+.player-status{
+  position: absolute;
+  bottom: 0px;
+  right: 10px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 5px solid var(--black);
+}
+.player-status.active{
+  background-color: var(--green);
+}
+.player-status.unactive{
+  background-color: var(--orange);
+}
 .player-image{
     width: 150px;
     height: 150px;
@@ -65,7 +83,7 @@
 .ok-icon {
   width: 20px;
   height: 20px;
-  background-color: green;
+  background-color: var(--green);
   border-radius: 50%;
   display: inline-block;
   position: relative;
@@ -97,7 +115,7 @@
 .red-cross-icon {
     width: 20px;
     height: 20px;
-    background-color: red;
+    background-color: var(--orange);
     border-radius: 50%;
     display: inline-block;
     position: relative;
@@ -141,7 +159,8 @@
     background-color: rgba(0, 0, 0, 0.641);
   }
   .elim-confirmation{
-    width: 250px;
+    width: 95%;
+    max-width: 300px;
     background-color: var(--grey);
     height: 150px;
     color: var(--white);
@@ -152,6 +171,7 @@
   }
   .elim-confirmation > h3{
     height: 60%;
+    text-align: center;
   }
   .elim-confirmation > div{
     height: 40%;
@@ -166,6 +186,17 @@
     cursor: pointer;
     color: var(--white);
     font-weight: bolder;
+  }
+  .button-eliminate-player{
+    cursor: pointer;
+    background-color: var(--grey);
+    color: var(--white);
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+  }
+  .button-eliminate-player:hover{
+    background-color: rgb(67, 67, 67);
   }
   .button-eliminate-confirm{
     background-color: var(--orange);

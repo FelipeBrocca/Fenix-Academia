@@ -141,3 +141,21 @@
  .item-player-link-to-profile{
   align-self: center;
  }
+ .active-span{
+  width: 12px;
+  height: 10px;
+  border-radius: 50%;
+  border: none;
+  background-color: var(--green);
+  align-self: center;
+  margin-right: 10px;
+ }
+ .unactive-span{
+  width: 12px;
+  height: 10px;
+  border-radius: 50%;
+  border: none;
+  background-color: var(--orange);
+  align-self: center;
+  margin-right: 10px;
+ }

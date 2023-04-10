@@ -36,7 +36,6 @@ const FormCreate = ({ children }) => {
         year: ''
       }
     },
-    active: true,
     pay: {
       monthlyFee: false,
       trainingFee: false,
@@ -143,7 +142,7 @@ const FormCreate = ({ children }) => {
   useEffect(() => {
     const monthsPayValue = monthsPay.map((month) => ({
       value: month.value,
-      label: month.label 
+      label: month.label
     }))
     setFormData((prevData) => ({
       ...prevData,
@@ -153,6 +152,7 @@ const FormCreate = ({ children }) => {
       }
     }))
   }, [monthsPay])
+
   useEffect(() => {
     setFormData((prevData) => ({
       ...prevData,
@@ -231,7 +231,6 @@ const FormCreate = ({ children }) => {
           year: ''
         }
       },
-      active: true,
       pay: {
         monthlyFee: false,
         trainingFee: false,
@@ -292,34 +291,23 @@ const FormCreate = ({ children }) => {
           </div>
           <Select name='role' options={roleOptions} isMulti isClearable onChange={setRoles} className='clubs-container-form-create' placeholder='Seleccione posiciones' value={roles} required />
           <input onChange={handleInputChange} value={formData.birth} type='date' name='birth' placeholder='Nacimiento' max="2022-01-01" required />
-          <div className='check-input-container'>
-            <label htmlFor='active'>Jugador/a activo</label>
-            <input onChange={handleInputChange} value={formData.active} type='checkbox' name='active' defaultChecked='checked' />
-          </div>
-
-
-
           <div className='check-input-container payment'>
-              <div>
+            <div>
               <label htmlFor='pay'>Pago mensual</label>
               <input onChange={handlePaymentChange} value={formData.pay.monthlyFee} type='checkbox' name='monthlyFee' ref={payMonthlyRef} />
             </div>
             {
-              formData.pay.monthlyFee 
-              ? <Select required isMulti isClearable options={monthlyFeeOptions} onChange={setMonthsPay} value={monthsPay} /> : ''
+              formData.pay.monthlyFee
+                ? <Select required isMulti isClearable options={monthlyFeeOptions} onChange={setMonthsPay} value={monthsPay} /> : ''
             }
             <div>
               <label htmlFor='pay'>Pago por sesiones</label>
               <input onChange={handlePaymentChange} value={formData.pay.trainingFee} type='checkbox' name='trainingFee' ref={payTrainRef} />
             </div>
             {
-              formData.pay.trainingFee ? <input className='numb-of-sessions' type='number' name='trainsPayed' placeholder='Cantidad de sesiones' onChange={handleTrainsPayment} value={trainsPayed}  /> : ''
+              formData.pay.trainingFee ? <input className='numb-of-sessions' type='number' name='trainsPayed' placeholder='Cantidad de sesiones' onChange={handleTrainsPayment} value={trainsPayed} /> : ''
             }
           </div>
-
-
-
-
           <div className='check-input-container ensurance'>
             <div>
               <label htmlFor='ensurance'>Pago seguro</label>

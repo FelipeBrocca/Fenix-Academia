@@ -21,7 +21,9 @@ const PlayerProfile = () => {
         if (params.id) {
           const playerProfile = await getPlayer(params.id)
           setPlayer(playerProfile)
-          setLoading(false)
+          if (playerProfile !== undefined) {
+            setLoading(false)
+          }
         }
       } catch (error) {
         setNoPlayerFound(true)
