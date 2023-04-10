@@ -13,24 +13,18 @@ const PlayerProfile = () => {
   const [noPlayerFound, setNoPlayerFound] = useState(false)
   const params = useParams()
 
-
-
   useEffect(() => {
     (async () => {
-      try {
-        if (params.id) {
           const playerProfile = await getPlayer(params.id)
-          setPlayer(playerProfile)
-          if (playerProfile !== undefined) {
+          if (playerProfile !== undefined && playerProfile !== null && playerProfile.name) {
+            setPlayer(playerProfile)
             setLoading(false)
+          } else if(playerProfile === null) {
+            setLoading(false)
+            setNoPlayerFound(true)
           }
-        }
-      } catch (error) {
-        setNoPlayerFound(true)
-        setLoading(false)
-      }
     })();
-  }, [params.id, getPlayer, updatePlayer])
+  }, [params.id, updatePlayer, getPlayer])
 
   if (loading) {
     return <Loader />

@@ -10,8 +10,11 @@ import LoggedLayout from './components/Layout/LoggedLayout'
 import Home from './Pages/Home'
 import PlayersPage from './Pages/PlayersPage'
 import PlayerProfile from './Pages/PlayerProfile'
+import CoachesPage from './Pages/CoachesPage';
+import CoachProfile from './Pages/CoachProfile'
 import { ClubsProvider } from './context/ClubsContext';
 import { PlayersProvider } from './context/PlayersContext';
+import { CoachesProvider } from './context/CoachesContext'
 
 
 
@@ -29,16 +32,20 @@ function App() {
                         ? (<Route path='/' element={
                             <>
                                 <Header />
-                                <ClubsProvider>
-                                    <PlayersProvider>
-                                        <LoggedLayout />
-                                    </PlayersProvider>
-                                </ClubsProvider>
+                                <CoachesProvider>
+                                    <ClubsProvider>
+                                        <PlayersProvider>
+                                            <LoggedLayout />
+                                        </PlayersProvider>
+                                    </ClubsProvider>
+                                </CoachesProvider>
                             </>
                         }>
                             <Route path="/" element={<Home />} />
                             <Route path="/jugador/listado" element={<PlayersPage />} />
                             <Route path="/jugador/listado/:id" element={<PlayerProfile />} />
+                            <Route path="/entrenadores/listado" element={<CoachesPage />} />
+                            <Route path="/entrenadores/listado/:id" element={<CoachProfile />} />
                         </Route>)
                         //page loading
                         : loggedIn === undefined

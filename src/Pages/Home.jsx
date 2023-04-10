@@ -7,6 +7,7 @@ const Home = () => {
   return (
     <main>
       <Link to='/jugador/listado'>Ver jugadores</Link>
+      <Link to='/entrenadores/listado'>Ver entrenadores</Link>
     </main>
   )
 }

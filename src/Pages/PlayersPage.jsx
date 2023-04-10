@@ -8,7 +8,7 @@ const PlayersPage = () => {
 
     return (
         <main>
-            <div className='players-list-container'>
+            <div className='list-container'>
                 <h2>Lista de jugadores</h2>
                 <CreateModal />
                 <SearchPlayer />
