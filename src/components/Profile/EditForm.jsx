@@ -333,10 +333,6 @@ const EditForm = ({ children, player, id }) => {
           </div>
           <Select name='role' options={roleOptions} isMulti isClearable onChange={setRoles} className='clubs-container-form-create' value={roles} />
           <input onChange={handleInputChange} value={formData.birth} type='date' name='birth' placeholder='Nacimiento' max="2022-01-01" required />
-          <div className='check-input-container'>
-            <label htmlFor='active'>Jugador/a activo</label>
-            <input onChange={handleInputChange} value={formData.active} type='checkbox' name='active' defaultChecked={player.active} />
-          </div>
           <div className='check-input-container payment'>
             <div>
               <label htmlFor='pay'>Pago mensual</label>
@@ -372,11 +368,14 @@ const EditForm = ({ children, player, id }) => {
                 <span className="ok-icon"></span>
               </div>
           }
-          <button type='submit' className='button-submit-create'>Editar</button>
           {
             loading
               ? <Loader />
-              : <button type='reset' onClick={resetForm} className='button-reset-create'>Cancelar</button>
+              : <div className='buttons-form-container'>
+                <button type='submit' className='button-submit-create'>Crear</button>
+
+                <button type='reset' onClick={resetForm} className='button-reset-create'>Cancelar</button>
+              </div>
           }
         </form>
       </div>

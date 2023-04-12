@@ -41,11 +41,11 @@ const FormCreate = ({ children }) => {
       trainingFee: false,
       monthsPayed: [],
       trainsPayed: 0,
-      createdAt: {
-        day: new Date().getDate(),
-        month: new Date().getMonth() + 1,
-        year: new Date().getFullYear()
-      }
+    },
+    createdAt: {
+      day: new Date().getDate(),
+      month: new Date().getMonth() + 1,
+      year: new Date().getFullYear()
     }
   });
 
@@ -290,7 +290,7 @@ const FormCreate = ({ children }) => {
             <span className='button-modal-create-club' onClick={handleCreateClub}>+</span>
           </div>
           <Select name='role' options={roleOptions} isMulti isClearable onChange={setRoles} className='clubs-container-form-create' placeholder='Seleccione posiciones' value={roles} required />
-          <input onChange={handleInputChange} value={formData.birth} type='date' name='birth' placeholder='Nacimiento' max="2022-01-01" required />
+          <input onChange={handleInputChange} value={formData.birth} type='date' name='birth' placeholder='Nacimiento' max="2015-01-01" required />
           <div className='check-input-container payment'>
             <div>
               <label htmlFor='pay'>Pago mensual</label>
@@ -318,11 +318,14 @@ const FormCreate = ({ children }) => {
               <input onChange={handleSecureChange} value={formData.ensurance.secured} type='checkbox' name='secured' ref={ensuranceRef} />
             </div>
           </div>
-          <button type='submit' className='button-submit-create'>Crear</button>
           {
             loading
               ? <Loader />
-              : <button type='reset' onClick={resetForm} className='button-reset-create'>Cancelar</button>
+              : <div className='buttons-form-container'>
+                <button type='submit' className='button-submit-create'>Crear</button>
+
+                <button type='reset' onClick={resetForm} className='button-reset-create'>Cancelar</button>
+              </div>
           }
         </form>
       </div>
@@ -338,3 +341,4 @@ const FormCreate = ({ children }) => {
 }
 
 export default FormCreate
+

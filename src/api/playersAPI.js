@@ -10,11 +10,11 @@ export const createPlayerRequest = async (player) => {
     for (let key in player) {
         let value = player[key];
         if (key === "role" || key === "ensurance" || key === "pay") {
-          value = JSON.stringify(value);
+            value = JSON.stringify(value);
         }
         form.append(key, value);
-      }
-      
+    }
+
 
     return await axios.post('http://localhost:3500/players-hockey', form, {
         headers: {
@@ -26,12 +26,12 @@ export const createPlayerRequest = async (player) => {
 export const updatePlayerRequest = async (id, player) => {
     const form = new FormData()
 
-    for(let key in player){
+    for (let key in player) {
         let value = player[key];
         if (key === "role" || key === "ensurance" || key === "pay" || key === "createdAt") {
             value = JSON.stringify(value);
-          }
-          form.append(key, value);
+        }
+        form.append(key, value);
     }
 
     return await axios.put(`http://localhost:3500/players-hockey/${id}`, form, {

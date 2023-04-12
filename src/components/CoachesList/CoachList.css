@@ -1,0 +1,41 @@
+.coaches-list{
+    align-self: center;
+    padding-top: 50px;
+    min-width: 300px;
+}
+.coaches-list > ul{
+    width: 100%;
+    align-self: center;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    min-width: 300px;
+    gap: 30px;
+}
+.coach-item-container{
+    width: 40%;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 150px;
+}
+.coach-image-container{
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+.data-coach-container-item{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 10px 0px;
+}
+.coach-name-item{
+    text-align: center;
+    font-size: 22px;
+}
+.coach-role-item{
+    text-align: center;
+    font-size: 13px;
+}

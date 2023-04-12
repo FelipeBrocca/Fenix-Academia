@@ -22,7 +22,7 @@
     width: 90vw;
     max-width: 600px;
     height: 90%;
-    max-height: 700px;
+    max-height: 750px;
     background-color: var(--black);
     z-index: 100;
     display: flex;
@@ -50,6 +50,7 @@
     gap: 10px;
     overflow-y: auto;
     overflow-x: hidden;
+    min-height: 90%;
 }
 .form-create-label-image{
     width: 90%;
@@ -73,8 +74,17 @@ select{
     width: 90%;
     min-height: 35px;
 }
+.buttons-form-container{
+    width: 90%;
+    align-self: center;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-top: 25px;
+}
 .button-submit-create{
     width: 50%;
+    max-width: 200px;
     align-self: flex-end;
     padding: 8px;
     background-color: var(--green);
@@ -87,6 +97,7 @@ select{
 }
 .button-reset-create{
     width: 40%;
+    max-width: 150px;
     align-self: flex-end;
     border-radius: 10px;
     border: none;
