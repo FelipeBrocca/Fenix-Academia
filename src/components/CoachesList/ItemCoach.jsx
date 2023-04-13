@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom'
 import './CoachList.css'
 
 const ItemCoach = ({ _id, image, name, role, active }) => {
-console.log(_id);
   return (
     <li className='coach-item-container'>
       <Link to={`/entrenadores/listado/${_id}`}>

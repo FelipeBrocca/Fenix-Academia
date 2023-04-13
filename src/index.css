@@ -11,6 +11,9 @@
     box-sizing: border-box;
     font-family: 'Exo', sans-serif;
 }
+a{
+    text-decoration: none;
+}
 #root{
     width: calc(100vw - (100vw - 100%));
     min-height: 100vh;

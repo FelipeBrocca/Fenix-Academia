@@ -37,7 +37,7 @@ const PlayerProfile = () => {
       <main>
         <div className='top-profile'>
           <Link className='back-to-list' to='/jugador/listado'>Volver</Link>
-          <EditModal player={player} id={params.id} />
+          <EditModal person={player} id={params.id} />
         </div>
         <PlayersProfile
           player={player}

@@ -11,7 +11,7 @@ const FormCoachCreate = ({ children }) => {
     const { createCoach } = useCoaches()
     const [loading, setLoading] = useState(false)
     const [roles, setRoles] = useState([])
-    const [formData, setFormData] = useState({
+    const [initialValues] = useState({
         image: null,
         name: '',
         dni: '',
@@ -31,31 +31,11 @@ const FormCoachCreate = ({ children }) => {
             month: new Date().getMonth() + 1,
             year: new Date().getFullYear()
         }
-    }
-    );
+    })
+    const [formData, setFormData] = useState(initialValues);
 
     const resetForm = () => {
-        setFormData({
-            image: null,
-            name: '',
-            dni: '',
-            phone: '',
-            role: [],
-            birth: '',
-            pay: {
-                salary: 0,
-                debt: 0,
-                monthlyPay: false,
-                trainingPay: false,
-                timeMonthly: [],
-                payed: []
-            },
-            createdAt: {
-                day: new Date().getDate(),
-                month: new Date().getMonth() + 1,
-                year: new Date().getFullYear()
-            }
-        });
+        setFormData(initialValues);
         setRoles([])
         fileInputRef.current.value = "";
     }
@@ -73,10 +53,10 @@ const FormCoachCreate = ({ children }) => {
     useEffect(() => {
         const roleValues = roles.map((role) => role.value);
         setFormData((prevFormData) => ({
-          ...prevFormData,
-          role: roleValues,
+            ...prevFormData,
+            role: roleValues,
         }))
-      }, [roles])
+    }, [roles])
 
     const handleInputChange = (event) => {
         const { name, value, type, checked } = event.target;
@@ -128,7 +108,7 @@ const FormCoachCreate = ({ children }) => {
                 <input onChange={handleInputChange} value={formData.dni} type='text' name='dni' placeholder='Dni' required />
                 <input onChange={handleInputChange} value={formData.phone} type='tel' name='phone' placeholder='Telefono' required />
                 <Select name='role' options={roleOptions} isMulti isClearable onChange={setRoles} className='clubs-container-form-create' placeholder='Seleccione rol de entrenador' value={roles} required />
-                <input onChange={handleInputChange} value={formData.birth} type='date' name='birth' placeholder='Nacimiento' max="2008-01-01" required />
+                <input onChange={handleInputChange} value={formData.birth} type='date' name='birth' placeholder='Nacimiento' max="2005-12-31" required />
                 {
                     loading
                         ? <Loader />

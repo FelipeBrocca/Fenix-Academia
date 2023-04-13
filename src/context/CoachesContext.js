@@ -23,8 +23,12 @@ export const CoachesProvider = ({children}) => {
     }, []);
 
     const getCoach = useCallback(async (id) => {
-        const coach = await coachDetailRequest();
+        try {
+            const coach = await coachDetailRequest(id);
         return coach.data
+        } catch (error) {
+            console.log(error);
+        }
     }, [])
 
     const createCoach = async (coach) => {

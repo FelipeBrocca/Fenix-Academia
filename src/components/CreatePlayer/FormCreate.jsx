@@ -20,7 +20,7 @@ const FormCreate = ({ children }) => {
   const [clubSelected, setClubSelected] = useState('')
   const [formClubs, setFormClubs] = useState(false)
   const [clubsSelect, setClubsSelect] = useState([])
-  const [formData, setFormData] = useState({
+  const [initialValues] = useState({
     image: null,
     name: '',
     dni: '',
@@ -47,7 +47,8 @@ const FormCreate = ({ children }) => {
       month: new Date().getMonth() + 1,
       year: new Date().getFullYear()
     }
-  });
+  })
+  const [formData, setFormData] = useState(initialValues);
 
   const fileInputRef = useRef()
   const ensuranceRef = useRef();
@@ -215,34 +216,7 @@ const FormCreate = ({ children }) => {
     });
 
   const resetForm = () => {
-    setFormData({
-      image: null,
-      name: "",
-      dni: "",
-      phone: "",
-      club: "",
-      role: [],
-      birth: "",
-      ensurance: {
-        secured: false,
-        paysec: false,
-        until: {
-          month: '',
-          year: ''
-        }
-      },
-      pay: {
-        monthlyFee: false,
-        trainingFee: false,
-        monthlyUntil: [],
-        trainsPayed: 0,
-        createdAt: {
-          day: new Date().getDate(),
-          month: new Date().getMonth() + 1,
-          year: new Date().getFullYear()
-        }
-      }
-    });
+    setFormData(initialValues);
     setRoles([]);
     setClubSelected('')
     setMonthsPay([])
@@ -290,7 +264,7 @@ const FormCreate = ({ children }) => {
             <span className='button-modal-create-club' onClick={handleCreateClub}>+</span>
           </div>
           <Select name='role' options={roleOptions} isMulti isClearable onChange={setRoles} className='clubs-container-form-create' placeholder='Seleccione posiciones' value={roles} required />
-          <input onChange={handleInputChange} value={formData.birth} type='date' name='birth' placeholder='Nacimiento' max="2015-01-01" required />
+          <input onChange={handleInputChange} value={formData.birth} type='date' name='birth' placeholder='Nacimiento' max="2012-12-31" required />
           <div className='check-input-container payment'>
             <div>
               <label htmlFor='pay'>Pago mensual</label>

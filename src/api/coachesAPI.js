@@ -9,9 +9,12 @@ export const newCoachRequest = async (coach) => {
 
     for (let key in coach) {
         let value = coach[key];
-        if (key === "role" || key === "pay") {
+        const keysToCheck = ["role", "pay", "createdAt"];
+
+        if (keysToCheck.includes(key)) {
             value = JSON.stringify(value);
         }
+
         form.append(key, value);
     }
 
@@ -29,7 +32,9 @@ export const updateCoachRequest = async (id, coach) => {
 
     for (let key in coach) {
         let value = coach[key];
-        if (key === "role" || key === "pay") {
+        const keysToCheck = ["role", "pay", "createdAt"];
+
+        if (keysToCheck.includes(key)) {
             value = JSON.stringify(value);
         }
         form.append(key, value);

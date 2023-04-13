@@ -9,9 +9,12 @@ export const createPlayerRequest = async (player) => {
 
     for (let key in player) {
         let value = player[key];
-        if (key === "role" || key === "ensurance" || key === "pay") {
+        const keysToCheck = ["role", "ensurance", "pay", "createdAt"];
+
+        if (keysToCheck.includes(key)) {
             value = JSON.stringify(value);
         }
+
         form.append(key, value);
     }
 
@@ -28,9 +31,12 @@ export const updatePlayerRequest = async (id, player) => {
 
     for (let key in player) {
         let value = player[key];
-        if (key === "role" || key === "ensurance" || key === "pay" || key === "createdAt") {
+        const keysToCheck = ["role", "ensurance", "pay", "createdAt"];
+
+        if (keysToCheck.includes(key)) {
             value = JSON.stringify(value);
         }
+
         form.append(key, value);
     }
 

@@ -19,14 +19,14 @@ const EditForm = ({ children, player, id }) => {
   const [formClubs, setFormClubs] = useState(false)
   const [clubsSelect, setClubsSelect] = useState([])
   const [birthDate, setBirthDate] = useState('')
-  const [formData, setFormData] = useState({
+  const initialValues = {
     image: player.image,
     name: player.name,
     dni: player.dni,
     phone: player.phone,
     club: player.club,
     role: player.role,
-    birth: player.birth,
+    birth: birthDate,
     ensurance: {
       secured: player.ensurance.secured,
       paysec: player.ensurance.paysec,
@@ -40,21 +40,20 @@ const EditForm = ({ children, player, id }) => {
       trainingFee: player.pay.trainingFee,
       monthsPayed: player.pay.monthsPayed,
       trainsPayed: player.pay.trainsPayed,
-      createdAt: {
-        day: player.pay.createdAt.day,
-        month: player.pay.createdAt.month,
-        year: player.pay.createdAt.year
-      }
     },
-    createdAt: player.createdAt
-  });
+    createdAt: {
+      day: player.createdAt.day,
+      month: player.createdAt.month,
+      year: player.createdAt.year
+    }
+  }
+  const [formData, setFormData] = useState(initialValues);
 
   useEffect(() => {
     const date = new Date(player.birth);
     const formatted = date.toISOString().substring(0, 10);
     setBirthDate(formatted)
   }, [player.birth]);
-
   useEffect(() => {
     setFormData(prevData => ({
       ...prevData,
@@ -91,45 +90,45 @@ const EditForm = ({ children, player, id }) => {
     handleResetPaymMonthlyTraining()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-  
+
   const date = new Date()
   const todayMonth = date.getMonth()
   const todayYear = date.getFullYear()
   useEffect(() => {
     setMonth(
       todayMonth === 0
-      ? 'Enero'
-      : todayMonth === 1
-      ? 'Febrero'
-      : todayMonth === 2
-      ? 'Marzo'
-      : todayMonth === 3
-      ? 'Abril'
-      : todayMonth === 4
-      ? 'Mayo'
-      : todayMonth === 5
-      ? 'Junio'
-      : todayMonth === 6
-      ? 'Julio'
-      : todayMonth === 7
-      ? 'Agosto'
-      : todayMonth === 8
-      ? 'Septiembre'
-      : todayMonth === 9
-      ? 'Octubre'
-      : todayMonth === 10
-      ? 'Noviembre'
-      : todayMonth === 11
-      ? 'Diciembre'
-      : ''
-      )
-    }, [todayMonth])
-    
-    const handleCreateClub = () => {
-      setFormClubs(!formClubs)
-    }
-    
-    const resizeFile = (file) =>
+        ? 'Enero'
+        : todayMonth === 1
+          ? 'Febrero'
+          : todayMonth === 2
+            ? 'Marzo'
+            : todayMonth === 3
+              ? 'Abril'
+              : todayMonth === 4
+                ? 'Mayo'
+                : todayMonth === 5
+                  ? 'Junio'
+                  : todayMonth === 6
+                    ? 'Julio'
+                    : todayMonth === 7
+                      ? 'Agosto'
+                      : todayMonth === 8
+                        ? 'Septiembre'
+                        : todayMonth === 9
+                          ? 'Octubre'
+                          : todayMonth === 10
+                            ? 'Noviembre'
+                            : todayMonth === 11
+                              ? 'Diciembre'
+                              : ''
+    )
+  }, [todayMonth])
+
+  const handleCreateClub = () => {
+    setFormClubs(!formClubs)
+  }
+
+  const resizeFile = (file) =>
     new Promise((resolve) => {
       Resizer.imageFileResizer(
         file,
@@ -142,132 +141,104 @@ const EditForm = ({ children, player, id }) => {
           resolve(uri);
         },
         "file"
-        );
-      });
-      
-      const fileInputRef = useRef()
-      const ensuranceRef = useRef();
-      const ensurancePayRef = useRef()
-      const payMonthlyRef = useRef();
-      const payTrainRef = useRef();
-      
-      const handleInputChange = (event) => {
-        const { name, value, type, checked } = event.target;
-        const inputValue = type === 'checkbox' ? checked : value;
-        setFormData({ ...formData, [name]: inputValue });
-      };
-      
-      const handleSecureChange = (e) => {
-        const { name, checked } = e.target
-        setFormData({
-          ...formData, ensurance: {
-            ...formData.ensurance,
-            [name]: checked
-          }
-        })
-      }
-      const handlePaymentChange = (e) => {
-        const { name, checked } = e.target
-        setFormData({
-          ...formData, pay: {
-            ...formData.pay,
-            [name]: checked
-          }
-        })
-      }
-      const handleTrainsPayment = (e) => {
-        setTrainsPayed(e.target.value)
-      }
-      useEffect(() => {
-        const monthsPayValue = monthsPay.map((month) => ({
-          value: month.value,
-          label: month.label 
-        }))
-        setFormData((prevData) => ({
-          ...prevData,
-          pay: {
-            ...prevData.pay,
-            monthsPayed: monthsPayValue
-          }
-        }))
-      }, [monthsPay])
-      useEffect(() => {
-        setFormData((prevData) => ({
-          ...prevData,
-          pay: {
-            ...prevData.pay,
-            trainsPayed: parseInt(trainsPayed)
-          }
-        }))
-      }, [trainsPayed])
-      
-      const roleOptions = [
-        { value: 'Arquero/a', label: 'Arquero/a' },
-        { value: 'Arrastrador/a', label: 'Arrastrador/a' },
-        { value: 'Defensa', label: 'Defensa' },
-        { value: 'Volante', label: 'Volante' },
-        { value: 'Delantero/a', label: 'Delantero/a' }
-      ]
-      const monthlyFeeOptions = [
-        { value: 0, label: 'Enero' },
-        { value: 1, label: 'Febrero' },
-        { value: 2, label: 'Marzo' },
-        { value: 3, label: 'Abril' },
-        { value: 4, label: 'Mayo' },
-        { value: 5, label: 'Junio' },
-        { value: 6, label: 'Julio' },
-        { value: 7, label: 'Agosto' },
-        { value: 8, label: 'Septiembre' },
-        { value: 9, label: 'Octubre' },
-        { value: 10, label: 'Noviembre' },
-        { value: 11, label: 'Diciembre' },
-      ]
-      
-      useEffect(() => {
-        const selectOptions = clubs.map(club => ({
-          value: club.name,
-          label: club.name
-        }));
-        setClubsSelect(selectOptions);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-      }, []);
-      
-      const handleFileChange = async (event) => {
-        const file = event.target.files[0];
-        const image = await resizeFile(file);
-        setFormData({ ...formData, image: image });
-      };
-      
-      const resetForm = () => {
-        setFormData({
-          image: player.image,
-          name: player.name,
-      dni: player.dni,
-      phone: player.phone,
-      club: player.club,
-      role: player.role,
-      birth: birthDate,
-      ensurance: {
-        secured: player.ensurance.secured,
-        paysec: player.ensurance.paysec,
-        until: {
-          month: player.ensurance.until.month,
-          year: player.ensurance.until.year
-        }
-      },
-      pay: {
-        monthlyFee: player.pay.monthlyFee,
-        trainingFee: player.pay.trainingFee,
-        monthsPayed: player.pay.monthsPayed,
-        trainsPayed: player.pay.trainsPayed,
-        createdAt: {
-          day: player.pay.createdAt.day,
-          month: player.pay.createdAt.month,
-          year: player.pay.createdAt.year
-        }
-      },
-      createdAt: player.createdAt
+      );
     });
+
+  const fileInputRef = useRef()
+  const ensuranceRef = useRef();
+  const ensurancePayRef = useRef()
+  const payMonthlyRef = useRef();
+  const payTrainRef = useRef();
+
+  const handleInputChange = (event) => {
+    const { name, value, type, checked } = event.target;
+    const inputValue = type === 'checkbox' ? checked : value;
+    setFormData({ ...formData, [name]: inputValue });
+  };
+
+  const handleSecureChange = (e) => {
+    const { name, checked } = e.target
+    setFormData({
+      ...formData, ensurance: {
+        ...formData.ensurance,
+        [name]: checked
+      }
+    })
+  }
+  const handlePaymentChange = (e) => {
+    const { name, checked } = e.target
+    setFormData({
+      ...formData, pay: {
+        ...formData.pay,
+        [name]: checked
+      }
+    })
+  }
+  const handleTrainsPayment = (e) => {
+    setTrainsPayed(e.target.value)
+  }
+  useEffect(() => {
+    const monthsPayValue = monthsPay.map((month) => ({
+      value: month.value,
+      label: month.label
+    }))
+    setFormData((prevData) => ({
+      ...prevData,
+      pay: {
+        ...prevData.pay,
+        monthsPayed: monthsPayValue
+      }
+    }))
+  }, [monthsPay])
+  useEffect(() => {
+    setFormData((prevData) => ({
+      ...prevData,
+      pay: {
+        ...prevData.pay,
+        trainsPayed: parseInt(trainsPayed)
+      }
+    }))
+  }, [trainsPayed])
+
+  const roleOptions = [
+    { value: 'Arquero/a', label: 'Arquero/a' },
+    { value: 'Arrastrador/a', label: 'Arrastrador/a' },
+    { value: 'Defensa', label: 'Defensa' },
+    { value: 'Volante', label: 'Volante' },
+    { value: 'Delantero/a', label: 'Delantero/a' }
+  ]
+  const monthlyFeeOptions = [
+    { value: 0, label: 'Enero' },
+    { value: 1, label: 'Febrero' },
+    { value: 2, label: 'Marzo' },
+    { value: 3, label: 'Abril' },
+    { value: 4, label: 'Mayo' },
+    { value: 5, label: 'Junio' },
+    { value: 6, label: 'Julio' },
+    { value: 7, label: 'Agosto' },
+    { value: 8, label: 'Septiembre' },
+    { value: 9, label: 'Octubre' },
+    { value: 10, label: 'Noviembre' },
+    { value: 11, label: 'Diciembre' },
+  ]
+
+  useEffect(() => {
+    const selectOptions = clubs.map(club => ({
+      value: club.name,
+      label: club.name
+    }));
+    setClubsSelect(selectOptions);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const handleFileChange = async (event) => {
+    const file = event.target.files[0];
+    const image = await resizeFile(file);
+    setFormData({ ...formData, image: image });
+  };
+
+  const resetForm = () => {
+    setFormData(initialValues);
     handleResetRolesClub();
     fileInputRef.current.value = "";
     setMonthsPay(player.pay.monthsPayed)
@@ -283,7 +254,7 @@ const EditForm = ({ children, player, id }) => {
     payTrainRef.current.checked = player.pay.trainingFee;
   };
 
-  
+
   useEffect(() => {
     const roleValues = roles.map((role) => role.value);
     setFormData((prevFormData) => ({
@@ -332,7 +303,7 @@ const EditForm = ({ children, player, id }) => {
             <span className='button-modal-create-club' onClick={handleCreateClub}>+</span>
           </div>
           <Select name='role' options={roleOptions} isMulti isClearable onChange={setRoles} className='clubs-container-form-create' value={roles} />
-          <input onChange={handleInputChange} value={formData.birth} type='date' name='birth' placeholder='Nacimiento' max="2022-01-01" required />
+          <input onChange={handleInputChange} value={formData.birth} type='date' name='birth' placeholder='Nacimiento' max="2012-12-31" required />
           <div className='check-input-container payment'>
             <div>
               <label htmlFor='pay'>Pago mensual</label>
