@@ -15,8 +15,8 @@ const AdminPlayers = () => {
                     <ItemToAdmin
                     name={name}
                     id={_id}
-                    button={'Cobrar'}
                     key={_id}
+                    type={'player'}
                     />
                 ))
                }

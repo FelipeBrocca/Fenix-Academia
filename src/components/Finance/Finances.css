@@ -44,7 +44,7 @@
 .admin-coaches-item > p{
     font-size: 20px;
 }
-.button-admin-Pagar{
+.button-admin-coach{
     padding: 10px;
     border: none;
     border-radius: 5px;
@@ -53,7 +53,7 @@
     font-size: 16px;
     cursor: pointer;
 }
-.button-admin-Cobrar{
+.button-admin-player{
     padding: 10px;
     border: none;
     border-radius: 5px;

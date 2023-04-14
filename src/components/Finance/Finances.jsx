@@ -4,16 +4,19 @@ import './Finances.css'
 import AdminCoaches from './AdminCoaches'
 import AdminPlayers from './AdminPlayers'
 import AdminOthers from './AdminOthers'
+import { useLocation } from 'react-router-dom'
 
 
 const Finances = () => {
 
-  const [adminOpt, setAdminOpt] = useState({ value: 0, label: 'Entrenadores' })
+  const location = useLocation()
+  const { admin } = location.state ? location.state : {value: 0, label: 'Entrenadores'};
+  const [adminOpt, setAdminOpt] = useState(admin !== undefined ? admin : {value: 0, label: 'Entrenadores'})
 
   const adminOptions = [
     { value: 0, label: 'Entrenadores' },
     { value: 1, label: 'Jugadores' },
-    {value: 2, label: 'Otros'}
+    { value: 2, label: 'Otros' }
   ]
 
   return (
@@ -23,7 +26,7 @@ const Finances = () => {
       <div>Total ganancias: $100.000</div>
       <div className='select-admin-finances-container'>
         <label>Administrar</label>
-        <Select options={adminOptions} onChange={setAdminOpt} value={adminOpt} className='select-admin-finance' placeholder='hola' />
+        <Select options={adminOptions} onChange={setAdminOpt} value={adminOpt} className='select-admin-finance' />
       </div>
       <div className='option-finance-container'>
         {
