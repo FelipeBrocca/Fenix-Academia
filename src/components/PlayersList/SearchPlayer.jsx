@@ -37,7 +37,7 @@ const filter = (busqueda) => {
               )
             })
             : busqueda && !playersSearch[0]
-            ? <li>No se encontraron resultados</li>
+            ? <li className='not-found-search-bar'>No se encontraron resultados</li>
             :  '' 
           }
          </ul>

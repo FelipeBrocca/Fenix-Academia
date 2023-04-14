@@ -5,11 +5,11 @@
     border-radius: 10px;
     border: none;
     font-size: 14px;
-    padding: 15px 10px;
     background-color: var(--orange);
     color: var(--white);
     font-weight: bolder;
     cursor: pointer;
+    height: 100%;
 }
 .create-form-container{
     position: fixed;
