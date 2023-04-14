@@ -1,0 +1,64 @@
+.select-admin-finances-container{
+    width: 100%;
+}
+.select-admin-finances-container > label{
+    width: 100%;
+    font-size: 20px;
+    color: var(--white);
+}
+.select-admin-finance > .css-13cymwt-control,
+.select-admin-finance > .css-t3ipsp-control{
+    width: 100%;
+    height: 40px;
+    cursor: pointer;
+}
+.option-finance-container{
+  padding: 40px 0px;
+  width: 100%;
+}
+.admin-container{
+    color: var(--white);
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.admin-coaches-list{
+    width: 100%;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+}
+.admin-coaches-item{
+    width: 100%;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--grey);
+    padding: 0px 10px;
+}
+.admin-coaches-item:hover{
+  background-color: var(--grey);
+}
+.admin-coaches-item > p{
+    font-size: 20px;
+}
+.button-admin-Pagar{
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: var(--orange);
+    color: var(--white);
+    font-size: 16px;
+    cursor: pointer;
+}
+.button-admin-Cobrar{
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: var(--green);
+    color: var(--white);
+    font-size: 16px;
+    cursor: pointer;
+}

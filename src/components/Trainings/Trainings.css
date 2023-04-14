@@ -1,17 +1,29 @@
 .trainings-home-container{
     width: 100%;
     background-color: var(--grey);
-    padding: 20px 10px 30px 10px;
+    padding: 20px 10px 10px 10px;
     color: var(--white);
     border-radius: 5px;
     display: flex;
     flex-direction: column;
     gap: 35px;
-    height: 230px;
-    position: relative;
 }
-.trainings-home-container.open{
-    height: auto;
+.techniques-data-container {
+    max-height: 0px;
+    overflow: hidden;
+    transition: max-height 0.5s ease;
+   display: flex;
+   flex-direction: column;
+   gap: 40px;
+   border-top: 1px solid var(--green);
+    width: 100%;
+    background-color: var(--black);
+}
+.techniques-data-container.show{
+    max-height: 500px;
+    overflow: visible;
+    padding-bottom: 30px;
+    border-bottom: 1px solid var(--green);
 }
 .bottom-training-home{
     display: flex;
@@ -39,13 +51,11 @@
     text-align: center;
     font-size: 20px;
 }
-.techniques-trianing-home-button{
+.techniques-training-home-button{
     width: 100%;
     display: flex;
     justify-content: center;
     height: 55px;
-    position: absolute;
-    bottom: 0;
     padding: 10px 0px;
 }
 .toggle-button-techniques-home{
@@ -79,12 +89,6 @@ gap: 3px;
     transition: all 0.3s;
 }
 .techniques-data{
-    height: 0px;
-    transition: all 0.5s;
-    opacity: 0;
-}
-.techniques-data.show{
-    height: auto;
     display: flex;
     flex-direction: column;
     transition: all 0.5s;
@@ -96,13 +100,14 @@ gap: 3px;
 .title-techniques-home{
     text-align: center;
     width: 100%;
+    padding-top: 30px;
 }
 .subtitle-techniques-home{
     text-align: center;
     font-size: 18px;
     color: var(--green);
 }
-.techniques-data.show > strong{
+.techniques-data > strong{
     color: var(--orange);
     text-align: center;
 }

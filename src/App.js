@@ -15,6 +15,7 @@ import CoachProfile from './Pages/CoachProfile'
 import { ClubsProvider } from './context/ClubsContext';
 import { PlayersProvider } from './context/PlayersContext';
 import { CoachesProvider } from './context/CoachesContext'
+import FinancesPage from './Pages/FinancesPage';
 
 
 
@@ -41,11 +42,12 @@ function App() {
                                 </CoachesProvider>
                             </>
                         }>
-                            <Route path="/" element={<Home />} />
+                            <Route exact path="/" element={<Home />} />
                             <Route path="/jugador/listado" element={<PlayersPage />} />
                             <Route path="/jugador/listado/:id" element={<PlayerProfile />} />
                             <Route path="/entrenadores/listado" element={<CoachesPage />} />
                             <Route path="/entrenadores/listado/:id" element={<CoachProfile />} />
+                            <Route path='/finanzas' element={<FinancesPage />} />
                         </Route>)
                         //page loading
                         : loggedIn === undefined
