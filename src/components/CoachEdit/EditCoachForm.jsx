@@ -10,6 +10,7 @@ const EditCoachForm = ({ children, coach, id }) => {
   const { updateCoach } = useCoaches()
   const [loading, setLoading] = useState(false)
   const [roles, setRoles] = useState([])
+  const [month, setMonth] = useState('')
   const [birthDate, setBirthDate] = useState('')
   const initialValues = {
     image: coach.image,
@@ -26,6 +27,14 @@ const EditCoachForm = ({ children, coach, id }) => {
       timeMonthly: coach.pay.timeMonthly,
       payed: coach.pay.payed
     },
+    ensurance: {
+      secured: coach.ensurance.secured,
+      paysec: coach.ensurance.paysec,
+      until: {
+        month: coach.ensurance.until.month,
+        year: coach.ensurance.until.year
+      }
+    },
     createdAt: {
       day: coach.createdAt.day,
       month: coach.createdAt.month,
@@ -36,7 +45,47 @@ const EditCoachForm = ({ children, coach, id }) => {
   const resetForm = () => {
     setFormData(initialValues)
     handleResetRoles()
+    if (!coach.ensurance.paysec) {
+      ensurancePayRef.current.checked = coach.ensurance.paysec;
+      ensuranceRef.current.checked = coach.ensurance.secured;
+    } else if (coach.ensurance.paysec && !coach.ensurance.secured) {
+      ensurancePayRef.current.checked = coach.ensurance.paysec;
+      ensuranceRef.current.checked = coach.ensurance.secured;
+    }
   }
+
+  const date = new Date()
+  const todayMonth = date.getMonth()
+  const todayYear = date.getFullYear()
+  useEffect(() => {
+    setMonth(
+      todayMonth === 0
+        ? 'Enero'
+        : todayMonth === 1
+          ? 'Febrero'
+          : todayMonth === 2
+            ? 'Marzo'
+            : todayMonth === 3
+              ? 'Abril'
+              : todayMonth === 4
+                ? 'Mayo'
+                : todayMonth === 5
+                  ? 'Junio'
+                  : todayMonth === 6
+                    ? 'Julio'
+                    : todayMonth === 7
+                      ? 'Agosto'
+                      : todayMonth === 8
+                        ? 'Septiembre'
+                        : todayMonth === 9
+                          ? 'Octubre'
+                          : todayMonth === 10
+                            ? 'Noviembre'
+                            : todayMonth === 11
+                              ? 'Diciembre'
+                              : ''
+    )
+  }, [todayMonth])
 
   const resizeFile = (file) =>
     new Promise((resolve) => {
@@ -55,6 +104,8 @@ const EditCoachForm = ({ children, coach, id }) => {
     });
 
   const fileInputRef = useRef()
+  const ensuranceRef = useRef();
+  const ensurancePayRef = useRef()
 
   const roleOptions = [
     { value: 'Arquero/a', label: 'Arquero/a' },
@@ -74,6 +125,16 @@ const EditCoachForm = ({ children, coach, id }) => {
     setRoles(newRoles);
   }
 
+  const handleSecureChange = (e) => {
+    const { name, checked } = e.target
+    setFormData({
+      ...formData, ensurance: {
+        ...formData.ensurance,
+        [name]: checked
+      }
+    })
+  }
+
   useEffect(() => {
     handleResetRoles()
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -91,7 +152,7 @@ const EditCoachForm = ({ children, coach, id }) => {
       birth: birthDate
     }))
   }, [birthDate])
-  
+
   useEffect(() => {
     const roleValues = roles.map((role) => role.value);
     setFormData((prevFormData) => ({
@@ -116,6 +177,10 @@ const EditCoachForm = ({ children, coach, id }) => {
     e.preventDefault()
     try {
       setLoading(true)
+      if (!coach.secured && formData.ensurance.secured) {
+        formData.ensurance.until.month = month
+        formData.ensurance.until.year = todayYear + 1
+      }
       await updateCoach(id, formData)
       setLoading(false)
       resetForm()
@@ -136,6 +201,24 @@ const EditCoachForm = ({ children, coach, id }) => {
         <input onChange={handleInputChange} value={formData.phone} type='tel' name='phone' placeholder='Telefono' required />
         <Select name='role' options={roleOptions} isMulti isClearable onChange={setRoles} className='clubs-container-form-create' placeholder='Seleccione rol de entrenador' value={roles} required />
         <input onChange={handleInputChange} value={formData.birth} type='date' name='birth' placeholder='Nacimiento' max="2005-12-31" required />
+        {
+          (!coach.ensurance.paysec && !coach.ensurance.secured)
+            || (coach.ensurance.paysec && !coach.ensurance.secured)
+            ? <div className='check-input-container ensurance'>
+              <div>
+                <label htmlFor='ensurance'>Pago seguro</label>
+                <input onChange={handleSecureChange} value={formData.ensurance.paysec} type='checkbox' name='paysec' defaultChecked={formData.ensurance.paysec} ref={ensurancePayRef} />
+              </div>
+              <div className={formData.ensurance.paysec === true ? '' : 'display-none'}>
+                <label htmlFor='ensurance'>Habilitación seguro</label>
+                <input onChange={handleSecureChange} value={formData.ensurance.secured} type='checkbox' defaultChecked={formData.ensurance.secured} name='secured' ref={ensuranceRef} />
+              </div>
+            </div>
+            : <div className='check-input-container'>
+              <label>Asegurado/a</label>
+              <span className="ok-icon"></span>
+            </div>
+        }
         {
           loading
             ? <Loader />

@@ -3,7 +3,7 @@ import { Link, useParams } from 'react-router-dom'
 import { usePlayers } from '../context/PlayersContext'
 import Loader from '../components/Loader/Loader'
 import PlayersProfile from '../components/Profile/PlayersProfile'
-import EditModal from '../components/Profile/EditModal'
+import EditModal from '../components/EditModal/EditModal'
 
 const PlayerProfile = () => {
 

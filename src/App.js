@@ -14,8 +14,10 @@ import CoachesPage from './Pages/CoachesPage';
 import CoachProfile from './Pages/CoachProfile'
 import { ClubsProvider } from './context/ClubsContext';
 import { PlayersProvider } from './context/PlayersContext';
-import { CoachesProvider } from './context/CoachesContext'
+import { CoachesProvider } from './context/CoachesContext';
+import {TrainingsProvider} from './context/TrainingsContext'
 import FinancesPage from './Pages/FinancesPage';
+import TrainingsList from './Pages/TrainingsList';
 
 
 
@@ -33,13 +35,15 @@ function App() {
                         ? (<Route path='/' element={
                             <>
                                 <Header />
-                                <CoachesProvider>
-                                    <ClubsProvider>
-                                        <PlayersProvider>
-                                            <LoggedLayout />
-                                        </PlayersProvider>
-                                    </ClubsProvider>
-                                </CoachesProvider>
+                                <TrainingsProvider>
+                                    <CoachesProvider>
+                                        <ClubsProvider>
+                                            <PlayersProvider>
+                                                <LoggedLayout />
+                                            </PlayersProvider>
+                                        </ClubsProvider>
+                                    </CoachesProvider>
+                                </TrainingsProvider>
                             </>
                         }>
                             <Route exact path="/" element={<Home />} />
@@ -48,6 +52,7 @@ function App() {
                             <Route path="/entrenadores/listado" element={<CoachesPage />} />
                             <Route path="/entrenadores/listado/:id" element={<CoachProfile />} />
                             <Route path='/finanzas' element={<FinancesPage />} />
+                            <Route path='/entrenamientos' element={<TrainingsList />} />
                         </Route>)
                         //page loading
                         : loggedIn === undefined

@@ -26,6 +26,7 @@
 }
 .players-list > ul > li > p.p-name{
     width: 90%;
+    padding-left: 30px;
 }
 .players-list > ul > li > a{
     width: 10%;
@@ -148,22 +149,4 @@
   }
  .item-player-link-to-profile{
   align-self: center;
- }
- .active-span{
-  width: 12px;
-  height: 10px;
-  border-radius: 50%;
-  border: none;
-  background-color: var(--green);
-  align-self: center;
-  margin-right: 10px;
- }
- .unactive-span{
-  width: 12px;
-  height: 10px;
-  border-radius: 50%;
-  border: none;
-  background-color: var(--orange);
-  align-self: center;
-  margin-right: 10px;
  }

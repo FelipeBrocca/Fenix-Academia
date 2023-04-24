@@ -11,6 +11,7 @@ const FormCoachCreate = ({ children }) => {
     const { createCoach } = useCoaches()
     const [loading, setLoading] = useState(false)
     const [roles, setRoles] = useState([])
+    const [month, setMonth] = useState('')
     const [initialValues] = useState({
         image: null,
         name: '',
@@ -26,6 +27,14 @@ const FormCoachCreate = ({ children }) => {
             timeMonthly: [],
             payed: []
         },
+        ensurance: {
+            secured: false,
+            paysec: false,
+            until: {
+                month: '',
+                year: ''
+            }
+        },
         createdAt: {
             day: new Date().getDate(),
             month: new Date().getMonth() + 1,
@@ -38,9 +47,47 @@ const FormCoachCreate = ({ children }) => {
         setFormData(initialValues);
         setRoles([])
         fileInputRef.current.value = "";
+        ensurancePayRef.current.checked = false;
+        ensuranceRef.current.checked = false;
     }
 
+    const date = new Date()
+    const todayMonth = date.getMonth()
+    const todayYear = date.getFullYear()
+    useEffect(() => {
+        setMonth(
+            todayMonth === 0
+                ? 'Enero'
+                : todayMonth === 1
+                    ? 'Febrero'
+                    : todayMonth === 2
+                        ? 'Marzo'
+                        : todayMonth === 3
+                            ? 'Abril'
+                            : todayMonth === 4
+                                ? 'Mayo'
+                                : todayMonth === 5
+                                    ? 'Junio'
+                                    : todayMonth === 6
+                                        ? 'Julio'
+                                        : todayMonth === 7
+                                            ? 'Agosto'
+                                            : todayMonth === 8
+                                                ? 'Septiembre'
+                                                : todayMonth === 9
+                                                    ? 'Octubre'
+                                                    : todayMonth === 10
+                                                        ? 'Noviembre'
+                                                        : todayMonth === 11
+                                                            ? 'Diciembre'
+                                                            : ''
+        )
+    }, [todayMonth])
+
+
     const fileInputRef = useRef()
+    const ensuranceRef = useRef();
+    const ensurancePayRef = useRef()
 
     const roleOptions = [
         { value: 'Arquero/a', label: 'Arquero/a' },
@@ -63,6 +110,16 @@ const FormCoachCreate = ({ children }) => {
         const inputValue = type === 'checkbox' ? checked : value;
         setFormData({ ...formData, [name]: inputValue });
     };
+
+    const handleSecureChange = (e) => {
+        const { name, checked } = e.target
+        setFormData({
+            ...formData, ensurance: {
+                ...formData.ensurance,
+                [name]: checked
+            }
+        })
+    }
 
     const resizeFile = (file) =>
         new Promise((resolve) => {
@@ -89,6 +146,10 @@ const FormCoachCreate = ({ children }) => {
         event.preventDefault();
         try {
             setLoading(true);
+            if (formData.ensurance.paysec && formData.ensurance.secured) {
+                formData.ensurance.until.month = month
+                formData.ensurance.until.year = todayYear + 1
+            }
             await createCoach(formData);
             setLoading(false);
             resetForm();
@@ -109,6 +170,16 @@ const FormCoachCreate = ({ children }) => {
                 <input onChange={handleInputChange} value={formData.phone} type='tel' name='phone' placeholder='Telefono' required />
                 <Select name='role' options={roleOptions} isMulti isClearable onChange={setRoles} className='clubs-container-form-create' placeholder='Seleccione rol de entrenador' value={roles} required />
                 <input onChange={handleInputChange} value={formData.birth} type='date' name='birth' placeholder='Nacimiento' max="2005-12-31" required />
+                <div className='check-input-container ensurance'>
+                    <div>
+                        <label htmlFor='ensurance'>Pago seguro</label>
+                        <input onChange={handleSecureChange} value={formData.ensurance.paysec} type='checkbox' name='paysec' ref={ensurancePayRef} />
+                    </div>
+                    <div className={formData.ensurance.paysec === true ? '' : 'display-none'}>
+                        <label htmlFor='ensurance'>Habilitación seguro</label>
+                        <input onChange={handleSecureChange} value={formData.ensurance.secured} type='checkbox' name='secured' ref={ensuranceRef} />
+                    </div>
+                </div>
                 {
                     loading
                         ? <Loader />

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import EditForm from './EditForm'
+import EditForm from '../PlayerEdit/EditForm'
+import EditCoachForm from '../CoachEdit/EditCoachForm'
 import { usePlayers } from '../../context/PlayersContext'
 import { useCoaches } from '../../context/CoachesContext'
-import EditCoachForm from '../CoachEdit/EditCoachForm'
 
 const EditModal = ({ person, id }) => {
     const [create, setCreate] = useState(false)

@@ -9,7 +9,7 @@ export const newCoachRequest = async (coach) => {
 
     for (let key in coach) {
         let value = coach[key];
-        const keysToCheck = ["role", "pay", "createdAt"];
+        const keysToCheck = ["role", "pay", "createdAt", "ensurance"];
 
         if (keysToCheck.includes(key)) {
             value = JSON.stringify(value);
@@ -25,14 +25,12 @@ export const newCoachRequest = async (coach) => {
     })
 }
 
-// await axios.post('http://localhost:3500/coaches-hockey', coach)
-
 export const updateCoachRequest = async (id, coach) => {
     const form = new FormData()
 
     for (let key in coach) {
         let value = coach[key];
-        const keysToCheck = ["role", "pay", "createdAt"];
+        const keysToCheck = ["role", "pay", "createdAt", "ensurance"];
 
         if (keysToCheck.includes(key)) {
             value = JSON.stringify(value);

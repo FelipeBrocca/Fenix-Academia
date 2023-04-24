@@ -7,6 +7,7 @@
     display: flex;
     flex-direction: column;
     gap: 35px;
+    max-width: 800px;
 }
 .techniques-data-container {
     max-height: 0px;
@@ -121,4 +122,88 @@ gap: 3px;
     gap: 5px;
     font-size: 20px;
 }
-   
+.trainings-list{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.training-list-item{
+  display: flex;
+  list-style: none;
+  border-bottom: 1px solid var(--grey);
+  padding: 5px;
+  justify-content: space-between;
+}
+.item-contain-data{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}   
+.watch-training-item{
+    padding: 5px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: var(--green);
+    font-size: 14px;
+    color: var(--white);
+    font-weight: 800;
+    cursor: pointer;
+}
+.watch-training-item:hover{
+    background-color: rgb(63, 230, 174);
+}
+.detail-training-item{
+    max-height: 0;
+    width: 100%;
+    background-color: var(--grey);
+    transition: all 0.5s;
+    overflow: hidden;
+    padding: 0px 10px;
+}
+.detail-training-item.active{
+    max-height: 500px;
+    overflow: visible;
+    padding: 10px;
+}
+.top-list-page{
+    width: 100%;
+}
+.input-create-container{
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-self: center;
+}
+.input-create-container.time{
+    flex-direction: row;
+    justify-content: center;
+    width: 90%;
+    align-self: center;
+}
+.time-create-container{
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+}
+.input-create-container > input,
+.input-create-container > textarea,
+.input-create-container > .time-create-container > input{
+    width: 100%;
+    align-self: center;
+    min-height: 35px;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    padding-left: 10px;
+}
+.input-create-container > label,
+.input-create-container > .time-create-container > label{
+    font-size: 20px;
+}
+
+.input-create-container > textarea{
+    height: 300px;
+    padding: 10px;
+}

@@ -31,6 +31,7 @@ const PlayersProfile = ({ player }) => {
             console.log(error);
         }
     }
+
     return (
         <div className='player-card'>
             <ul className='profile-data-list'>
@@ -73,9 +74,13 @@ const PlayersProfile = ({ player }) => {
                     </ul>
                 </li>
                 <li className='profile-data-item ensurance'>
-                    <label>Pago del seguro: {player?.ensurance.paysec ? <span className="ok-icon"></span>
-                        : <span className="red-cross-icon"></span>
-                    }</label>
+                    {
+                        !player?.ensurance.secured
+                            ? <label>Pago del seguro: {player?.ensurance.paysec ? <span className="ok-icon"></span>
+                                : <span className="red-cross-icon"></span>
+                            }</label>
+                            : ''
+                    }
                     <label>Seguro activo: {player?.ensurance.secured ? <span className="ok-icon"></span>
                         : <span className="red-cross-icon"></span>
                     }</label>
@@ -91,15 +96,15 @@ const PlayersProfile = ({ player }) => {
                     <label>Pago cuota:</label>
                     <p>
                         {
-                            player?.pay.monthlyFee && player?.active
+                            player?.pay.monthsPayed[0] && player?.active
                                 ? <span className="ok-icon"></span>
-                                : player?.pay.monthlyFee && !player?.active
+                                : player?.pay.monthsPayed[0] && !player?.active
                                     ? <span className="red-cross-icon"></span>
                                     : '-'
                         }
                     </p>
                     {
-                        player?.pay.monthlyFee
+                        player?.pay.monthsPayed[0]
                             ? <>
                                 <label>Mes/es pagos:</label>
                                 <ul className='months-payed-list'>
@@ -117,15 +122,13 @@ const PlayersProfile = ({ player }) => {
                     <label>Pago por sesión:</label>
                     <p>
                         {
-                            player?.pay.trainingFee && player?.pay.trainsPayed > 0
+                            player?.pay.trainsPayed > 0
                                 ? <span className="ok-icon"></span>
-                                : player?.pay.trainingFee && player?.pay.trainsPayed < 1
-                                ? <span className='red-cross-icon'></span>
                                 : '-'
                         }
                     </p>
                     {
-                        player?.pay.trainingFee
+                        player?.pay.trainsPayed > 0
                             ? <>
                                 <label>Cantidad:</label>
                                 <p>{player?.pay.trainsPayed}</p>

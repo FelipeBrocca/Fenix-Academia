@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import './Trainings.css'
-
+import { Link } from 'react-router-dom'
 const TrainingsHome = () => {
 
     const [showTechniques, setShowTechniques] = useState(false)
@@ -58,9 +58,9 @@ const TrainingsHome = () => {
                 </div>
             </div>
             <div className='bottom-training-home'>
-                <button className='button-home-to'>
+                <Link className='button-home-to' to='/entrenamientos'>
                     Ver entrenamientos
-                </button>
+                </Link>
             </div>
         </>
     )

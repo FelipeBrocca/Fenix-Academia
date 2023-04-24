@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import { Link, useParams } from 'react-router-dom'
-import EditModal from '../components/Profile/EditModal'
+import EditModal from '../components/EditModal/EditModal'
 import { useCoaches } from '../context/CoachesContext'
 import Loader from '../components/Loader/Loader'
 import CoachesProfile from '../components/Profile/CoachesProfile'

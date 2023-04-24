@@ -14,7 +14,7 @@ const EditForm = ({ children, player, id }) => {
   const [month, setMonth] = useState('')
   const [roles, setRoles] = useState([])
   const [monthsPay, setMonthsPay] = useState([])
-  const [trainsPayed, setTrainsPayed] = useState()
+  const [trainsPayed, setTrainsPayed] = useState(0)
   const [clubSelected, setClubSelected] = useState('')
   const [formClubs, setFormClubs] = useState(false)
   const [clubsSelect, setClubsSelect] = useState([])
@@ -36,8 +36,6 @@ const EditForm = ({ children, player, id }) => {
       }
     },
     pay: {
-      monthlyFee: player.pay.monthlyFee,
-      trainingFee: player.pay.trainingFee,
       monthsPayed: player.pay.monthsPayed,
       trainsPayed: player.pay.trainsPayed,
     },
@@ -147,8 +145,6 @@ const EditForm = ({ children, player, id }) => {
   const fileInputRef = useRef()
   const ensuranceRef = useRef();
   const ensurancePayRef = useRef()
-  const payMonthlyRef = useRef();
-  const payTrainRef = useRef();
 
   const handleInputChange = (event) => {
     const { name, value, type, checked } = event.target;
@@ -165,15 +161,7 @@ const EditForm = ({ children, player, id }) => {
       }
     })
   }
-  const handlePaymentChange = (e) => {
-    const { name, checked } = e.target
-    setFormData({
-      ...formData, pay: {
-        ...formData.pay,
-        [name]: checked
-      }
-    })
-  }
+
   const handleTrainsPayment = (e) => {
     setTrainsPayed(e.target.value)
   }
@@ -250,8 +238,6 @@ const EditForm = ({ children, player, id }) => {
       ensurancePayRef.current.checked = player.ensurance.paysec;
       ensuranceRef.current.checked = player.ensurance.secured;
     }
-    payMonthlyRef.current.checked = player.pay.monthlyFee;
-    payTrainRef.current.checked = player.pay.trainingFee;
   };
 
 
@@ -307,19 +293,12 @@ const EditForm = ({ children, player, id }) => {
           <div className='check-input-container payment'>
             <div>
               <label htmlFor='pay'>Pago mensual</label>
-              <input onChange={handlePaymentChange} value={formData.pay.monthlyFee} type='checkbox' name='monthlyFee' ref={payMonthlyRef} defaultChecked={formData.pay.monthlyFee} />
             </div>
-            {
-              formData.pay.monthlyFee
-                ? <Select required isMulti isClearable options={monthlyFeeOptions} onChange={setMonthsPay} value={monthsPay} /> : ''
-            }
+            <Select isMulti isClearable options={monthlyFeeOptions} onChange={setMonthsPay} value={monthsPay} />
             <div>
               <label htmlFor='pay'>Pago por sesiones</label>
-              <input onChange={handlePaymentChange} value={formData.pay.trainingFee} type='checkbox' name='trainingFee' ref={payTrainRef} defaultChecked={formData.pay.trainingFee} />
             </div>
-            {
-              formData.pay.trainingFee ? <input className='numb-of-sessions' type='number' name='trainsPayed' placeholder='Cantidad de sesiones' onChange={handleTrainsPayment} value={trainsPayed} required /> : ''
-            }
+            <input className='numb-of-sessions' type='number' name='trainsPayed' placeholder='Cantidad de sesiones' onChange={handleTrainsPayment} value={trainsPayed} />
           </div>
           {
             (!player.ensurance.paysec && !player.ensurance.secured)
@@ -343,7 +322,7 @@ const EditForm = ({ children, player, id }) => {
             loading
               ? <Loader />
               : <div className='buttons-form-container'>
-                <button type='submit' className='button-submit-create'>Crear</button>
+                <button type='submit' className='button-submit-create'>Editar</button>
 
                 <button type='reset' onClick={resetForm} className='button-reset-create'>Cancelar</button>
               </div>

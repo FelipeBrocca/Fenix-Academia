@@ -33,14 +33,12 @@ const CoachesProfile = ({ coach }) => {
             console.log(error);
         }
     }
-    
+
     return (
         <div className='player-card'>
             <ul className='profile-data-list'>
                 <div className='player-image-container'>
                     <Image src={coach?.image.url} alt='img-coach' className='player-image' />
-                    <span className={`player-status ${coach?.active ? 'active' : 'unactive'}`}>
-                    </span>
                 </div>
                 <h2>{coach?.name}</h2>
                 <li className='profile-data-item'>
@@ -68,6 +66,25 @@ const CoachesProfile = ({ coach }) => {
                             ))
                         }
                     </ul>
+                </li>
+                <li className='profile-data-item ensurance'>
+                    {
+                        !coach?.ensurance.secured
+                            ? <label>Pago del seguro: {coach?.ensurance.paysec ? <span className="ok-icon"></span>
+                                : <span className="red-cross-icon"></span>
+                            }</label>
+                            : ''
+                    }
+                    <label>Seguro activo: {coach?.ensurance.secured ? <span className="ok-icon"></span>
+                        : <span className="red-cross-icon"></span>
+                    }</label>
+                    {
+                        coach?.ensurance.paysec && coach?.ensurance.secured
+                            ? <label>Hasta:
+                                <p>{coach?.ensurance.until.month} de {coach?.ensurance.until.year}</p>
+                            </label>
+                            : ''
+                    }
                 </li>
                 <button className='button-eliminate-player' onClick={() => setElimModal(!elimModal)}>Eliminar entrenador</button>
                 {
