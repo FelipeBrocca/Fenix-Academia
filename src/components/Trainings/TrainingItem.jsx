@@ -21,7 +21,6 @@ const TrainingItem = ({ training }) => {
         setDayFormatted(formatDate)
     }, [training.date.day])
 
-
     const handleSeeTraining = () => {
         setSeeTraining(seeTraining => !seeTraining)
     }

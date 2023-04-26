@@ -102,6 +102,7 @@ gap: 3px;
     text-align: center;
     width: 100%;
     padding-top: 30px;
+    color: var(--orange);
 }
 .subtitle-techniques-home{
     text-align: center;
@@ -206,4 +207,8 @@ gap: 3px;
 .input-create-container > textarea{
     height: 300px;
     padding: 10px;
+}
+.item-techniques-data{
+    width: 100%;
+    text-align: center;
 }
