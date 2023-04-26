@@ -5,7 +5,6 @@ import TrainingItem from './TrainingItem'
 const ListTrainings = () => {
 
     const { trainings } = useTrainings()
-    console.log(trainings);
 
     return (
         <ul className='trainings-list'>
