@@ -1,9 +1,18 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import ListPlayersTraining from './ListPlayersTraining'
 
 const ModalListPlayers = ({training, date}) => {
 
     const [create, setCreate] = useState(false)
+    const body = document.getElementById('body')
+
+    useEffect(() => {
+        if (create) {
+            body.style.overflowY = "hidden"
+        } else {
+            body.style.overflowY = "auto"
+        }
+    }, [create])
 
     return (
         <>

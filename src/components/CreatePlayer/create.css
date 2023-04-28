@@ -11,6 +11,9 @@
     cursor: pointer;
     height: 100%;
 }
+.create-button:hover{
+    background-color: var(--light-orange);
+}
 .create-form-container{
     position: fixed;
     top: 0;

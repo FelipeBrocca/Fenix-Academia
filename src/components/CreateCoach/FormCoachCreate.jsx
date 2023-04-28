@@ -20,12 +20,23 @@ const FormCoachCreate = ({ children }) => {
         role: [],
         birth: '',
         pay: {
-            salary: 0,
-            debt: 0,
-            monthlyPay: false,
-            trainingPay: false,
-            timeMonthly: [],
-            payed: []
+            dateDebt:[
+            //     {
+            //     date: '',
+            //     hours: 0,
+            //     money: 0
+            // }
+        ],
+            totalDebt: {
+                hours: 0,
+                money: 0
+            },
+            payed: [
+            //     {
+            //     date: '',
+            //     money: 0
+            // }
+        ]
         },
         ensurance: {
             secured: false,

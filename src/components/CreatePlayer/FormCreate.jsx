@@ -37,8 +37,6 @@ const FormCreate = ({ children }) => {
       }
     },
     pay: {
-      monthlyFee: false,
-      trainingFee: false,
       monthsPayed: [],
       trainsPayed: 0,
     },
@@ -53,8 +51,6 @@ const FormCreate = ({ children }) => {
   const fileInputRef = useRef()
   const ensuranceRef = useRef();
   const ensurancePayRef = useRef()
-  const payMonthlyRef = useRef();
-  const payTrainRef = useRef();
 
 
   const date = new Date()
@@ -224,8 +220,6 @@ const FormCreate = ({ children }) => {
     fileInputRef.current.value = "";
     ensurancePayRef.current.checked = false;
     ensuranceRef.current.checked = false;
-    payMonthlyRef.current.checked = false;
-    payTrainRef.current.checked = false;
   };
 
 
@@ -268,19 +262,12 @@ const FormCreate = ({ children }) => {
           <div className='check-input-container payment'>
             <div>
               <label htmlFor='pay'>Pago mensual</label>
-              <input onChange={handlePaymentChange} value={formData.pay.monthlyFee} type='checkbox' name='monthlyFee' ref={payMonthlyRef} />
             </div>
-            {
-              formData.pay.monthlyFee
-                ? <Select required isMulti isClearable options={monthlyFeeOptions} onChange={setMonthsPay} value={monthsPay} /> : ''
-            }
+            <Select isMulti isClearable options={monthlyFeeOptions} onChange={setMonthsPay} value={monthsPay} />
             <div>
               <label htmlFor='pay'>Pago por sesiones</label>
-              <input onChange={handlePaymentChange} value={formData.pay.trainingFee} type='checkbox' name='trainingFee' ref={payTrainRef} />
             </div>
-            {
-              formData.pay.trainingFee ? <input className='numb-of-sessions' type='number' name='trainsPayed' placeholder='Cantidad de sesiones' onChange={handleTrainsPayment} value={trainsPayed} /> : ''
-            }
+            <input className='numb-of-sessions' type='number' name='trainsPayed' placeholder='Cantidad de sesiones' onChange={handleTrainsPayment} value={trainsPayed} />
           </div>
           <div className='check-input-container ensurance'>
             <div>

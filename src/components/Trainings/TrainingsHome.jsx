@@ -23,7 +23,11 @@ const TrainingsHome = () => {
             until: '01:00'
         }
     })
-    const [nextTraining] = useState(trainings[0] ? trainings[0] : fakeTraining)
+    const [nextTraining, setNextTraining] = useState(trainings[0] ? trainings[0] : fakeTraining)
+
+    useEffect(() => {
+        setNextTraining(trainings[0])
+    }, [trainings])
 
     const handleTechniques = () => {
         setShowTechniques(showTechniques => !showTechniques)
@@ -35,8 +39,10 @@ const TrainingsHome = () => {
     useEffect(() => {
        if (formattedTodayDate === dayFormatted) {
         setDayOfTraining(true)
-       } 
-    }, [formattedTodayDate, dayFormatted])
+       } else {
+        setDayOfTraining(false)
+       }
+    }, [formattedTodayDate, dayFormatted, trainings])
 
 
     useEffect(() => {

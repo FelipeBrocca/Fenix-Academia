@@ -27,9 +27,6 @@ const EditTrainingForm = ({ children, training, id }) => {
     const untilRef = useRef()
     const tecRef = useRef()
 
-    const timeZone = 'America/Argentina/Buenos_Aires';
-    const minDate = new Date().toLocaleDateString('en-CA', { timeZone });
-
 
     const handleInputDateChange = (event) => {
         const { name, value } = event.target;
@@ -58,6 +55,7 @@ const EditTrainingForm = ({ children, training, id }) => {
         setFormData({
             ...formData, coaches: coachesAssis
         })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [coachesAssis])
 
     const handleReset = () => {
@@ -88,7 +86,7 @@ const EditTrainingForm = ({ children, training, id }) => {
             <form className='create-form' encType='multipart/form-data' onSubmit={handleSubmit}>
                 <div className='input-create-container'>
                     <label htmlFor="date">Fecha:</label>
-                    <input type="date" name='day' min={minDate} onChange={handleInputDateChange} value={formData.date.day} required />
+                    <input type="date" name='day' onChange={handleInputDateChange} value={formData.date.day} required />
                 </div>
                 <div className='input-create-container time'>
                     <div className='time-create-container'>

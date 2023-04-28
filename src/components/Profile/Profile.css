@@ -13,6 +13,9 @@
     font-size: 16px;
     font-weight: 500;
 }
+.edit-button:hover{
+  background-color: var(--light-orange);
+}
 .player-card{
     color: var(--white);
     width: 100%;
@@ -156,7 +159,6 @@
     left: 0;
     display: grid;
     place-items: center;
-    background-color: rgba(0, 0, 0, 0.641);
   }
   .elim-confirmation{
     width: 95%;
@@ -168,6 +170,11 @@
     border-radius: 10px;
     display: flex;
     flex-direction: column;
+    z-index: 100;
+    position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   }
   .elim-confirmation > h3{
     height: 60%;
@@ -201,6 +208,12 @@
   .button-eliminate-confirm{
     background-color: var(--orange);
   }
+  .button-eliminate-confirm:hover{
+    background-color: var(--light-orange);
+  }
   .button-eliminate-cancel{
     background-color: var(--black);
+  }
+  .button-eliminate-cancel:hover{
+    background-color: rgb(36, 35, 35);
   }

@@ -240,6 +240,10 @@ align-self: flex-end;
     background-color: var(--black);
     color: var(--white);
     font-size: 16px;
+    cursor: pointer;
+}
+.button-eliminate-training:hover{
+    background-color: rgb(59, 54, 54);
 }
 .top-training-home{
     display: flex;
@@ -260,6 +264,9 @@ align-self: flex-end;
     align-self: center;
     font-weight: 800;
 }
+.edit-button.assistance:hover{
+    background-color: var(--lightgreen);
+}
 .form-assistance{
     display: flex;
     flex-direction: column;
@@ -267,6 +274,18 @@ align-self: flex-end;
     gap: 20px;
     overflow-y: auto;
     max-height: calc(100% - 100px);
+    padding-right: 15px;
+}
+.form-assistance::-webkit-scrollbar{
+    width: 5px;
+    border-radius: 20px;
+}
+.form-assistance::-webkit-scrollbar-thumb {
+    border-radius: 20px;
+    background-color: #585050b5;
+}
+.form-assistance::-webkit-scrollbar-track {
+    background-color: transparent;
 }
 .form-assistance > div > h4{
     font-size: 19px;
@@ -330,6 +349,10 @@ align-self: flex-end;
     background-color: var(--green);
     color: var(--white);
     font-size: 16px;
+    cursor: pointer;
+}
+.confirm-assistance-button:hover{
+    background-color: var(--lightgreen);
 }
 .close-training-form-button{
     margin-bottom: 40px;
@@ -337,6 +360,38 @@ align-self: flex-end;
     font-size: 18px;
     border-radius: 5px;
     border: none;
-    background: radial-gradient(circle at center, var(--green), var(--orange));
+    background: linear-gradient(to left, var(--green), var(--orange));
     color: var(--white);
+    cursor: pointer;
+    transition: all 1s;
+}
+.close-training-form-button:hover{
+    background: linear-gradient(to right, var(--green), var(--orange));
+}
+.training-contain-in-list{
+    display: flex;
+    flex-direction: column;
+    gap: 35px;
+}
+.assis-item-passed{
+    color: var(--green);
+}
+.training-contain-in-list > pre{
+    white-space: pre-wrap;
+  word-wrap: break-word;
+}
+.training-contain-in-list > pre > h4{
+    color: var(--orange);
+}
+.list-coaches-designated{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.list-coaches-designated > h4{
+    color: var(--green);
+}
+.list-coaches-designated > li{
+    list-style: none;
 }

@@ -12,6 +12,8 @@ const ListPlayersTraining = ({ children, training, date, setCreate, create }) =>
     const [playersActive, setPlayersActive] = useState([])
     const [playersWithSess, setPlayersWithSess] = useState([])
     const [playersChecked, setPlayersChecked] = useState(training.players)
+    const body = document.getElementById('body')
+
 
     useEffect(() => {
         const playersActive = players.filter(player => player.active)
@@ -36,6 +38,7 @@ const ListPlayersTraining = ({ children, training, date, setCreate, create }) =>
             await updateTraining(training._id, training)
             setLoading(false)
             setCreate(!create)
+            body.style.overflowY = "auto"
         } catch (error) {
             console.log(error);
         }
@@ -79,11 +82,11 @@ const ListPlayersTraining = ({ children, training, date, setCreate, create }) =>
                 </div>
                 <div className='confirm-assistance-container'>
                     <strong>{playersChecked.length}/{playersActive?.length + playersWithSess?.length}</strong>
-                {
-                    loading
-                    ? <Loader />
-                    : <button className='confirm-assistance-button'>Confirmar</button>
-                }
+                    {
+                        loading
+                            ? <Loader />
+                            : <button className='confirm-assistance-button'>Confirmar</button>
+                    }
                 </div>
             </form>
         </div >

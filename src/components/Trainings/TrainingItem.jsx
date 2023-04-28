@@ -3,19 +3,14 @@ import { useTrainings } from '../../context/TrainingsContext'
 import Loader from '../Loader/Loader'
 import EditModalTr from './EditModalTr'
 
-const TrainingItem = ({ training }) => {
+const TrainingItem = ({ training, active }) => {
 
-    const { deleteTraining } = useTrainings()
+    const { deleteTraining, getTrainings } = useTrainings()
     const [loading, setLoading] = useState(false)
     const [elimModal, setElimModal] = useState(false)
     const [seeTraining, setSeeTraining] = useState(false)
     const [dayFormatted, setDayFormatted] = useState('')
 
-    const todayDate = new Date()
-    const sinceDate = new Date(`${training.date.day} ${training.date.since}`)
-    const untilDate = new Date(`${training.date.day} ${training.date.until}`)
-    const diffInMs = untilDate - sinceDate;
-    const diffHs = diffInMs / (1000 * 60 * 60)
 
     useEffect(() => {
         const date = training.date.day;
@@ -32,7 +27,9 @@ const TrainingItem = ({ training }) => {
         setLoading(true)
         try {
             await deleteTraining(training._id)
+            await getTrainings()
             setLoading(false)
+            setElimModal(false)
         } catch (error) {
             console.log(error);
             setLoading(false)
@@ -51,16 +48,31 @@ const TrainingItem = ({ training }) => {
             </li>
 
             <div className={`detail-training-item ${seeTraining ? 'active' : ''}`}>
-                <pre>
-                    {training.techniques}
-                </pre>
+                <div className='training-contain-in-list'>
+                    {
+                        active
+                        ? ''
+                        : <p className='assis-item-passed'>Asistencias: {training.players.length}</p>
+                    }
+                    <ul className='list-coaches-designated'>
+                    <h4>ENTRENADORES</h4>
+                        {training.coaches.map(({value, label}) => (
+                            <li key={value}>{label}</li>
+                        ))}
+                    </ul>
+                    <pre>
+                        <h4>TÉCNICAS A ENTRENAR</h4>
+                        {training.techniques}
+                    </pre>
+                </div>
                 <div className='buttons-item-training-container'>
                     <button className='button-eliminate-training' onClick={() => setElimModal(!elimModal)}>Eliminar</button>
                     <EditModalTr training={training} id={training._id} />
                 </div>
                 {
                     elimModal
-                        ? <div className='modal-eliminate'>
+                        ? <>
+                            <div className='backdropPopUp' onClick={() => setElimModal(!elimModal)}></div>
                             <div className='elim-confirmation'>
                                 <h3>Eliminar este entrenamiento? {dayFormatted}</h3>
                                 {
@@ -72,7 +84,7 @@ const TrainingItem = ({ training }) => {
                                         </div>
                                 }
                             </div>
-                        </div>
+                        </>
                         : ''
                 }
             </div>

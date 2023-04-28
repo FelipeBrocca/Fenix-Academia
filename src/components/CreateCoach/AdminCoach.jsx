@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react'
-import Select from 'react-select'
 import { useCoaches } from '../../context/CoachesContext'
 import Loader from '../Loader/Loader'
 
@@ -8,6 +7,7 @@ const AdminCoach = (props) => {
   const { updateCoach } = useCoaches()
   const [loading, setLoading] = useState(false)
   const [month, setMonth] = useState('')
+  const [totalPay, setTotalPay] = useState(0)
   const initialValues = {
     image: props.image,
     name: props.name,
@@ -16,11 +16,8 @@ const AdminCoach = (props) => {
     role: props.role,
     birth: props.birth,
     pay: {
-      salary: props.pay.salary,
-      debt: props.pay.debt,
-      monthlyPay: props.pay.monthlyPay,
-      trainingPay: props.pay.trainingPay,
-      timeMonthly: props.pay.timeMonthly,
+      dateDebt: props.pay.dateDebt,
+      totalDebt: props.pay.totalDebt,
       payed: props.pay.payed
     },
     ensurance: {
@@ -114,13 +111,13 @@ const AdminCoach = (props) => {
   return (
     <form onSubmit={handleSubmit} className='form-administrate'>
       <div className='check-input-container payment-administration'>
-        <div className='monthly-pay-administration'>
-          {/* <label htmlFor='pay'>Pago mensual</label>
-          <Select isMulti isClearable options={monthlyFeeOptions} onChange={setMonthsPay} value={monthsPay} /> */}
-        </div>
         <div className='training-pay-administration'>
-          {/* <label htmlFor='pay'>Pago por sesiones</label>
-          <input className='numb-of-sessions' type='number' name='trainsPayed' placeholder='Cantidad de sesiones' onChange={handleTrainsPayment} value={trainsPayed} /> */}
+          <p>Horas a pagar: {props.pay.totalDebt.hours} hs</p>
+          <p>Total a pagar: $ {props.pay.totalDebt.money}</p>
+        </div>
+        <input className='amount-to-pay-coach' type="number" onChange={(e) => setTotalPay(e.target.value)} />
+        <div className='pay-total-checkbox'>Pagar el total
+          <input type="checkbox" />
         </div>
       </div>
       {
