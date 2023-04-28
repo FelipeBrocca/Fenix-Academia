@@ -31,7 +31,6 @@ const PlayersProfile = ({ player }) => {
             console.log(error);
         }
     }
-
     return (
         <div className='player-card'>
             <ul className='profile-data-list'>

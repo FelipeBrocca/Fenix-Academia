@@ -2,11 +2,14 @@ import React, { useState, useEffect } from 'react'
 import './Trainings.css'
 import { Link } from 'react-router-dom'
 import { useTrainings } from '../../context/TrainingsContext'
+import ModalListPlayers from './ModalListPlayers'
+import CloseTraining from './CloseTraining'
 const TrainingsHome = () => {
 
     const { trainings } = useTrainings()
     const [showTechniques, setShowTechniques] = useState(false)
     const [dayFormatted, setDayFormatted] = useState('')
+    const [dayOfTraining, setDayOfTraining] = useState(false)
     const [fakeTraining] = useState({
         active: true,
         coaches: [],
@@ -26,6 +29,16 @@ const TrainingsHome = () => {
         setShowTechniques(showTechniques => !showTechniques)
     }
 
+    const todayDate = new Date()
+    const formattedTodayDate = `${todayDate.getDate()}/${todayDate.getMonth() + 1}/${todayDate.getFullYear()}`;
+    
+    useEffect(() => {
+       if (formattedTodayDate === dayFormatted) {
+        setDayOfTraining(true)
+       } 
+    }, [formattedTodayDate, dayFormatted])
+
+
     useEffect(() => {
         const date = nextTraining.date.day;
         const newDate = new Date(date)
@@ -42,6 +55,11 @@ const TrainingsHome = () => {
             <div className='trainings-home-container' >
                 <div className='top-training-home'>
                     <h3>Próximo entrenamiento</h3>
+                    {
+                        dayOfTraining
+                        ? <ModalListPlayers training={nextTraining} date={dayFormatted} />
+                        : ''
+                    }
                 </div>
                 <div className={'training-home-data'}>
                     <div className='date-hour-container-training-home'>
@@ -89,6 +107,11 @@ const TrainingsHome = () => {
                 </div>
             </div>
             <div className='bottom-training-home'>
+                {
+                    dayOfTraining
+                    ? <CloseTraining training={nextTraining} _id={nextTraining._id} />
+                    : ''
+                }
                 <Link className='button-home-to' to='/entrenamientos'>
                     Ver entrenamientos
                 </Link>

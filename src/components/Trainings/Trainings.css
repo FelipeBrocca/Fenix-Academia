@@ -1,7 +1,7 @@
 .trainings-home-container{
     width: 100%;
     background-color: var(--grey);
-    padding: 20px 10px 10px 10px;
+    padding: 10px 5px 5px 5px;
     color: var(--white);
     border-radius: 5px;
     display: flex;
@@ -28,7 +28,9 @@
 }
 .bottom-training-home{
     display: flex;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
     width: 100%;
     margin-top: 20px;
 }
@@ -161,6 +163,9 @@ gap: 3px;
     transition: all 0.5s;
     overflow: hidden;
     padding: 0px 10px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
 }
 .detail-training-item.active{
     max-height: 500px;
@@ -211,4 +216,127 @@ gap: 3px;
 .item-techniques-data{
     width: 100%;
     text-align: center;
+}
+.buttons-item-training-container{
+    width: 100%;
+    padding: 15px 0px;
+    display: flex;
+    justify-content: space-between;
+}
+.edit-button.training{
+padding: 5px;
+border-radius: 5px;
+width: 50%;
+max-width: 200px;
+align-self: flex-end;
+}
+.button-eliminate-training{
+    width: 40%;
+    bottom: 10px;
+    left: 10px;
+    padding: 5px;
+    border-radius: 5px;
+    border: none;
+    background-color: var(--black);
+    color: var(--white);
+    font-size: 16px;
+}
+.top-training-home{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.top-training-home > h3{
+    width: 100%;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.edit-button.assistance{
+    width: 100%;
+    max-width: 200px;
+    background-color: var(--green);
+    align-self: center;
+    font-weight: 800;
+}
+.form-assistance{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 20px;
+    overflow-y: auto;
+    max-height: calc(100% - 100px);
+}
+.form-assistance > div > h4{
+    font-size: 19px;
+    font-weight: 800;
+    color: var(--orange);
+    padding: 10px 0px;
+}
+.item-player-check-assis{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    list-style: none;
+    font-size: 18px;
+    padding: 5px 0px;
+    border-bottom: 1px solid var(--grey);
+}
+.item-player-check-assis > input{
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    outline: none;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+.item-player-check-assis > input::before{
+    content: "";
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: none;
+    background-color: var(--white);
+    vertical-align: middle;
+    border-radius: 50px;
+}
+.item-player-check-assis > input:checked::before{
+    content: "\2713";
+    background-color: var(--green);
+    color: var(--white);
+    font-size: 18px;
+    text-align: center;
+    line-height: 20px;   
+    font-weight: bolder;
+}
+.confirm-assistance-container{
+    position: absolute;
+    bottom: 0;
+    width: calc(100% - 30px);
+    height: 50px;
+    background-color: var(--black);
+    display: flex;
+    border-top: 1px solid var(--grey);
+    justify-content: space-around;
+    align-items: center;
+}
+.confirm-assistance-button{
+    height: 35px;
+    width: 100px;
+    border: none;
+    border-radius: 5px;
+    background-color: var(--green);
+    color: var(--white);
+    font-size: 16px;
+}
+.close-training-form-button{
+    margin-bottom: 40px;
+    padding: 10px;
+    font-size: 18px;
+    border-radius: 5px;
+    border: none;
+    background: radial-gradient(circle at center, var(--green), var(--orange));
+    color: var(--white);
 }

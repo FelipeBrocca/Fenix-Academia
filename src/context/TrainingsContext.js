@@ -21,9 +21,15 @@ export const TrainingsProvider = ({ children }) => {
     const getTrainings = async () => {
         try {
             const res = await getTrainingsReq();
+            const trainings = res.data.sort((a, b) => {
+                
+                const dateA = new Date(a.date.day);
+                const dateB = new Date(b.date.day);
+                return dateA - dateB;
+            });
             const activeTrainings = [];
             const pastTrainings = [];
-            res.data.forEach(training => {
+            trainings.forEach(training => {
                 if (training.active) {
                     activeTrainings.push(training);
                 } else {
@@ -36,7 +42,6 @@ export const TrainingsProvider = ({ children }) => {
             console.log(error);
         }
     };
-
 
     const getTraining = async (id) => {
         try {
@@ -55,6 +60,8 @@ export const TrainingsProvider = ({ children }) => {
         } else {
             alert('No se pudo crear el entrenamiento')
         }
+
+        getTrainings()
     }
 
     const updateTraining = async (id, training) => {
@@ -63,6 +70,8 @@ export const TrainingsProvider = ({ children }) => {
         setTrainings(trainings.map(training => (
             training._id === id ? trainingToEdit.data : training
         )))
+
+        getTrainings()
     }
 
     const deleteTraining = async (id) => {

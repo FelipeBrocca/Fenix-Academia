@@ -1,35 +1,35 @@
-import React, { useEffect, useRef, useState } from 'react'
-import Select from 'react-select'
-import Loader from '../Loader/Loader'
+import React, { useState, useEffect, useRef } from 'react'
 import { useTrainings } from '../../context/TrainingsContext'
 import { useCoaches } from '../../context/CoachesContext'
+import Select from 'react-select'
+import Loader from '../Loader/Loader'
 
-const FormCreateTraining = ({ children }) => {
+const EditTrainingForm = ({ children, training, id }) => {
 
-    const { createTraining } = useTrainings()
+    const { updateTraining } = useTrainings()
     const { coaches } = useCoaches()
     const [loading, setLoading] = useState(false)
     const [coachesOpt, setCoachesOpt] = useState([])
-    const [coachesAssis, setCoachesAssis] = useState([])
+    const [coachesAssis, setCoachesAssis] = useState(training.coaches)
     const initialValues = {
-        active: true,
-        coaches: [],
-        players: [],
+        active: training.active,
+        coaches: training.coaches,
+        players: training.players,
         date: {
-            day: '',
-            since: '',
-            until: ''
+            day: training.date.day,
+            since: training.date.since,
+            until: training.date.until
         },
-        techniques: ''
+        techniques: training.techniques
     }
     const [formData, setFormData] = useState(initialValues)
     const sinceRef = useRef()
     const untilRef = useRef()
     const tecRef = useRef()
 
-
     const timeZone = 'America/Argentina/Buenos_Aires';
     const minDate = new Date().toLocaleDateString('en-CA', { timeZone });
+
 
     const handleInputDateChange = (event) => {
         const { name, value } = event.target;
@@ -62,18 +62,17 @@ const FormCreateTraining = ({ children }) => {
 
     const handleReset = () => {
         setFormData(initialValues)
-        setCoachesAssis([])
-        sinceRef.current.value = ''
-        untilRef.current.value = ''
-        tecRef.current.value = ''
+        setCoachesAssis(training.coaches)
+        sinceRef.current.value = training.date.since
+        untilRef.current.value = training.date.until
+        tecRef.current.value = training.techniques
     }
 
     const handleSubmit = async (e) => {
         e.preventDefault()
         setLoading(true)
         try {
-            await createTraining(formData)
-            handleReset()
+            await updateTraining(id, formData)
             setLoading(false)
         } catch (error) {
             console.log(error);
@@ -84,7 +83,7 @@ const FormCreateTraining = ({ children }) => {
 
     return (
         <div className='create-form-container'>
-            <h3>Crear nuevo entrenamiento</h3>
+            <h3>Editar entrenamiento</h3>
             {children}
             <form className='create-form' encType='multipart/form-data' onSubmit={handleSubmit}>
                 <div className='input-create-container'>
@@ -94,11 +93,11 @@ const FormCreateTraining = ({ children }) => {
                 <div className='input-create-container time'>
                     <div className='time-create-container'>
                         <label htmlFor="since">Desde:</label>
-                        <input type="time" name='since' onChange={handleInputDateChange} ref={sinceRef} required />
+                        <input type="time" name='since' onChange={handleInputDateChange} ref={sinceRef} value={formData.date.since} required />
                     </div>
                     <div className='time-create-container'>
                         <label htmlFor="until">Hasta:</label>
-                        <input type="time" name='until' onChange={handleInputDateChange} ref={untilRef} required />
+                        <input type="time" name='until' onChange={handleInputDateChange} ref={untilRef} value={formData.date.until} required />
                     </div>
                 </div>
                 <div className='input-create-container'>
@@ -107,13 +106,13 @@ const FormCreateTraining = ({ children }) => {
                 </div>
                 <div className='input-create-container'>
                     <label htmlFor="techniques">Técnicas a trabajar:</label>
-                    <textarea name='techniques' style={{ resize: 'none' }} onChange={handleInputChange} ref={tecRef} required />
+                    <textarea name='techniques' style={{ resize: 'none' }} onChange={handleInputChange} value={formData.techniques} ref={tecRef} required />
                 </div>
                 {
                     loading
                         ? <Loader />
                         : <div className='buttons-form-container'>
-                            <button type='submit' className='button-submit-create'>Crear</button>
+                            <button type='submit' className='button-submit-create'>Editar</button>
 
                             <button type='reset' className='button-reset-create'
                                 onClick={handleReset}
@@ -125,4 +124,4 @@ const FormCreateTraining = ({ children }) => {
     )
 }
 
-export default FormCreateTraining
+export default EditTrainingForm
