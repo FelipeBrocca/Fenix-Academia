@@ -18,7 +18,7 @@ const TrainingsHome = () => {
         techniques: 'No hay entrenamientos disponibles',
         _id: "000000000",
         date: {
-            day: '0001-01-01',
+            day: '2000-01-01',
             since: '00:00',
             until: '01:00'
         }
@@ -26,7 +26,9 @@ const TrainingsHome = () => {
     const [nextTraining, setNextTraining] = useState(trainings[0] ? trainings[0] : fakeTraining)
 
     useEffect(() => {
-        setNextTraining(trainings[0])
+        if (trainings[0]) {
+            setNextTraining(trainings[0])
+        }
     }, [trainings])
 
     const handleTechniques = () => {
