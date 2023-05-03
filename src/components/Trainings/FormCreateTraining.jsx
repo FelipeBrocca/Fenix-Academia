@@ -36,7 +36,7 @@ const FormCreateTraining = ({ children }) => {
         setFormData({
             ...formData, date: {
                 ...formData.date,
-                [name]: value
+                [name]: value 
             }
         });
     };
@@ -58,6 +58,7 @@ const FormCreateTraining = ({ children }) => {
         setFormData({
             ...formData, coaches: coachesAssis
         })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [coachesAssis])
 
     const handleReset = () => {

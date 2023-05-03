@@ -38,6 +38,7 @@ export const CoachesProvider = ({children}) => {
         } else {
             alert('No se pudo crear el nuevo entrenador')
         }
+        getCoaches()
     }
     
     const updateCoach = async(id, coach) => {
@@ -45,11 +46,13 @@ export const CoachesProvider = ({children}) => {
         setCoaches(coaches.map(coach => (
             coach._id === id ? coachToEdit.data : coach
         )))
+        getCoaches()
     }
 
     const deleteCoach = async (id) => {
         await deleteCoachRequest(id)
         setCoaches(coaches.filter(coach => coach._id !== id))
+        getCoaches()
     }
 
     return (

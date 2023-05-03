@@ -6,9 +6,9 @@ import Loader from '../Loader/Loader'
 
 const CloseTraining = ({ training, _id }) => {
 
-    const { updateTraining, getTrainings } = useTrainings()
+    const { updateTraining } = useTrainings()
     const { updatePlayer, getPlayer } = usePlayers()
-    const { updateCoach, getCoach } = useCoaches()
+    const { updateCoach, getCoach, getCoaches } = useCoaches()
     const [loading, setLoading] = useState(false)
     const [playersToRestSession, setPlayersToRestSession] = useState([])
     const [coachesToPay, setCoachesToPay] = useState([]);
@@ -28,7 +28,8 @@ const CloseTraining = ({ training, _id }) => {
     const sinceDate = new Date(`${training.date.day} ${training.date.since}`)
     const untilDate = new Date(`${training.date.day} ${training.date.until}`)
     const diffInMs = untilDate - sinceDate;
-    const diffHs = diffInMs / (1000 * 60 * 60)
+    const diffHs = Number((diffInMs / (1000 * 60 * 60)).toFixed(1))
+
 
     useEffect(() => {
         (async () => {
@@ -59,11 +60,11 @@ const CloseTraining = ({ training, _id }) => {
                 player.pay.trainsPayed = player.pay.trainsPayed - 1
                 await updatePlayer(player._id, player)
             })
-            coachesToPay.map(async (coach) => {
+            await Promise.all(coachesToPay.map(async (coach) => {
                 await updateCoach(coach._id, coach)
-            })
+            }));            
             await updateTraining(_id, training)
-            await getTrainings()
+            await getCoaches()
             setLoading(false)
         } catch (error) {
             console.log(error);

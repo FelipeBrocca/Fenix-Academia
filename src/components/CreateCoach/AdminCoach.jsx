@@ -10,7 +10,7 @@ const AdminCoach = (props) => {
   const [month, setMonth] = useState('')
   const [totalPay, setTotalPay] = useState(0)
   const [viewPayments, setViewPayments] = useState(false)
-  const initialValues = {
+  const [initialValues, setInitialValues] = useState({
     image: props.image,
     name: props.name,
     dni: props.dni,
@@ -19,7 +19,10 @@ const AdminCoach = (props) => {
     birth: props.birth,
     pay: {
       dateDebt: props.pay.dateDebt,
-      totalDebt: props.pay.totalDebt,
+      totalDebt: {
+        hours: Number(props.pay.totalDebt.hours.toFixed(1)),
+        money: props.pay.totalDebt.money
+      },
       payed: props.pay.payed
     },
     ensurance: {
@@ -35,8 +38,12 @@ const AdminCoach = (props) => {
       month: props.createdAt.month,
       year: props.createdAt.year
     }
-  }
+  })
   const [formData, setFormData] = useState(initialValues)
+
+  useEffect(() => {
+    setInitialValues(props)
+  }, [props])
 
   const date = new Date()
   const todayMonth = date.getMonth()
@@ -73,36 +80,38 @@ const AdminCoach = (props) => {
 
   const ensuranceRef = useRef();
   const ensurancePayRef = useRef()
+  const checkboxRef = useRef()
 
   const resetForm = () => {
     setFormData(initialValues);
     setTotalPay(0)
-    if (!props.ensurance.paysec) {
-      ensurancePayRef.current.checked = props.ensurance.paysec;
-      ensuranceRef.current.checked = props.ensurance.secured;
-    } else if (props.ensurance.paysec && !props.ensurance.secured) {
-      ensurancePayRef.current.checked = props.ensurance.paysec;
-      ensuranceRef.current.checked = props.ensurance.secured;
-    }
+    checkboxRef.current.checked = false
   };
 
-  const handleInputChange = (event) => {
-    const inputValue = parseFloat(event.target.value)
-    setTotalPay(inputValue);
-  }
-
   const handleCheckboxClick = () => {
-    const checkbox = document.querySelector('.pay-total-checkbox input[type="checkbox"]');
-    if (checkbox.checked) {
+    if (checkboxRef.current.checked) {
       setTotalPay(props.pay.totalDebt.money);
     } else {
       setTotalPay(0);
     }
   }
 
-  const handlePayPerDate = (e) => {
+  const handlePayPerDate = (e, dateDebt) => {
     e.preventDefault()
-
+    const datePaying = props.pay.dateDebt.find(date => date === dateDebt)
+    const newDateDebt = formData.pay.dateDebt.filter(date => date !== datePaying)
+    setFormData(prevFormData => ({
+      ...prevFormData,
+      pay: {
+        dateDebt: newDateDebt,
+        totalDebt: {
+          money: prevFormData.pay.totalDebt.money - datePaying.money,
+          hours: prevFormData.pay.totalDebt.hours - datePaying.hours
+        },
+        payed: [...prevFormData.pay.payed, datePaying]
+      }
+    }))
+    setTotalPay(prevTotal => prevTotal + datePaying.money)
   }
 
   const handleSecureChange = (e) => {
@@ -114,22 +123,28 @@ const AdminCoach = (props) => {
       }
     })
   }
+
+  useEffect(() => {
+    if (totalPay === props.pay.totalDebt.money) {
+      setFormData(prevFormData => ({
+        ...prevFormData,
+        pay: {
+          dateDebt: [],
+          totalDebt: { money: 0, hours: 0 },
+          payed: [...prevFormData.pay.payed, ...prevFormData.pay.dateDebt]
+        }
+      }));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [totalPay])
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     setLoading(true)
     try {
-      if (!props.secured && formData.ensurance.secured) {
-        formData.ensurance.until.month = month
-        formData.ensurance.until.year = todayYear + 1
-      }
-      if (totalPay === props.pay.totalDebt.money) {
-        formData.pay.totalDebt.money = 0
-        formData.pay.totalDebt.hours = 0
-        formData.pay.payed = formData.pay.dateDebt
-        formData.pay.dateDebt = []
-      }
       await updateCoach(props.id, formData)
       setLoading(false)
+      resetForm()
     } catch (error) {
       console.log(error);
     }
@@ -156,16 +171,24 @@ const AdminCoach = (props) => {
                   </tr>
                 </thead>
                 {
-                  props.pay.dateDebt.map((dateDebt, index) => (
+                  formData.pay.dateDebt[0]
+                  ? formData.pay.dateDebt.map((dateDebt, index) => (
                     <tbody key={index}>
                       <tr>
                         <td>{dateDebt.date}</td>
                         <td>{dateDebt.hours} hs</td>
                         <td>$ {dateDebt.money}</td>
-                        <td><button onClick={handlePayPerDate}>Pagar</button></td>
+                        <td><button onClick={(e) => handlePayPerDate(e, dateDebt)}>Pagar</button></td>
                       </tr>
                     </tbody>
                   ))
+                  : <tbody>
+                    <tr>
+                      <td>X</td>
+                      <td>X</td>
+                      <td>X</td>
+                    </tr>
+                  </tbody>
                 }
                 <tfoot>
                   <tr>
@@ -174,9 +197,9 @@ const AdminCoach = (props) => {
                   </tr>
                 </tfoot>
               </table>
-              <input className='amount-to-pay-coach' type="number" onChange={handleInputChange} value={totalPay} />
+              <p>Pagando: $ {totalPay}</p>
               <div className='pay-total-checkbox'>Pagar el total
-                <input type="checkbox" onClick={handleCheckboxClick} />
+                <input type="checkbox" ref={checkboxRef} onClick={handleCheckboxClick} />
               </div>
             </>
             : <p>Pago al día <span className="ok-icon"></span></p>
@@ -199,7 +222,7 @@ const AdminCoach = (props) => {
             <label>Asegurado/a hasta {props.ensurance.until.month} / {props.ensurance.until.year} <span className="ok-icon"></span></label>
           </div>
       }
-      <button onClick={handleViewPayments}>Ver pagos</button>
+      <button onClick={handleViewPayments} className='view-payments'>Ver pagos</button>
       {
         viewPayments
           ? <ViewPayments pays={props.pay.payed} close={setViewPayments} />

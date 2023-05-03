@@ -192,6 +192,9 @@ tfoot > tr > td{
     z-index: 100;
     border-radius: 5px;
     padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 .view-pays-container > h3{
     display: flex;
@@ -217,4 +220,26 @@ tfoot > tr > td{
     display: flex;
     align-items: center;
     gap: 10px;
+}
+.form-administrate > .buttons-form-container{
+    flex-direction: row-reverse;
+    justify-content: space-between;
+}
+.form-administrate > .buttons-form-container > button{
+    display: grid;
+    place-items: center;
+    font-size: 14px;
+}
+.view-payments{
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+    color: var(--orange);
+    font-size: 16px;
+    width: 50%;
+    max-width: 100px;
+    align-self: flex-end;
+}
+.view-payments:hover{
+    color: var(--green);
 }
