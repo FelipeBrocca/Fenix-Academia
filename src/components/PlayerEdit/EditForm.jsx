@@ -39,6 +39,7 @@ const EditForm = ({ children, player, id }) => {
       monthsPayed: player.pay.monthsPayed,
       trainsPayed: player.pay.trainsPayed,
     },
+    assistances: player.assistances,
     createdAt: {
       day: player.createdAt.day,
       month: player.createdAt.month,

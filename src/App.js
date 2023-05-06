@@ -15,9 +15,11 @@ import CoachProfile from './Pages/CoachProfile'
 import { ClubsProvider } from './context/ClubsContext';
 import { PlayersProvider } from './context/PlayersContext';
 import { CoachesProvider } from './context/CoachesContext';
-import {TrainingsProvider} from './context/TrainingsContext'
-import FinancesPage from './Pages/FinancesPage';
+import { TrainingsProvider } from './context/TrainingsContext'
+import { FinancesProvider } from './context/FinancesContext'
 import TrainingsList from './Pages/TrainingsList';
+import FinancesPage from './Pages/FinancesPage'
+import { MoneyProvider } from './context/MoneyContext';
 
 
 
@@ -35,15 +37,19 @@ function App() {
                         ? (<Route path='/' element={
                             <>
                                 <Header />
-                                <TrainingsProvider>
-                                    <CoachesProvider>
-                                        <ClubsProvider>
-                                            <PlayersProvider>
-                                                <LoggedLayout />
-                                            </PlayersProvider>
-                                        </ClubsProvider>
-                                    </CoachesProvider>
-                                </TrainingsProvider>
+                                <MoneyProvider>
+                                    <TrainingsProvider>
+                                        <CoachesProvider>
+                                            <ClubsProvider>
+                                                <PlayersProvider>
+                                                    <FinancesProvider>
+                                                        <LoggedLayout />
+                                                    </FinancesProvider>
+                                                </PlayersProvider>
+                                            </ClubsProvider>
+                                        </CoachesProvider>
+                                    </TrainingsProvider>
+                                </MoneyProvider>
                             </>
                         }>
                             <Route exact path="/" element={<Home />} />

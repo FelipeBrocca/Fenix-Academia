@@ -2,14 +2,19 @@ import React, { useEffect, useState } from 'react'
 import { useTrainings } from '../../context/TrainingsContext'
 import Loader from '../Loader/Loader'
 import EditModalTr from './EditModalTr'
+import { usePlayers } from '../../context/PlayersContext'
+import AssitancePastTrainings from './AssitancePastTrainings'
 
 const TrainingItem = ({ training, active }) => {
 
     const { deleteTraining, getTrainings } = useTrainings()
+    const { getPlayer } = usePlayers()
     const [loading, setLoading] = useState(false)
     const [elimModal, setElimModal] = useState(false)
     const [seeTraining, setSeeTraining] = useState(false)
     const [dayFormatted, setDayFormatted] = useState('')
+    const [seeAssis, setSeeAssis] = useState(false)
+    const [playersAssisted, setPlayersAssisted] = useState([])
 
 
     useEffect(() => {
@@ -19,9 +24,28 @@ const TrainingItem = ({ training, active }) => {
         setDayFormatted(formatDate)
     }, [training.date.day])
 
+    useEffect(() => {
+        if (seeAssis) {
+            (async () => {
+                await training.players.map(async (id) => {
+                    const playersA = await getPlayer(id)
+                    setPlayersAssisted(players => [...players, playersA.name])
+                })
+            })()
+        } else {
+            setPlayersAssisted([])
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [seeAssis])
+
     const handleSeeTraining = () => {
         setSeeTraining(seeTraining => !seeTraining)
     }
+
+    const handleSeeAssis = () => {
+        setSeeAssis(seeAssis => !seeAssis)
+    }
+
     const handleDelete = async (e) => {
         e.preventDefault()
         setLoading(true)
@@ -51,12 +75,15 @@ const TrainingItem = ({ training, active }) => {
                 <div className='training-contain-in-list'>
                     {
                         active
-                        ? ''
-                        : <p className='assis-item-passed'>Asistencias: {training.players.length}</p>
+                            ? ''
+                            : <div className='assist-container-training-item-list'>
+                                <p>Asistencias: {training.players.length}</p>
+                                <p onClick={handleSeeAssis} className='assis-item-passed'>Ver asistencias</p>
+                            </div>
                     }
                     <ul className='list-coaches-designated'>
-                    <h4>ENTRENADORES</h4>
-                        {training.coaches.map(({value, label}) => (
+                        <h4>ENTRENADORES</h4>
+                        {training.coaches.map(({ value, label }) => (
                             <li key={value}>{label}</li>
                         ))}
                     </ul>
@@ -88,6 +115,14 @@ const TrainingItem = ({ training, active }) => {
                         : ''
                 }
             </div>
+            {
+                seeAssis
+                    ? <>
+                        <div className='backdropPopUp' onClick={handleSeeAssis}></div>
+                        <AssitancePastTrainings players={playersAssisted} handleClose={setSeeAssis} />
+                    </>
+                    : ''
+            }
         </>
     )
 }

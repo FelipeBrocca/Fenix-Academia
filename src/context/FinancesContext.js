@@ -14,7 +14,7 @@ export const useFinances = () => {
     return context
 }
 
-export const FinancesProvider = ({children}) => {
+export const FinancesProvider = ({ children }) => {
     const [finances, setFinances] = useState([])
 
     const getFinances = async () => {
@@ -28,7 +28,7 @@ export const FinancesProvider = ({children}) => {
 
     const getFinance = async (id) => {
         try {
-            const finance = await getFinance(id)
+            const finance = await financeDetailReq(id)
             return finance.data
         } catch (error) {
             console.log(error);
@@ -36,23 +36,16 @@ export const FinancesProvider = ({children}) => {
     }
 
     const createFinance = async (finance) => {
-        try {
-            const create = await createFinance(finance)
-
-            if (create) {
-                setFinances([...finances, create.data])
-            } else {
-                alert('No se pudo crear')
-            }
-
-            getFinances()
-        } catch (error) {
-            console.log(error);
+        const create = await createFinanceReq(finance)
+        if (create) {
+            setFinances([...finances, create.data])
+        } else {
+            console.log('no');
         }
     }
 
     const updateFinance = async (id, finance) => {
-        const financeToEdit = await updateFinance(id, finance)
+        const financeToEdit = await updateFinanceReq(id, finance)
 
         setFinances(finances.map(finance => (
             finance._id === id ? financeToEdit.data : finance

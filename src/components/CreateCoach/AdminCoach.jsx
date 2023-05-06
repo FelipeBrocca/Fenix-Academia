@@ -1,15 +1,19 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { useCoaches } from '../../context/CoachesContext'
+import { useFinances } from '../../context/FinancesContext'
 import Loader from '../Loader/Loader'
 import ViewPayments from './ViewPayments'
 
 const AdminCoach = (props) => {
 
   const { updateCoach } = useCoaches()
+  const { finances, updateFinance } = useFinances()
   const [loading, setLoading] = useState(false)
   const [month, setMonth] = useState('')
   const [totalPay, setTotalPay] = useState(0)
   const [viewPayments, setViewPayments] = useState(false)
+  const [monthToday, setMonthToday] = useState([])
+
   const [initialValues, setInitialValues] = useState({
     image: props.image,
     name: props.name,
@@ -77,6 +81,11 @@ const AdminCoach = (props) => {
                               : ''
     )
   }, [todayMonth])
+
+  useEffect(() => {
+    let monthToEdit = finances.find(finance => finance.month.value === todayMonth && finance.month.year === todayYear)
+    setMonthToday(monthToEdit)
+  }, [todayMonth, todayYear])
 
   const ensuranceRef = useRef();
   const ensurancePayRef = useRef()
@@ -172,23 +181,23 @@ const AdminCoach = (props) => {
                 </thead>
                 {
                   formData.pay.dateDebt[0]
-                  ? formData.pay.dateDebt.map((dateDebt, index) => (
-                    <tbody key={index}>
+                    ? formData.pay.dateDebt.map((dateDebt, index) => (
+                      <tbody key={index}>
+                        <tr>
+                          <td>{dateDebt.date}</td>
+                          <td>{dateDebt.hours} hs</td>
+                          <td>$ {dateDebt.money}</td>
+                          <td><button onClick={(e) => handlePayPerDate(e, dateDebt)}>Pagar</button></td>
+                        </tr>
+                      </tbody>
+                    ))
+                    : <tbody>
                       <tr>
-                        <td>{dateDebt.date}</td>
-                        <td>{dateDebt.hours} hs</td>
-                        <td>$ {dateDebt.money}</td>
-                        <td><button onClick={(e) => handlePayPerDate(e, dateDebt)}>Pagar</button></td>
+                        <td>X</td>
+                        <td>X</td>
+                        <td>X</td>
                       </tr>
                     </tbody>
-                  ))
-                  : <tbody>
-                    <tr>
-                      <td>X</td>
-                      <td>X</td>
-                      <td>X</td>
-                    </tr>
-                  </tbody>
                 }
                 <tfoot>
                   <tr>

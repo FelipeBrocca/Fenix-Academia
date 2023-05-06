@@ -26,6 +26,7 @@ const PlayerProfile = () => {
     })();
   }, [params.id, updatePlayer, getPlayer])
 
+
   if (loading) {
     return <Loader />
   }

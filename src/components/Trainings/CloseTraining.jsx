@@ -12,6 +12,7 @@ const CloseTraining = ({ training, _id }) => {
     const [loading, setLoading] = useState(false)
     const [playersToRestSession, setPlayersToRestSession] = useState([])
     const [coachesToPay, setCoachesToPay] = useState([]);
+    const [playersAssis, setPlayersAssis] = useState([])
 
     useEffect(() => {
         (async () => {
@@ -21,6 +22,7 @@ const CloseTraining = ({ training, _id }) => {
             }));
             const playersWithSess = players.filter((player) => !player.active && player.pay.trainsPayed > 0)
             setPlayersToRestSession(playersWithSess)
+            setPlayersAssis(players)
         })()
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [training.players]);
@@ -30,6 +32,7 @@ const CloseTraining = ({ training, _id }) => {
     const diffInMs = untilDate - sinceDate;
     const diffHs = Number((diffInMs / (1000 * 60 * 60)).toFixed(1))
 
+    
 
     useEffect(() => {
         (async () => {
@@ -50,16 +53,29 @@ const CloseTraining = ({ training, _id }) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [training.coaches, training.date.day, diffHs]);
 
+    const handleRestSession = async () => {
+         playersToRestSession?.map(async (player) => {
+            player.pay.trainsPayed = player.pay.trainsPayed - 1
+            await updatePlayer(player._id, player)
+        })
+    }
+
+    const handleGiveAssistance = async () => {
+       if (playersAssis[0]) {
+        playersAssis.map(async (player) => {
+            player.assistances = player.assistances + 1
+            await updatePlayer(player._id, player)
+           })
+       }
+    }
 
     const handleSubmit = async (e) => {
         e.preventDefault()
         setLoading(true)
         training.active = false;
         try {
-            playersToRestSession?.map(async (player) => {
-                player.pay.trainsPayed = player.pay.trainsPayed - 1
-                await updatePlayer(player._id, player)
-            })
+            await handleRestSession()
+            await handleGiveAssistance()
             await Promise.all(coachesToPay.map(async (coach) => {
                 await updateCoach(coach._id, coach)
             }));            

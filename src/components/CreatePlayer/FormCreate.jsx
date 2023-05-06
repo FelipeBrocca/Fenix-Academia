@@ -36,6 +36,7 @@ const FormCreate = ({ children }) => {
         year: ''
       }
     },
+    assistances: 0,
     pay: {
       monthsPayed: [],
       trainsPayed: 0,

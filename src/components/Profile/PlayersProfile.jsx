@@ -4,9 +4,11 @@ import { usePlayers } from '../../context/PlayersContext'
 import Image from '../Image/Image'
 import Loader from '../Loader/Loader'
 import './Profile.css'
+import { useTrainings } from '../../context/TrainingsContext'
 
 const PlayersProfile = ({ player }) => {
     const { eliminatePlayer } = usePlayers()
+    const { passedTrainings } = useTrainings()
     const [loadingDelete, setLoadingDelete] = useState(false)
     const navigation = useNavigate()
     const birthPlayer = player?.birth instanceof Date ? player?.birth : new Date(player?.birth)
@@ -131,6 +133,17 @@ const PlayersProfile = ({ player }) => {
                             ? <>
                                 <label>Cantidad:</label>
                                 <p>{player?.pay.trainsPayed}</p>
+                            </>
+                            : ''
+                    }
+                </li>
+                <li className='profile-data-item'>
+                    <label>Asistencias:</label>
+                    {
+                        player?.assistances > -1 && passedTrainings[0]
+                            ? <>
+                                <p>{player.assistances} / {passedTrainings.length}</p>
+                                <p style={{color: 'var(--orange)'}}>% {Number((player.assistances / passedTrainings.length) * 100).toFixed(1)}</p>
                             </>
                             : ''
                     }

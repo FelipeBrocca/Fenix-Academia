@@ -375,6 +375,10 @@ align-self: flex-end;
 }
 .assis-item-passed{
     color: var(--green);
+    cursor: pointer;
+}
+.assis-item-passed:hover{
+    color: var(--lightgreen);
 }
 .training-contain-in-list > pre{
     white-space: pre-wrap;
@@ -394,4 +398,19 @@ align-self: flex-end;
 }
 .list-coaches-designated > li{
     list-style: none;
+}
+.assist-container-training-item-list{
+    display: flex;
+    justify-content: space-between;
+}
+.assis-title-container{
+    display: flex;
+    justify-content: space-between;
+}
+.assis-title-container > h3{
+    font-size: 24px;
+    cursor: pointer;
+}
+.assis-title-container > h3:hover{
+    color: var(--orange);
 }
