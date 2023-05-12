@@ -12,13 +12,6 @@ const ItemToAdmin = (props) => {
     return (
         <>
             <li className={`admin-coaches-item ${adminForm ? 'active' : ''}`}>
-                {
-                    props.type !== 'player'
-                        ? ''
-                        : props.active
-                            ? <span className='active-span'></span>
-                            : <span className='unactive-span'></span>
-                }
                 <p
                     className={`item-admin-name ${props.type === 'player' ? 'player' : ''}`}>
                     {props.name}

@@ -27,7 +27,7 @@ const TrainingItem = ({ training, active }) => {
     useEffect(() => {
         if (seeAssis) {
             (async () => {
-                await training.players.map(async (id) => {
+                await training.players.assist.map(async (id) => {
                     const playersA = await getPlayer(id)
                     setPlayersAssisted(players => [...players, playersA.name])
                 })
@@ -77,7 +77,7 @@ const TrainingItem = ({ training, active }) => {
                         active
                             ? ''
                             : <div className='assist-container-training-item-list'>
-                                <p>Asistencias: {training.players.length}</p>
+                                <p>Asistencias: {training.players.assist.length}</p>
                                 <p onClick={handleSeeAssis} className='assis-item-passed'>Ver asistencias</p>
                             </div>
                     }

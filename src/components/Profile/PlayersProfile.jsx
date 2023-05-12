@@ -14,6 +14,7 @@ const PlayersProfile = ({ player }) => {
     const birthPlayer = player?.birth instanceof Date ? player?.birth : new Date(player?.birth)
     const [age, setAge] = useState('')
     const [elimModal, setElimModal] = useState(false)
+    const [lastTrain, setLastTrain] = useState({})
     const todayDate = new Date()
 
     useEffect(() => {
@@ -23,6 +24,17 @@ const PlayersProfile = ({ player }) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [birthPlayer])
 
+    const handleLastTraining = (id) => {
+       let last = passedTrainings.find(train => train._id === id)
+       setLastTrain(last)
+    }
+
+    useEffect(() => {
+        if (player.pay.trainsPayed[0]) {
+            handleLastTraining(player.pay.trainsPayed[player.pay.trainsPayed.length - 1])
+        }
+    }, [player.pay.trainsPayed])
+console.log(player);
     const deletePlayer = async (id) => {
         try {
             setLoadingDelete(true)
@@ -38,10 +50,6 @@ const PlayersProfile = ({ player }) => {
             <ul className='profile-data-list'>
                 <div className='player-image-container'>
                     <Image src={player?.image.url} alt='img-jug' className='player-image' />
-                    <span className={
-                        `player-status ${player?.active ? 'active' : 'unactive'}`
-                    }>
-                    </span>
                 </div>
                 <h2>{player?.name}</h2>
                 <li className='profile-data-item'>
@@ -94,48 +102,14 @@ const PlayersProfile = ({ player }) => {
                     }
                 </li>
                 <li className='profile-data-item'>
-                    <label>Pago cuota:</label>
-                    <p>
+                    <label>Último entrenamiento:</label>
+                    <span style={{display:'flex', alignItems:'center'}}>
                         {
-                            player?.pay.monthsPayed[0] && player?.active
-                                ? <span className="ok-icon"></span>
-                                : player?.pay.monthsPayed[0] && !player?.active
-                                    ? <span className="red-cross-icon"></span>
-                                    : '-'
+                            lastTrain && lastTrain.date
+                                ? <p style={{fontSize:'13px'}}>{lastTrain.date.day}</p>
+                                : ''
                         }
-                    </p>
-                    {
-                        player?.pay.monthsPayed[0]
-                            ? <>
-                                <label>Mes/es pagos:</label>
-                                <ul className='months-payed-list'>
-                                    {
-                                        player?.pay.monthsPayed.map((month) => (
-                                            <li key={month.value} className='months-payed-listed'>{month.label}</li>
-                                        ))
-                                    }
-                                </ul>
-                            </>
-                            : ''
-                    }
-                </li>
-                <li className='profile-data-item'>
-                    <label>Pago por sesión:</label>
-                    <p>
-                        {
-                            player?.pay.trainsPayed > 0
-                                ? <span className="ok-icon"></span>
-                                : '-'
-                        }
-                    </p>
-                    {
-                        player?.pay.trainsPayed > 0
-                            ? <>
-                                <label>Cantidad:</label>
-                                <p>{player?.pay.trainsPayed}</p>
-                            </>
-                            : ''
-                    }
+                    </span>
                 </li>
                 <li className='profile-data-item'>
                     <label>Asistencias:</label>
@@ -143,7 +117,7 @@ const PlayersProfile = ({ player }) => {
                         player?.assistances > -1 && passedTrainings[0]
                             ? <>
                                 <p>{player.assistances} / {passedTrainings.length}</p>
-                                <p style={{color: 'var(--orange)'}}>% {Number((player.assistances / passedTrainings.length) * 100).toFixed(1)}</p>
+                                <p style={{ color: 'var(--orange)' }}>% {Number((player.assistances / passedTrainings.length) * 100).toFixed(1)}</p>
                             </>
                             : ''
                     }

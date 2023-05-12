@@ -48,9 +48,6 @@
 .item-admin-name{
     font-size: 20px;
 }
-.item-admin-name.player{
-    padding-left: 30px;
-}
 .button-admin-coach{
     padding: 10px;
     border: none;
@@ -242,4 +239,102 @@ tfoot > tr > td{
 }
 .view-payments:hover{
     color: var(--green);
+}
+.bill-detail-container{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    padding: 10px 5px;
+    margin: 10px 0px;
+    background-color: var(--grey);
+    border-radius: 5px;
+}
+.bill-detail-container > h5{
+    color: var(--white);
+}
+.top-admin-finances-container > h3{
+   color: var(--green)
+}
+.edit-bill-detail{
+    background-color: transparent;
+    color: var(--orange);
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 0px 10px;
+}
+.edit-bill-detail:hover{
+    color: var(--light-orange);
+}
+.edit-bill-form{
+    z-index: 100;
+    background-color: var(--black);
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    margin:auto;
+    width: 90%;
+    max-width: 400px;
+    height: 90%;
+    max-height: 500px;
+    color: var(--white);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 15px 10px;
+    border-radius: 5px;
+}
+.edit-bill-form > div{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.edit-bill-form > div > input{
+    height: 30px;
+    border-radius: 5px;
+    border: none;
+    background-color: var(--white);
+    outline: none;
+    padding-left: 10px;
+}
+.close-edit-bill{
+    background-color: transparent;
+    border: none;
+    color: var(--white);
+    font-size: 24px;
+    position: absolute;
+    right: 15px;
+    top: 10px;
+    cursor: pointer;
+}
+.close-edit-bill:hover{
+    color: var(--orange);
+}
+div.edit-bill-buttons{
+    flex-direction: row;
+    width: 100%;
+}
+.edit-bill-button{
+    width: 50%;
+    padding: 5px;
+    border-radius: 5px;
+    border: none;
+    color: var(--white);
+    font-size: 16px;
+    font-weight: 800;
+    cursor: pointer;
+}
+.edit-bill-button.submit{
+    background-color: var(--green);
+}
+.edit-bill-button.cancel{
+    background-color: var(--orange);
+}
+.edit-bill-button.submit:hover{
+    background-color: var(--lightgreen);
+}
+.edit-bill-button.cancel:hover{
+    background-color: var(--light-orange);
 }

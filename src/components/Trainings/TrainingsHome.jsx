@@ -42,9 +42,8 @@ const TrainingsHome = () => {
 
     const todayDate = new Date()
     const formattedTodayDate = `${todayDate.getDate()}/${todayDate.getMonth() + 1}/${todayDate.getFullYear()}`;
-
     useEffect(() => {
-        if (formattedTodayDate === dayFormatted) {
+        if (formattedTodayDate >= dayFormatted && dayFormatted !== '1/1/2000') {
             setDayOfTraining(true)
         } else {
             setDayOfTraining(false)

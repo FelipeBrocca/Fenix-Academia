@@ -13,8 +13,6 @@ const EditForm = ({ children, player, id }) => {
   const [loading, setLoading] = useState(false)
   const [month, setMonth] = useState('')
   const [roles, setRoles] = useState([])
-  const [monthsPay, setMonthsPay] = useState([])
-  const [trainsPayed, setTrainsPayed] = useState(0)
   const [clubSelected, setClubSelected] = useState('')
   const [formClubs, setFormClubs] = useState(false)
   const [clubsSelect, setClubsSelect] = useState([])
@@ -36,7 +34,6 @@ const EditForm = ({ children, player, id }) => {
       }
     },
     pay: {
-      monthsPayed: player.pay.monthsPayed,
       trainsPayed: player.pay.trainsPayed,
     },
     assistances: player.assistances,
@@ -72,21 +69,8 @@ const EditForm = ({ children, player, id }) => {
       setClubSelected(player.club)
     }
   }
-  const handleResetPaymMonthlyTraining = () => {
-    const newMonthly = player.pay.monthsPayed.map(month => {
-      return {
-        value: month.value,
-        label: month.label
-      }
-    });
-    setMonthsPay(newMonthly);
-    if (player.pay.trainsPayed) {
-      setTrainsPayed(player.pay.trainsPayed)
-    }
-  }
   useEffect(() => {
     handleResetRolesClub()
-    handleResetPaymMonthlyTraining()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -163,31 +147,6 @@ const EditForm = ({ children, player, id }) => {
     })
   }
 
-  const handleTrainsPayment = (e) => {
-    setTrainsPayed(e.target.value)
-  }
-  useEffect(() => {
-    const monthsPayValue = monthsPay.map((month) => ({
-      value: month.value,
-      label: month.label
-    }))
-    setFormData((prevData) => ({
-      ...prevData,
-      pay: {
-        ...prevData.pay,
-        monthsPayed: monthsPayValue
-      }
-    }))
-  }, [monthsPay])
-  useEffect(() => {
-    setFormData((prevData) => ({
-      ...prevData,
-      pay: {
-        ...prevData.pay,
-        trainsPayed: parseInt(trainsPayed)
-      }
-    }))
-  }, [trainsPayed])
 
   const roleOptions = [
     { value: 'Arquero/a', label: 'Arquero/a' },
@@ -195,20 +154,6 @@ const EditForm = ({ children, player, id }) => {
     { value: 'Defensa', label: 'Defensa' },
     { value: 'Volante', label: 'Volante' },
     { value: 'Delantero/a', label: 'Delantero/a' }
-  ]
-  const monthlyFeeOptions = [
-    { value: 0, label: 'Enero' },
-    { value: 1, label: 'Febrero' },
-    { value: 2, label: 'Marzo' },
-    { value: 3, label: 'Abril' },
-    { value: 4, label: 'Mayo' },
-    { value: 5, label: 'Junio' },
-    { value: 6, label: 'Julio' },
-    { value: 7, label: 'Agosto' },
-    { value: 8, label: 'Septiembre' },
-    { value: 9, label: 'Octubre' },
-    { value: 10, label: 'Noviembre' },
-    { value: 11, label: 'Diciembre' },
   ]
 
   useEffect(() => {
@@ -230,8 +175,6 @@ const EditForm = ({ children, player, id }) => {
     setFormData(initialValues);
     handleResetRolesClub();
     fileInputRef.current.value = "";
-    setMonthsPay(player.pay.monthsPayed)
-    setTrainsPayed(player.pay.trainsPayed)
     if (!player.ensurance.paysec) {
       ensurancePayRef.current.checked = player.ensurance.paysec;
       ensuranceRef.current.checked = player.ensurance.secured;
@@ -291,16 +234,6 @@ const EditForm = ({ children, player, id }) => {
           </div>
           <Select name='role' options={roleOptions} isMulti isClearable onChange={setRoles} className='clubs-container-form-create' value={roles} />
           <input onChange={handleInputChange} value={formData.birth} type='date' name='birth' placeholder='Nacimiento' max="2012-12-31" required />
-          <div className='check-input-container payment'>
-            <div>
-              <label htmlFor='pay'>Pago mensual</label>
-            </div>
-            <Select isMulti isClearable options={monthlyFeeOptions} onChange={setMonthsPay} value={monthsPay} />
-            <div>
-              <label htmlFor='pay'>Pago por sesiones</label>
-            </div>
-            <input className='numb-of-sessions' type='number' name='trainsPayed' placeholder='Cantidad de sesiones' onChange={handleTrainsPayment} value={trainsPayed} />
-          </div>
           {
             (!player.ensurance.paysec && !player.ensurance.secured)
               || (player.ensurance.paysec && !player.ensurance.secured)

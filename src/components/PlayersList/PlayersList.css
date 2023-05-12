@@ -26,7 +26,6 @@
 }
 .players-list > ul > li > p.p-name{
     width: 90%;
-    padding-left: 30px;
 }
 .players-list > ul > li > a{
     width: 10%;

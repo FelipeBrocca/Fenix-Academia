@@ -4,10 +4,7 @@ import GralFinances from './GralFinances'
 
 const AdminFinances = () => {
   return (
-    <div>
-      <GralFinances />
       <MonthBList />
-    </div>
   )
 }
 

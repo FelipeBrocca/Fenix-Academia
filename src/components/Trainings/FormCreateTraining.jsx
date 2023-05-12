@@ -3,10 +3,12 @@ import Select from 'react-select'
 import Loader from '../Loader/Loader'
 import { useTrainings } from '../../context/TrainingsContext'
 import { useCoaches } from '../../context/CoachesContext'
+import { useMoney } from '../../context/MoneyContext'
 
 const FormCreateTraining = ({ children }) => {
 
     const { createTraining } = useTrainings()
+    const { money } = useMoney()
     const { coaches } = useCoaches()
     const [loading, setLoading] = useState(false)
     const [coachesOpt, setCoachesOpt] = useState([])
@@ -14,7 +16,10 @@ const FormCreateTraining = ({ children }) => {
     const initialValues = {
         active: true,
         coaches: [],
-        players: [],
+        players: {
+            paid: [],
+            assist: []
+        },
         date: {
             day: '',
             since: '',
@@ -27,7 +32,6 @@ const FormCreateTraining = ({ children }) => {
     const untilRef = useRef()
     const tecRef = useRef()
 
-
     const timeZone = 'America/Argentina/Buenos_Aires';
     const minDate = new Date().toLocaleDateString('en-CA', { timeZone });
 
@@ -36,7 +40,7 @@ const FormCreateTraining = ({ children }) => {
         setFormData({
             ...formData, date: {
                 ...formData.date,
-                [name]: value 
+                [name]: value
             }
         });
     };
@@ -58,7 +62,7 @@ const FormCreateTraining = ({ children }) => {
         setFormData({
             ...formData, coaches: coachesAssis
         })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [coachesAssis])
 
     const handleReset = () => {
@@ -104,11 +108,14 @@ const FormCreateTraining = ({ children }) => {
                 </div>
                 <div className='input-create-container'>
                     <label htmlFor="coaches">Entrenadores:</label>
-                    <Select isMulti isClearable name='coaches' options={coachesOpt} onChange={setCoachesAssis} value={coachesAssis} required />
+                    <Select isMulti isClearable name='coaches' options={coachesOpt} onChange={setCoachesAssis} value={coachesAssis} placeholder="Entrenadores" required />
                 </div>
                 <div className='input-create-container'>
                     <label htmlFor="techniques">Técnicas a trabajar:</label>
-                    <textarea name='techniques' style={{ resize: 'none' }} onChange={handleInputChange} ref={tecRef} required />
+                    <textarea name='techniques' style={{ resize: 'none' }} onChange={handleInputChange}
+                        placeholder='Detalle de técnicas
+                (Secreto... probá poner títulos entre asteriscos)'
+                        ref={tecRef} required />
                 </div>
                 {
                     loading

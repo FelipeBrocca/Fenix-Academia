@@ -7,8 +7,6 @@ const AdminPlayer = (props) => {
   const { updatePlayer } = usePlayers()
   const [loading, setLoading] = useState(false)
   const [month, setMonth] = useState('')
-  const [monthsPay, setMonthsPay] = useState([])
-  const [trainsPayed, setTrainsPayed] = useState(0)
   const [birthDate, setBirthDate] = useState('')
   const initialValues = {
     image: props.image,
@@ -27,7 +25,6 @@ const AdminPlayer = (props) => {
       }
     },
     pay: {
-      monthsPayed: props.pay.monthsPayed,
       trainsPayed: props.pay.trainsPayed,
     },
     createdAt: {
@@ -49,23 +46,6 @@ const AdminPlayer = (props) => {
       birth: birthDate
     }))
   }, [birthDate])
-
-  const handleResetPaymMonthlyTraining = () => {
-    const newMonthly = props.pay.monthsPayed.map(month => {
-      return {
-        value: month.value,
-        label: month.label
-      }
-    });
-    setMonthsPay(newMonthly);
-    if (props.pay.trainsPayed) {
-      setTrainsPayed(props.pay.trainsPayed)
-    }
-  }
-  useEffect(() => {
-    handleResetPaymMonthlyTraining()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
 
   const date = new Date()
   const todayMonth = date.getMonth()
@@ -113,53 +93,8 @@ const AdminPlayer = (props) => {
     })
   }
 
-  const handleTrainsPayment = (e) => {
-    setTrainsPayed(e.target.value)
-  }
-  useEffect(() => {
-    const monthsPayValue = monthsPay.map((month) => ({
-      value: month.value,
-      label: month.label
-    }))
-    setFormData((prevData) => ({
-      ...prevData,
-      pay: {
-        ...prevData.pay,
-        monthsPayed: monthsPayValue
-      }
-    }))
-  }, [monthsPay])
-  useEffect(() => {
-    setFormData((prevData) => ({
-      ...prevData,
-      pay: {
-        ...prevData.pay,
-        trainsPayed: parseInt(trainsPayed)
-      }
-    }))
-  }, [trainsPayed])
-
-  const monthlyFeeOptions = [
-    { value: 0, label: 'Enero' },
-    { value: 1, label: 'Febrero' },
-    { value: 2, label: 'Marzo' },
-    { value: 3, label: 'Abril' },
-    { value: 4, label: 'Mayo' },
-    { value: 5, label: 'Junio' },
-    { value: 6, label: 'Julio' },
-    { value: 7, label: 'Agosto' },
-    { value: 8, label: 'Septiembre' },
-    { value: 9, label: 'Octubre' },
-    { value: 10, label: 'Noviembre' },
-    { value: 11, label: 'Diciembre' },
-  ]
-
-
-
   const resetForm = () => {
     setFormData(initialValues);
-    setMonthsPay(props.pay.monthsPayed)
-    setTrainsPayed(props.pay.trainsPayed)
     if (!props.ensurance.paysec) {
       ensurancePayRef.current.checked = props.ensurance.paysec;
       ensuranceRef.current.checked = props.ensurance.secured;
@@ -187,16 +122,6 @@ const AdminPlayer = (props) => {
 
   return (
     <form onSubmit={handleSubmit} className='form-administrate'>
-      <div className='check-input-container payment-administration'>
-        <div className='monthly-pay-administration'>
-          <label htmlFor='pay'>Pago mensual</label>
-          <Select isMulti isClearable options={monthlyFeeOptions} onChange={setMonthsPay} value={monthsPay} />
-        </div>
-        <div className='training-pay-administration'>
-          <label htmlFor='pay'>Pago por sesiones</label>
-          <input className='numb-of-sessions' type='number' name='trainsPayed' placeholder='Cantidad de sesiones' onChange={handleTrainsPayment} value={trainsPayed} />
-        </div>
-      </div>
       {
         (!props.ensurance.paysec && !props.ensurance.secured)
           || (props.ensurance.paysec && !props.ensurance.secured)
@@ -210,7 +135,7 @@ const AdminPlayer = (props) => {
               <input onChange={handleSecureChange} value={formData.ensurance.secured} type='checkbox' defaultChecked={formData.ensurance.secured} name='secured' ref={ensuranceRef} />
             </div>
           </div>
-          : <div className='check-input-container'>
+          : <div className='check-input-container ensurance'>
             <label>Asegurado/a hasta {props.ensurance.until.month} / {props.ensurance.until.year}</label>
             <span className="ok-icon"></span>
           </div>

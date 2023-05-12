@@ -3,36 +3,38 @@ import { useTrainings } from '../../context/TrainingsContext'
 import { usePlayers } from '../../context/PlayersContext'
 import { useCoaches } from '../../context/CoachesContext'
 import Loader from '../Loader/Loader'
+import { useMoney } from '../../context/MoneyContext'
 
 const CloseTraining = ({ training, _id }) => {
 
+    const { money } = useMoney()
     const { updateTraining } = useTrainings()
     const { updatePlayer, getPlayer } = usePlayers()
     const { updateCoach, getCoach, getCoaches } = useCoaches()
     const [loading, setLoading] = useState(false)
-    const [playersToRestSession, setPlayersToRestSession] = useState([])
     const [coachesToPay, setCoachesToPay] = useState([]);
     const [playersAssis, setPlayersAssis] = useState([])
 
     useEffect(() => {
         (async () => {
-            const players = await Promise.all(training.players.map(async (id) => {
-                const player = await getPlayer(id);
-                return player;
-            }));
-            const playersWithSess = players.filter((player) => !player.active && player.pay.trainsPayed > 0)
-            setPlayersToRestSession(playersWithSess)
-            setPlayersAssis(players)
+            if (training.players.assist) {
+                const players = await Promise.all(training.players.assist.map(async (id) => {
+                    const player = await getPlayer(id);
+                    return player;
+                }));
+                setPlayersAssis(players)
+            }
         })()
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [training.players]);
+    }, [training.players.assist]);
+
 
     const sinceDate = new Date(`${training.date.day} ${training.date.since}`)
     const untilDate = new Date(`${training.date.day} ${training.date.until}`)
     const diffInMs = untilDate - sinceDate;
     const diffHs = Number((diffInMs / (1000 * 60 * 60)).toFixed(1))
 
-    
+
 
     useEffect(() => {
         (async () => {
@@ -42,10 +44,10 @@ const CloseTraining = ({ training, _id }) => {
                 coachDebt.pay.dateDebt.push({
                     date: training.date.day,
                     hours: diffHs,
-                    money: 10 * diffHs,
+                    money: money.money.coachesSalary * diffHs,
                 });
                 coachDebt.pay.totalDebt.hours = coachDebt.pay.totalDebt.hours + diffHs
-                coachDebt.pay.totalDebt.money = coachDebt.pay.totalDebt.money + (10 * diffHs)
+                coachDebt.pay.totalDebt.money = coachDebt.pay.totalDebt.money + (money.money.coachesSalary * diffHs)
                 updatedCoachesToPay.push(coachDebt);
             }
             setCoachesToPay(updatedCoachesToPay);
@@ -53,20 +55,14 @@ const CloseTraining = ({ training, _id }) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [training.coaches, training.date.day, diffHs]);
 
-    const handleRestSession = async () => {
-         playersToRestSession?.map(async (player) => {
-            player.pay.trainsPayed = player.pay.trainsPayed - 1
-            await updatePlayer(player._id, player)
-        })
-    }
 
     const handleGiveAssistance = async () => {
-       if (playersAssis[0]) {
-        playersAssis.map(async (player) => {
-            player.assistances = player.assistances + 1
-            await updatePlayer(player._id, player)
-           })
-       }
+        if (playersAssis[0]) {
+            playersAssis.map(async (player) => {
+                player.assistances = player.assistances + 1
+                await updatePlayer(player._id, player)
+            })
+        }
     }
 
     const handleSubmit = async (e) => {
@@ -74,11 +70,10 @@ const CloseTraining = ({ training, _id }) => {
         setLoading(true)
         training.active = false;
         try {
-            await handleRestSession()
             await handleGiveAssistance()
             await Promise.all(coachesToPay.map(async (coach) => {
                 await updateCoach(coach._id, coach)
-            }));            
+            }));
             await updateTraining(_id, training)
             await getCoaches()
             setLoading(false)

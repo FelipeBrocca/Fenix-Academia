@@ -274,7 +274,6 @@ align-self: flex-end;
     gap: 20px;
     overflow-y: auto;
     max-height: calc(100% - 100px);
-    padding-right: 15px;
 }
 .form-assistance::-webkit-scrollbar{
     width: 5px;

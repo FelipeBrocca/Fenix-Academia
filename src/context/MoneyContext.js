@@ -23,9 +23,9 @@ export const MoneyProvider = ({ children }) => {
     }
 
     const updateMoney = async (id, finance) => {
-        const moneyToEdit = await updateMoneyReq(id, finance)
+        await updateMoneyReq(id, finance)
 
-        setMoney(moneyToEdit)
+        getMoney(id)
     }
 
     return (
