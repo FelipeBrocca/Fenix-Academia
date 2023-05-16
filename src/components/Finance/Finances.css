@@ -86,7 +86,7 @@
     width: 100%;
     display: flex;
     transition: all 0.5s;
-    padding: 0px 20px;
+    padding: 4px;
     background-color: var(--grey);
 }
 .administrate-form-container{
@@ -95,7 +95,7 @@
 .administrate-form.active{
     opacity: 1;
     height: auto;
-    padding: 20px;
+    padding-bottom: 20px;
 }
 .active-span{
     width: 14px;
@@ -122,7 +122,7 @@
     flex-direction: column;
     width: 100%;
     background-color: var(--black);
-    padding: 10px;
+    padding: 10px 2px;
     border-radius: 5px;
     gap: 20px;
 }
@@ -337,4 +337,39 @@ div.edit-bill-buttons{
 }
 .edit-bill-button.cancel:hover{
     background-color: var(--light-orange);
+}
+.tbody-pay-train > tr > td{
+    text-align: center;
+}
+.train-payed-toggled{
+    border: 2px solid var(--orange);
+}
+.date-td{
+    width: 30%;
+}
+.hs-td{
+    width: 15%;
+}
+.mon-td{
+    width: 30%;
+}
+.but-td{
+    width: 25%;
+}
+.but-td > button{
+    width: 100%;
+    border: none;
+    padding: 5px 0px;
+    cursor: pointer;
+    background-color: transparent;
+    color: var(--white);
+    background-color: var(--green);
+    font-weight: 800;
+}
+.train-payed-toggled > tr > .but-td > button{
+    background-color: var(--light-orange);
+    color: var(--black);
+}
+.thead-pay-train > tr > th{
+    text-align: center;
 }

@@ -56,7 +56,7 @@ const GralFinances = ({ current }) => {
                     <h5>$ {values?.playerSession}</h5>
                 </div>
                 <div className='bill-detail-container'>
-                    <h5>SALARIO ENTRENDADORES</h5>
+                    <h5>SALARIO ENTRENADORES</h5>
                     <h5>$ {values?.coachesSalary}</h5>
                 </div>
                 <div className='bill-detail-container'>

@@ -20,9 +20,12 @@ const EditCoachForm = ({ children, coach, id }) => {
     role: coach.role,
     birth: coach.birth,
     pay: {
-      dateDebt: coach.pay.dateDebt,
-      totalDebt: coach.pay.totalDebt,
-      payed: coach.pay.payed
+      trainingsMang: [
+        {
+            tr_id: coach.pay.trainingsMang.tr_id,
+            statusPay: coach.pay.trainingsMang.statusPay 
+        }
+    ]
   },
     ensurance: {
       secured: coach.ensurance.secured,

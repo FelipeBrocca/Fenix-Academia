@@ -34,7 +34,7 @@ const PlayersProfile = ({ player }) => {
             handleLastTraining(player.pay.trainsPayed[player.pay.trainsPayed.length - 1])
         }
     }, [player.pay.trainsPayed])
-console.log(player);
+
     const deletePlayer = async (id) => {
         try {
             setLoadingDelete(true)

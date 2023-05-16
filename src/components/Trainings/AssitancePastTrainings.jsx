@@ -22,9 +22,11 @@ const AssitancePastTrainings = ({ players, handleClose }) => {
                     ? <Loader />
                     : <ul style={{ width: '100%', display: "flex", flexDirection: 'column', gap: '10px' }}>
                         {
-                            playersA.map((player, index) => (
+                            playersA[0]
+                            ? playersA.map((player, index) => (
                                 <li style={{ width: '100%', listStyle: "none", fontSize: '16px' }} key={index}>{player}</li>
                             ))
+                            : <h4>No asistieron jugadores</h4>
                         }
                     </ul>
             }

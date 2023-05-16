@@ -10,7 +10,7 @@ const CloseTraining = ({ training, _id }) => {
     const { money } = useMoney()
     const { updateTraining } = useTrainings()
     const { updatePlayer, getPlayer } = usePlayers()
-    const { updateCoach, getCoach, getCoaches } = useCoaches()
+    const { updateCoach, coaches, getCoaches } = useCoaches()
     const [loading, setLoading] = useState(false)
     const [coachesToPay, setCoachesToPay] = useState([]);
     const [playersAssis, setPlayersAssis] = useState([])
@@ -40,21 +40,20 @@ const CloseTraining = ({ training, _id }) => {
         (async () => {
             const updatedCoachesToPay = [];
             for (const coach of training.coaches) {
-                const coachDebt = await getCoach(coach.value);
-                coachDebt.pay.dateDebt.push({
-                    date: training.date.day,
-                    hours: diffHs,
-                    money: money.money.coachesSalary * diffHs,
-                });
-                coachDebt.pay.totalDebt.hours = coachDebt.pay.totalDebt.hours + diffHs
-                coachDebt.pay.totalDebt.money = coachDebt.pay.totalDebt.money + (money.money.coachesSalary * diffHs)
+                const coachDebt = coaches.find(coa => coa.name == coach.label);
+                if (!coachDebt.pay.trainingsMang.find(t => t.tr_id === training._id)) {
+                    coachDebt.pay.trainingsMang.push({
+                        tr_id: training._id,
+                        statusPay: false
+                    });
+                }
                 updatedCoachesToPay.push(coachDebt);
             }
             setCoachesToPay(updatedCoachesToPay);
         })();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [training.coaches, training.date.day, diffHs]);
-
+    }, [training.coaches]);
+    
 
     const handleGiveAssistance = async () => {
         if (playersAssis[0]) {

@@ -1,19 +1,24 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { useCoaches } from '../../context/CoachesContext'
 import { useFinances } from '../../context/FinancesContext'
+import { useTrainings } from '../../context/TrainingsContext'
+import { useMoney } from '../../context/MoneyContext'
 import Loader from '../Loader/Loader'
 import ViewPayments from './ViewPayments'
 
 const AdminCoach = (props) => {
 
   const { updateCoach } = useCoaches()
+  const { passedTrainings } = useTrainings()
+  const { money } = useMoney()
   const { finances, updateFinance } = useFinances()
   const [loading, setLoading] = useState(false)
-  const [month, setMonth] = useState('')
   const [totalPay, setTotalPay] = useState(0)
   const [viewPayments, setViewPayments] = useState(false)
+  const [trainingsToPay, setTrainingsToPay] = useState([])
   const [monthToday, setMonthToday] = useState([])
-
+  const [totalToPayHours, setTotalToPayHours] = useState(0)
+  const [toggledItems, setToggledItems] = useState([]);
   const [initialValues, setInitialValues] = useState({
     image: props.image,
     name: props.name,
@@ -21,14 +26,7 @@ const AdminCoach = (props) => {
     phone: props.phone,
     role: props.role,
     birth: props.birth,
-    pay: {
-      dateDebt: props.pay.dateDebt,
-      totalDebt: {
-        hours: Number(props.pay.totalDebt.hours.toFixed(1)),
-        money: props.pay.totalDebt.money
-      },
-      payed: props.pay.payed
-    },
+    pay: props.pay,
     ensurance: {
       secured: props.ensurance.secured,
       paysec: props.ensurance.paysec,
@@ -49,43 +47,41 @@ const AdminCoach = (props) => {
     setInitialValues(props)
   }, [props])
 
+  useEffect(() => {
+    const newTrainingsToPay = [];
+    let totalHoursToPay = 0;
+
+    props.pay.trainingsMang.forEach((training) => {
+      if (training.statusPay === false) {
+        let trainToPay = passedTrainings.find(train => train._id === training.tr_id);
+        if (trainToPay) {
+          let sinceTime = new Date(`${trainToPay.date.day}T${trainToPay.date.since}`);
+          let untilTime = new Date(`${trainToPay.date.day}T${trainToPay.date.until}`);
+          const differenceInMilliseconds = untilTime.getTime() - sinceTime.getTime();
+          const differenceInHours = differenceInMilliseconds / (1000 * 60 * 60);
+          trainToPay.date.diffHs = differenceInHours;
+          newTrainingsToPay.push(trainToPay);
+          totalHoursToPay += differenceInHours;
+        }
+      }
+    });
+
+    setTotalToPayHours(totalHoursToPay);
+    setTrainingsToPay(newTrainingsToPay);
+  }, [props.pay.trainingsMang]);
+
+
+
   const date = new Date()
   const todayMonth = date.getMonth()
   const todayYear = date.getFullYear()
-  useEffect(() => {
-    setMonth(
-      todayMonth === 0
-        ? 'Enero'
-        : todayMonth === 1
-          ? 'Febrero'
-          : todayMonth === 2
-            ? 'Marzo'
-            : todayMonth === 3
-              ? 'Abril'
-              : todayMonth === 4
-                ? 'Mayo'
-                : todayMonth === 5
-                  ? 'Junio'
-                  : todayMonth === 6
-                    ? 'Julio'
-                    : todayMonth === 7
-                      ? 'Agosto'
-                      : todayMonth === 8
-                        ? 'Septiembre'
-                        : todayMonth === 9
-                          ? 'Octubre'
-                          : todayMonth === 10
-                            ? 'Noviembre'
-                            : todayMonth === 11
-                              ? 'Diciembre'
-                              : ''
-    )
-  }, [todayMonth])
+
 
   useEffect(() => {
     let monthToEdit = finances.find(finance => finance.month.value === todayMonth && finance.month.year === todayYear)
     setMonthToday(monthToEdit)
   }, [todayMonth, todayYear])
+
 
   const ensuranceRef = useRef();
   const ensurancePayRef = useRef()
@@ -99,29 +95,34 @@ const AdminCoach = (props) => {
 
   const handleCheckboxClick = () => {
     if (checkboxRef.current.checked) {
-      setTotalPay(props.pay.totalDebt.money);
+      trainingsToPay.map(({ _id }) => {
+        setToggledItems(prev => [...prev, _id])
+      })
+      setTotalPay(totalToPayHours * money.money.coachesSalary);
     } else {
+      setToggledItems([])
       setTotalPay(0);
     }
   }
 
-  const handlePayPerDate = (e, dateDebt) => {
-    e.preventDefault()
-    const datePaying = props.pay.dateDebt.find(date => date === dateDebt)
-    const newDateDebt = formData.pay.dateDebt.filter(date => date !== datePaying)
-    setFormData(prevFormData => ({
-      ...prevFormData,
-      pay: {
-        dateDebt: newDateDebt,
-        totalDebt: {
-          money: prevFormData.pay.totalDebt.money - datePaying.money,
-          hours: prevFormData.pay.totalDebt.hours - datePaying.hours
-        },
-        payed: [...prevFormData.pay.payed, datePaying]
+  const handlePayPerDate = (e, id) => {
+    e.preventDefault();
+    let trainingPayed = trainingsToPay.find(train => train._id === id);
+
+    const valueToAdd = toggledItems.includes(id)
+      ? -(trainingPayed.date.diffHs * money.money.coachesSalary)
+      : trainingPayed.date.diffHs * money.money.coachesSalary;
+
+    setTotalPay(prevTotal => prevTotal + valueToAdd);
+
+    setToggledItems(prevItems => {
+      if (prevItems.includes(id)) {
+        return prevItems.filter(item => item !== id);
+      } else {
+        return [...prevItems, id];
       }
-    }))
-    setTotalPay(prevTotal => prevTotal + datePaying.money)
-  }
+    });
+  };
 
   const handleSecureChange = (e) => {
     const { name, checked } = e.target
@@ -134,24 +135,41 @@ const AdminCoach = (props) => {
   }
 
   useEffect(() => {
-    if (totalPay === props.pay.totalDebt.money) {
-      setFormData(prevFormData => ({
-        ...prevFormData,
-        pay: {
-          dateDebt: [],
-          totalDebt: { money: 0, hours: 0 },
-          payed: [...prevFormData.pay.payed, ...prevFormData.pay.dateDebt]
-        }
-      }));
+    const updatedTrainingsMang = formData.pay.trainingsMang.map(train => {
+      if (toggledItems.includes(train.tr_id)) {
+        return { ...train, statusPay: true };
+      } else {
+        return { ...train, statusPay: false };
+      }
+    });
+
+    setFormData(prevFormData => ({
+      ...prevFormData,
+      pay: {
+        ...prevFormData.pay,
+        trainingsMang: updatedTrainingsMang
+      }
+    }));
+  }, [toggledItems]);
+
+  useEffect(() => {
+    if (trainingsToPay[0]) {
+      if (totalPay > 0 && totalPay === (totalToPayHours * money.money.coachesSalary)) {
+        checkboxRef.current.checked = true
+      } else {
+        checkboxRef.current.checked = false
+      }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [totalPay])
+
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     setLoading(true)
+    monthToday.billing.coaches += totalPay
     try {
       await updateCoach(props.id, formData)
+      await updateFinance(monthToday._id, monthToday)
       setLoading(false)
       resetForm()
     } catch (error) {
@@ -164,14 +182,15 @@ const AdminCoach = (props) => {
     setViewPayments(viewPayments => !viewPayments)
   }
 
+
   return (
     <form onSubmit={handleSubmit} className='form-administrate'>
       <div className='check-input-container payment-administration'>
         {
-          props.pay.totalDebt.money > 0
+          trainingsToPay[0]
             ? <>
               <table className='table-debts'>
-                <thead>
+                <thead className='thead-pay-train'>
                   <tr>
                     <th>Fecha</th>
                     <th>Horas</th>
@@ -180,29 +199,46 @@ const AdminCoach = (props) => {
                   </tr>
                 </thead>
                 {
-                  formData.pay.dateDebt[0]
-                    ? formData.pay.dateDebt.map((dateDebt, index) => (
-                      <tbody key={index}>
+                  trainingsToPay[0] && money ?
+                    trainingsToPay.map((training, index) => (
+                      <tbody key={index} className={`tbody-pay-train ${toggledItems.includes(training._id) ? 'train-payed-toggled' : ''}`}>
                         <tr>
-                          <td>{dateDebt.date}</td>
-                          <td>{dateDebt.hours} hs</td>
-                          <td>$ {dateDebt.money}</td>
-                          <td><button onClick={(e) => handlePayPerDate(e, dateDebt)}>Pagar</button></td>
+                          <td className='date-td'>{training.date.day}</td>
+                          <td className='hs-td'>{training.date.diffHs} hs</td>
+                          <td className='mon-td'>$ {training.date.diffHs * money.money.coachesSalary}</td>
+                          <td className='but-td'>
+                            <button onClick={(e) => handlePayPerDate(e, training._id)}>
+                              {toggledItems.includes(training._id) ? 'Cancelar' : 'Pagar'}
+                            </button>
+                          </td>
                         </tr>
                       </tbody>
-                    ))
-                    : <tbody>
-                      <tr>
-                        <td>X</td>
-                        <td>X</td>
-                        <td>X</td>
-                      </tr>
-                    </tbody>
+                    )) : (
+                      <tbody className='tbody-pay-train'>
+                        <tr>
+                          <td>X</td>
+                          <td>X</td>
+                          <td>X</td>
+                        </tr>
+                      </tbody>
+                    )
                 }
                 <tfoot>
                   <tr>
-                    <td>Horas a pagar: {props.pay.totalDebt.hours} hs</td>
-                    <td>Total a pagar: $ {props.pay.totalDebt.money}</td>
+                    <td>Total horas:
+                      {
+                        totalToPayHours
+                          ? ` ${totalToPayHours}`
+                          : ''
+                      }
+                      hs</td>
+                    <td></td>
+                    <td>Total a pagar: $
+                      {
+                        totalToPayHours && money
+                          ? totalToPayHours * money.money.coachesSalary
+                          : ''
+                      }</td>
                   </tr>
                 </tfoot>
               </table>
@@ -234,7 +270,7 @@ const AdminCoach = (props) => {
       <button onClick={handleViewPayments} className='view-payments'>Ver pagos</button>
       {
         viewPayments
-          ? <ViewPayments pays={props.pay.payed} close={setViewPayments} />
+          ? <ViewPayments pays={props.pay.trainingsMang} close={setViewPayments} />
           : ''
       }
       {

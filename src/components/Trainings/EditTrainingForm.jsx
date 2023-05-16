@@ -86,7 +86,7 @@ const EditTrainingForm = ({ children, training, id }) => {
             <form className='create-form' encType='multipart/form-data' onSubmit={handleSubmit}>
                 <div className='input-create-container'>
                     <label htmlFor="date">Fecha:</label>
-                    <input type="date" name='day' onChange={handleInputDateChange} value={formData.date.day} required />
+                    <input type="date" name='day' onChange={handleInputDateChange} value={formData.date.day} required disabled={!training.active ? true : false} />
                 </div>
                 <div className='input-create-container time'>
                     <div className='time-create-container'>

@@ -9,8 +9,8 @@ const TrainingItem = ({ training, active }) => {
 
     const { deleteTraining, getTrainings } = useTrainings()
     const { getPlayer } = usePlayers()
-    const [loading, setLoading] = useState(false)
-    const [elimModal, setElimModal] = useState(false)
+    // const [loading, setLoading] = useState(false)
+    // const [elimModal, setElimModal] = useState(false)
     const [seeTraining, setSeeTraining] = useState(false)
     const [dayFormatted, setDayFormatted] = useState('')
     const [seeAssis, setSeeAssis] = useState(false)
@@ -46,19 +46,19 @@ const TrainingItem = ({ training, active }) => {
         setSeeAssis(seeAssis => !seeAssis)
     }
 
-    const handleDelete = async (e) => {
-        e.preventDefault()
-        setLoading(true)
-        try {
-            await deleteTraining(training._id)
-            await getTrainings()
-            setLoading(false)
-            setElimModal(false)
-        } catch (error) {
-            console.log(error);
-            setLoading(false)
-        }
-    }
+    // const handleDelete = async (e) => {
+    //     e.preventDefault()
+    //     setLoading(true)
+    //     try {
+    //         await deleteTraining(training._id)
+    //         await getTrainings()
+    //         setLoading(false)
+    //         setElimModal(false)
+    //     } catch (error) {
+    //         console.log(error);
+    //         setLoading(false)
+    //     }
+    // }
 
     return (
         <>
@@ -93,10 +93,10 @@ const TrainingItem = ({ training, active }) => {
                     </pre>
                 </div>
                 <div className='buttons-item-training-container'>
-                    <button className='button-eliminate-training' onClick={() => setElimModal(!elimModal)}>Eliminar</button>
+                    {/* <button className='button-eliminate-training' onClick={() => setElimModal(!elimModal)}>Eliminar</button> */}
                     <EditModalTr training={training} id={training._id} />
                 </div>
-                {
+                {/* {
                     elimModal
                         ? <>
                             <div className='backdropPopUp' onClick={() => setElimModal(!elimModal)}></div>
@@ -113,7 +113,7 @@ const TrainingItem = ({ training, active }) => {
                             </div>
                         </>
                         : ''
-                }
+                } */}
             </div>
             {
                 seeAssis
