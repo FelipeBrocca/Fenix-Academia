@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from 'react'
 import Select from 'react-select'
 import { useClubs } from '../../context/ClubsContext'
 import { usePlayers } from '../../context/PlayersContext'
-import { useTrainings } from '../../context/TrainingsContext'
 import Loader from '../Loader/Loader'
 import CreateClub from '../CreateClub/CreateClub'
 import Resizer from 'react-image-file-resizer';
@@ -13,7 +12,6 @@ const FormCreate = ({ children }) => {
 
   const { createPlayer } = usePlayers()
   const { clubs } = useClubs()
-  const { trainings } = useTrainings()
   const [loading, setLoading] = useState(false)
   const [month, setMonth] = useState('')
   const [roles, setRoles] = useState([])

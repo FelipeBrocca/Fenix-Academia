@@ -1,0 +1,57 @@
+.month-balance-list{
+    background: var(--grey);
+    width: 100%;
+    padding: 5px;
+    border-radius: 5px;
+}
+.header-acc-item{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 40px;
+    padding: 0 10px 0 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: var(--black);
+    margin-bottom: 10px;
+    color: var(--white);
+}
+.header-acc-item.active{
+    background-color: var(--green);
+}
+.header-acc-item span{
+    rotate: -90deg;
+    transition: all 0.5s;
+}
+.header-acc-item.active span{
+    rotate: 90deg;
+}
+.header-acc-item h2{
+    margin: 0;
+    font-size: 16px;
+    font-weight: 500;
+}
+.contentEl{
+    position: relative;
+    height: 0;
+    overflow: hidden;
+    transition: height 0.5s ease;
+}
+.contentEl.show{
+    height: auto;
+}
+.contentEl div span h4{
+    color: var(--green);
+}
+.contentEl div span{
+    color: var(--white);
+}
+
+@media (min-width: 769px) {
+    .contentEl{
+    display: flex;
+    }
+    .contentEl div{
+        width: 50%;
+    }
+}

@@ -9,7 +9,7 @@ import ViewPayments from './ViewPayments'
 const AdminCoach = (props) => {
 
   const { updateCoach } = useCoaches()
-  const { passedTrainings } = useTrainings()
+  const { passedTrainings, updateTraining } = useTrainings()
   const { money } = useMoney()
   const { finances, updateFinance } = useFinances()
   const [loading, setLoading] = useState(false)
@@ -60,14 +60,15 @@ const AdminCoach = (props) => {
           const differenceInMilliseconds = untilTime.getTime() - sinceTime.getTime();
           const differenceInHours = differenceInMilliseconds / (1000 * 60 * 60);
           trainToPay.date.diffHs = differenceInHours;
+          trainToPay.date.billCoach = differenceInHours * money.money.coachesSalary;
           newTrainingsToPay.push(trainToPay);
           totalHoursToPay += differenceInHours;
         }
       }
     });
-
     setTotalToPayHours(totalHoursToPay);
     setTrainingsToPay(newTrainingsToPay);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.pay.trainingsMang]);
 
 
@@ -80,6 +81,7 @@ const AdminCoach = (props) => {
   useEffect(() => {
     let monthToEdit = finances.find(finance => finance.month.value === todayMonth && finance.month.year === todayYear)
     setMonthToday(monthToEdit)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [todayMonth, todayYear])
 
 
@@ -96,9 +98,9 @@ const AdminCoach = (props) => {
   const handleCheckboxClick = () => {
     if (checkboxRef.current.checked) {
       trainingsToPay.map(({ _id }) => {
-        setToggledItems(prev => [...prev, _id])
+       return setToggledItems(prev => [...prev, _id])
       })
-      setTotalPay(totalToPayHours * money.money.coachesSalary);
+       setTotalPay(totalToPayHours * money.money.coachesSalary);
     } else {
       setToggledItems([])
       setTotalPay(0);
@@ -136,11 +138,14 @@ const AdminCoach = (props) => {
 
   useEffect(() => {
     const updatedTrainingsMang = formData.pay.trainingsMang.map(train => {
-      if (toggledItems.includes(train.tr_id)) {
-        return { ...train, statusPay: true };
-      } else {
-        return { ...train, statusPay: false };
+      if (train && !train.statusPay) {
+        if (toggledItems.includes(train.tr_id) && !train.statusPay) {
+          return { ...train, toPay: true };
+        } else {
+          return { ...train, toPay: false };
+        }
       }
+      return train
     });
 
     setFormData(prevFormData => ({
@@ -150,7 +155,9 @@ const AdminCoach = (props) => {
         trainingsMang: updatedTrainingsMang
       }
     }));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [toggledItems]);
+
 
   useEffect(() => {
     if (trainingsToPay[0]) {
@@ -160,14 +167,30 @@ const AdminCoach = (props) => {
         checkboxRef.current.checked = false
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [totalPay])
+
+  const setStatus = async () => {
+    const updatedTrainingsMang = await formData.pay.trainingsMang.map(train => {
+      if (train && train.statusPay === false && train.toPay === true) {
+        return { ...train, statusPay: true, toPay: false };
+      }
+      return train;
+    });
+
+    formData.pay.trainingsMang = updatedTrainingsMang
+  }
 
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     setLoading(true)
     monthToday.billing.coaches += totalPay
+    await setStatus()
     try {
+      await Promise.all(trainingsToPay.map(async (train) => {
+        await updateTraining(train._id, train)
+      }))
       await updateCoach(props.id, formData)
       await updateFinance(monthToday._id, monthToday)
       setLoading(false)

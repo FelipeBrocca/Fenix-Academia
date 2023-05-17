@@ -33,6 +33,7 @@ const PlayersProfile = ({ player }) => {
         if (player.pay.trainsPayed[0]) {
             handleLastTraining(player.pay.trainsPayed[player.pay.trainsPayed.length - 1])
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [player.pay.trainsPayed])
 
     const deletePlayer = async (id) => {
@@ -117,7 +118,6 @@ const PlayersProfile = ({ player }) => {
                         player?.assistances > -1 && passedTrainings[0]
                             ? <>
                                 <p>{player.assistances} / {passedTrainings.length}</p>
-                                <p style={{ color: 'var(--orange)' }}>% {Number((player.assistances / passedTrainings.length) * 100).toFixed(1)}</p>
                             </>
                             : ''
                     }

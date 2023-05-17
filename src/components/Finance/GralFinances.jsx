@@ -21,11 +21,15 @@ const GralFinances = ({ current }) => {
 
     useEffect(() => {
         if (currentMonth.pays) {
+            let toGan = currentMonth.pays.coaches + currentMonth.pays.playersXSession + currentMonth.pays.secures + currentMonth.pays.others
+            let toLose = currentMonth.billing.coaches + currentMonth.billing.secures + currentMonth.billing.others
+            setGanMonth(toGan - toLose)
+        }
+    }, [currentMonth])
+
+    useEffect(() => {
+        if (currentMonth.pays) {
             setRecMonth(currentMonth.pays.playersXSession)
-        } else if (currentMonth.pays && currentMonth.billing) {
-            setGanMonth(
-                currentMonth.pays.playersXMonth + currentMonth.pays.playersXSession + currentMonth.pays.coaches + currentMonth.pays.others + currentMonth.pays.secures - currentMonth.billing.coaches - currentMonth.billing.others - currentMonth.billing.secures
-            )
         }
     }, [currentMonth])
 
@@ -81,9 +85,15 @@ const GralFinances = ({ current }) => {
                         </li>
                         <li>
                             <label>Ganancias del mes:</label>
-                            <p>
-                                {ganMonth}
-                            </p>
+                            {
+                                ganMonth >= 0
+                                    ? <p style={{color: 'var(--green)'}}>
+                                        {ganMonth}
+                                    </p>
+                                    : <p style={{color: 'var(--orange)'}}>
+                                        {ganMonth}
+                                    </p>
+                            }
                         </li>
                     </ul>
                 </div>
