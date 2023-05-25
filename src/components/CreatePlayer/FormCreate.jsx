@@ -34,7 +34,7 @@ const FormCreate = ({ children }) => {
         year: ''
       }
     },
-    assistances: 0,
+    assistances: [],
     pay: {
       trainsPayed: [],
     },
@@ -193,8 +193,8 @@ const FormCreate = ({ children }) => {
           <label className='form-create-label-image' htmlFor="image">Imagen de perfil</label>
           <input onChange={handleFileChange} ref={fileInputRef} type='file' name='image' />
           <input onChange={handleInputChange} value={formData.name} type='text' name='name' placeholder='Nombre' required />
-          <input onChange={handleInputChange} value={formData.dni} type='text' name='dni' placeholder='Dni' required />
-          <input onChange={handleInputChange} value={formData.phone} type='tel' name='phone' placeholder='Telefono' required />
+          <input onChange={handleInputChange} value={formData.dni} type='text' name='dni' placeholder='Dni' inputMode="numeric" required />
+          <input onChange={handleInputChange} value={formData.phone} type='tel' name='phone' placeholder='Telefono' inputMode="numeric" required />
           <div className='clubs-container-form-create'>
             <div className='select-clubs'>
               <Select name='club' placeholder='Seleccione club' options={clubsSelect} onChange={setClubSelected} value={clubSelected} required />

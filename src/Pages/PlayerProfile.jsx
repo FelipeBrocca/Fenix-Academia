@@ -7,24 +7,22 @@ import EditModal from '../components/EditModal/EditModal'
 
 const PlayerProfile = () => {
 
-  const { getPlayer, updatePlayer } = usePlayers()
+  const { players, updatePlayer } = usePlayers()
   const [player, setPlayer] = useState({})
   const [loading, setLoading] = useState(true)
   const [noPlayerFound, setNoPlayerFound] = useState(false)
   const params = useParams()
 
   useEffect(() => {
-    (async () => {
-          const playerProfile = await getPlayer(params.id)
-          if (playerProfile !== undefined && playerProfile !== null && playerProfile.name) {
-            setPlayer(playerProfile)
-            setLoading(false)
-          } else if(playerProfile === null) {
-            setLoading(false)
-            setNoPlayerFound(true)
-          }
-    })();
-  }, [params.id, updatePlayer, getPlayer])
+    const playerProfile = players.find((player) => player._id === params.id)
+    if (playerProfile !== undefined && playerProfile !== null && playerProfile.name) {
+      setPlayer(playerProfile)
+      setLoading(false)
+    } else if (playerProfile === null) {
+      setLoading(false)
+      setNoPlayerFound(true)
+    }
+  }, [params.id, updatePlayer, players])
 
   if (loading) {
     return <Loader />

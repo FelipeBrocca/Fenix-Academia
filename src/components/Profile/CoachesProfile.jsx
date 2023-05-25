@@ -22,7 +22,6 @@ const CoachesProfile = ({ coach }) => {
         setAge(Math.floor(differenceInDays / 365))
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [birthCoach])
-console.log(coach);
     const eliminateCoach = async (id) => {
         try {
             setLoadingDelete(true)

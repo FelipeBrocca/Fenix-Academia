@@ -19,7 +19,6 @@ const MenuContain = () => {
         <li><Link onClick={handleFinances} to={'/finanzas'} state={{ admin: { value: 0, label: 'Entrenadores' } }}>Administrar entrenadores</Link></li>
         <li><Link onClick={handleFinances} to={'/finanzas'} state={{ admin: { value: 1, label: 'Jugadores' } }}>Administrar jugadores</Link></li>
         <li><Link onClick={handleFinances} to={'/finanzas'} state={{ admin: { value: 2, label: 'Finanzas' } }}>Administrar finanzas</Link></li>
-        <li><Link onClick={handleFinances} to={'/finanzas'} state={{ admin: { value: 3, label: 'Otros' } }}>Administrar otros</Link></li>
       </ul>
     </ul>
   )

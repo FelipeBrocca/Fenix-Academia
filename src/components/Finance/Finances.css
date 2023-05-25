@@ -15,6 +15,10 @@
 .option-finance-container{
   padding: 40px 0px;
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  max-width: 1200px;
 }
 .admin-container{
     color: var(--white);
@@ -49,7 +53,7 @@
     font-size: 20px;
 }
 .button-admin-coach{
-    padding: 10px;
+    padding: 7px 10px;
     border: none;
     border-radius: 5px;
     background-color: var(--orange);
@@ -58,7 +62,7 @@
     cursor: pointer;
 }
 .button-admin-player{
-    padding: 10px;
+    padding: 7px 10px;
     border: none;
     border-radius: 5px;
     background-color: var(--green);
@@ -372,4 +376,77 @@ div.edit-bill-buttons{
 }
 .thead-pay-train > tr > th{
     text-align: center;
+}
+.gral-finances-container{
+    width: 100%;
+    background-color: var(--grey);
+    border: 2px solid var(--white);
+    color: var(--white);
+    border-radius: 5px;
+    padding: 10px 5px;
+}
+.gral-finances-container ul{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.gral-finances-container ul li{
+    list-style: none;
+    display: flex;
+    gap: 10px;
+}
+.admin-coaches-item .icon-alert{
+    position: absolute;
+    left: 2px;
+}
+.item-admin-name{
+    padding-left: 15px;
+}
+.admin-others-container{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+.admin-others-container div{
+    width: 100%;
+}
+.admin-others-container div h2{
+    color: var(--white);
+}
+@media (min-width: 769px) {
+    .gral-finances-container ul{
+        display: flex;
+        flex-wrap: wrap;
+        height: 80%;
+        align-items: center;
+        gap: 0px;
+    }
+    .gral-finances-container ul li{
+        width: 50%;
+        text-align: center;
+        flex-direction: column;
+    }
+    .gral-finances-container ul li p{
+        font-size: 20px;
+    }
+}
+
+@media (min-width: 1024px) {
+    .top-admin-finances-container.all{
+        display: flex;
+        gap: 30px;
+        justify-content: center;
+    }
+    .top-admin-finances-container.bill{
+        flex-direction: column;
+        width: 50%;
+        max-width: 500px;
+    }
+    .gral-finances-container{
+        width: 50%;
+        max-width: 600px;
+    }
+    .select-admin-finances-container{
+        max-width: 1200px;
+    }
 }

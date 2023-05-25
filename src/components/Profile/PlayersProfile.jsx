@@ -16,7 +16,7 @@ const PlayersProfile = ({ player }) => {
     const [elimModal, setElimModal] = useState(false)
     const [lastTrain, setLastTrain] = useState({})
     const todayDate = new Date()
-
+   
     useEffect(() => {
         const differenceInTime = todayDate.getTime() - birthPlayer.getTime();
         const differenceInDays = differenceInTime / (1000 * 3600 * 24);
@@ -45,7 +45,8 @@ const PlayersProfile = ({ player }) => {
         } catch (error) {
             console.log(error);
         }
-    }
+    } 
+
     return (
         <div className='player-card'>
             <ul className='profile-data-list'>
@@ -115,9 +116,9 @@ const PlayersProfile = ({ player }) => {
                 <li className='profile-data-item'>
                     <label>Asistencias:</label>
                     {
-                        player?.assistances > -1 && passedTrainings[0]
+                        player?.pay?.trainsPayed[0] && passedTrainings[0]
                             ? <>
-                                <p>{player.assistances} / {passedTrainings.length}</p>
+                                <p>{player.pay.trainsPayed.length} / {passedTrainings.length}</p>
                             </>
                             : ''
                     }

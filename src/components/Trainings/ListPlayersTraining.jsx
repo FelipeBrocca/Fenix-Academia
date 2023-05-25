@@ -2,73 +2,96 @@ import React, { useEffect, useState } from 'react'
 import { usePlayers } from '../../context/PlayersContext'
 import Loader from '../Loader/Loader'
 import { useTrainings } from '../../context/TrainingsContext'
-import SearchPlayer from '../PlayersList/SearchPlayer'
 import { useMoney } from '../../context/MoneyContext'
 import { useFinances } from '../../context/FinancesContext'
 
 
-const ListPlayersTraining = ({ children, training, date }) => {
+const ListPlayersTraining = ({ children, training, date, create, setCreate }) => {
 
     const { money } = useMoney()
-    const { finances, updateFinance } = useFinances()
     const { players, updatePlayer } = usePlayers()
     const { updateTraining } = useTrainings()
     const [loading, setLoading] = useState(false)
     const [playersActive, setPlayersActive] = useState([])
-    const [todayFinance, setTodayFinance] = useState({})
     const [busqueda, setBusqueda] = useState('')
+    const [playersChecked, setPlayersChecked] = useState(training.players.assist)
+    const body = document.getElementById('body')
 
-    
     useEffect(() => {
         setPlayersActive(players)
     }, [players])
-    
+
     const handleBusqueda = (e) => {
         setBusqueda(e.target.value)
         filter(e.target.value)
     }
     const filter = (busqueda) => {
         let busquedaRes = players.filter(player => {
-          if(player.name.toString().toLowerCase().includes(busqueda.toLowerCase())){
-            return player
-          } else return ''
+            if (player.name.toString().toLowerCase().includes(busqueda.toLowerCase())) {
+                return player
+            } else return ''
         })
         setPlayersActive(busquedaRes)
-      }
+    }
 
     useEffect(() => {
-        let todayMonth = new Date(training.date.day).getMonth()
-        let todayYear = new Date(training.date.day).getFullYear()
-        let findFin = finances.find(fin => fin.month.value === todayMonth && fin.month.year === todayYear)
-        setTodayFinance(findFin);
-    }, [training.date.day])
-
-    const handlePlayerInput = async (playerId, isChecked) => {
-        let playerPaid = playersActive.find(player => player._id === playerId)
-        if (isChecked) {
-            setLoading(true)
-            training.players.assist.push(playerId)
-            if (playerPaid) {
-                playerPaid.pay.trainsPayed.push(training._id)
-                await updatePlayer(playerId, playerPaid)
+        playersActive.forEach((player) => {
+            if (!playersChecked.includes(player._id)) {
+                const index = player?.pay?.trainsPayed?.findIndex((obj) => obj.tr_id === training._id);
+                if (index !== -1) {
+                    player?.pay?.trainsPayed?.splice(index, 1);
+                }
             }
-            todayFinance.pays.playersXSession = todayFinance.pays.playersXSession + money.money.playerSession
-            await updateTraining(training._id, training)
-            await updateFinance(todayFinance._id, todayFinance)
+        });
+
+        playersChecked.forEach((id) => {
+            let playerCh = playersActive.find((player) => player._id === id);
+            if (playerCh) {
+                const existingObject = playerCh.pay.trainsPayed.find((obj) => obj.tr_id === training._id);
+                if (!existingObject) {
+                    playerCh.pay.trainsPayed.push({ tr_id: training._id, status: true });
+                }
+            }
+        });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [playersChecked]);
+
+
+
+    const handlePlayerInput = (playerId, isChecked) => {
+        if (isChecked) {
+            setPlayersChecked(prevPlayersChecked => [...prevPlayersChecked, playerId]);
+
             setBusqueda('')
             setLoading(false)
         } else {
-            setLoading(true)
-            training.players.assist = training.players.assist.filter(player => player !== playerId)
-            if (playerPaid) {
-                playerPaid.pay.trainsPayed = playerPaid.pay.trainsPayed.filter(train => train !== training._id)
-                await updatePlayer(playerId, playerPaid)
-            }
-            todayFinance.pays.playersXSession = todayFinance.pays.playersXSession - money.money.playerSession
-            await updateTraining(training._id, training)
-            await updateFinance(todayFinance._id, todayFinance)
+            setPlayersChecked(prevPlayersChecked => prevPlayersChecked.filter(id => id !== playerId));
+            training.players.paid = training.players.paid.filter(id => id !== playerId)
+
+
             setBusqueda('')
             setLoading(false)
+        }
+    }
+
+    useEffect(() => {
+        training.players.totalPay = training.players.paid.length * money.money.playerSession
+    }, [training.players.paid])
+
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        setLoading(true)
+        training.players.assist = playersChecked
+        try {
+            await Promise.all(playersActive.map(async (player) => {
+                await updatePlayer(player._id, player)
+            }))
+            await updateTraining(training._id, training)
+            setLoading(false)
+            setCreate(create => !create)
+            body.style.overflowY = "auto"
+        } catch (error) {
+            console.log(error);
         }
     }
 
@@ -90,9 +113,8 @@ const ListPlayersTraining = ({ children, training, date }) => {
                                     {name}
                                     <input
                                         type="checkbox"
-                                        checked={training.players.assist.includes(_id)}
+                                        checked={playersChecked.includes(_id)}
                                         onChange={e => handlePlayerInput(_id, e.target.checked)}
-                                        disabled={loading ? true : false}
                                     />
                                 </li>
                             ))
@@ -103,7 +125,10 @@ const ListPlayersTraining = ({ children, training, date }) => {
                     {
                         loading
                             ? <Loader />
-                            : <strong>{training.players.assist.length}/{playersActive?.length}</strong>
+                            : <>
+                                <strong>{playersChecked.length}/{playersActive?.length}</strong>
+                                <button className='confirm-assistance-button' onClick={handleSubmit}>Confirmar</button>
+                            </>
                     }
                 </div>
             </form>

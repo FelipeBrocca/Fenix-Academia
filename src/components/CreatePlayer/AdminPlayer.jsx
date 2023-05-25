@@ -1,13 +1,22 @@
 import React, { useRef, useState, useEffect } from 'react'
-import Select from 'react-select'
 import { usePlayers } from '../../context/PlayersContext'
 import Loader from '../Loader/Loader'
+import { useTrainings } from '../../context/TrainingsContext'
+import { useMoney } from '../../context/MoneyContext'
+import { useFinances } from '../../context/FinancesContext'
 
 const AdminPlayer = (props) => {
+
+  const { money } = useMoney()
+  const { finances, updateFinance } = useFinances()
+  const { passedTrainings, updateTraining } = useTrainings()
   const { updatePlayer } = usePlayers()
   const [loading, setLoading] = useState(false)
   const [month, setMonth] = useState('')
+  const [trainToPay, setTrainToPay] = useState([])
   const [birthDate, setBirthDate] = useState('')
+  const [toggledItems, setToggledItems] = useState([]);
+  const [totalPay, setTotalPay] = useState(0)
   const initialValues = {
     image: props.image,
     name: props.name,
@@ -27,6 +36,7 @@ const AdminPlayer = (props) => {
     pay: {
       trainsPayed: props.pay.trainsPayed,
     },
+    assistances: props.assistances,
     createdAt: {
       day: props.createdAt.day,
       month: props.createdAt.month,
@@ -34,6 +44,18 @@ const AdminPlayer = (props) => {
     }
   }
   const [formData, setFormData] = useState(initialValues);
+
+  useEffect(() => {
+    let newTrains = []
+    let trainsFiltered = props.pay.trainsPayed.filter((train) => train.status === false)
+    trainsFiltered.map((train) => {
+      let found = passedTrainings.find((tr) => train.tr_id === tr._id)
+      if (found) {
+        newTrains.push(found)
+      }
+    })
+    setTrainToPay(newTrains)
+  }, [props.pay.trainsPayed])
 
   useEffect(() => {
     const date = new Date(props.birth);
@@ -102,18 +124,58 @@ const AdminPlayer = (props) => {
       ensurancePayRef.current.checked = props.ensurance.paysec;
       ensuranceRef.current.checked = props.ensurance.secured;
     }
+    setToggledItems([])
   };
 
+  const handlePay = (id, e) => {
+    e.preventDefault()
+
+    setToggledItems(prevItems => {
+      if (prevItems.includes(id)) {
+        return prevItems.filter(item => item !== id);
+      } else {
+        return [...prevItems, id];
+      }
+    });
+  }
+
+  useEffect(() => {
+    trainToPay.map((train) => {
+      let plTr = formData.pay.trainsPayed.find((tr) => tr.tr_id === train._id)
+      if (toggledItems.includes(train._id)) {
+        train.players.paid.push(props._id)
+        train.players.totalPay = train.players.totalPay + money.money.playerSession
+        plTr.status = true
+        setTotalPay(totalPay => totalPay + money.money.playerSession)
+      } else {
+        train.players.paid = train.players.paid.filter(id => id !== props._id)
+        train.players.totalPay = train.players.totalPay - money.money.playerSession
+        plTr.status = false
+        setTotalPay(totalPay => totalPay - money.money.playerSession)
+      }
+    })
+  }, [toggledItems])
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setLoading(true);
     try {
-      setLoading(true);
       if (!props.secured && formData.ensurance.secured) {
         formData.ensurance.until.month = month
         formData.ensurance.until.year = todayYear + 1
       }
-      await updatePlayer(props.id, formData);
+      await Promise.all(trainToPay.map(async (train) => {
+        await updateTraining(train._id, train)
+        let todayDate = new Date(train.date.day)
+        todayDate.setUTCHours(0, 0, 0, 0)
+        let todayMonth = todayDate.getUTCMonth()
+        let todayFin = finances.find(fin => fin.month.value === todayMonth)
+        if (toggledItems.includes(train._id)) {
+          todayFin.pays.playersXSession = todayFin.pays.playersXSession + money.money.playerSession
+          await updateFinance(todayFin._id, todayFin)
+        }
+      }));
+      await updatePlayer(props._id, formData);
       setLoading(false);
     } catch (error) {
       console.log(error);
@@ -122,6 +184,38 @@ const AdminPlayer = (props) => {
 
   return (
     <form onSubmit={handleSubmit} className='form-administrate'>
+      {
+        trainToPay[0]
+          ?
+          <table className='table-debts'>
+            <thead className='thead-pay-train'>
+              <tr>
+                <th>Fecha</th>
+                <th>Plata</th>
+                <th></th>
+              </tr>
+            </thead>
+            {
+              trainToPay.map((train, index) => {
+                return (
+                  <tbody key={index} className={`tbody-pay-train ${toggledItems.includes(train._id) ? 'train-payed-toggled' : ''}`}>
+                    <tr>
+                      <td className='date-td'>{train.date.day}</td>
+                      <td>$ {money.money.playerSession}</td>
+                      <td className='but-td'>
+                        <button onClick={(e) => handlePay(train._id, e)}>PAGAR</button>
+                      </td>
+                    </tr>
+                  </tbody>
+                )
+              })
+            }
+          </table>
+          : <span style={{justifyContent: 'center', display: 'flex', gap: '10px'}}>
+            <span className="ok-icon"></span>
+            <p>No adeuda cuotas</p>
+            </span>
+      }
       {
         (!props.ensurance.paysec && !props.ensurance.secured)
           || (props.ensurance.paysec && !props.ensurance.secured)

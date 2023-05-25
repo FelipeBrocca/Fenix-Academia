@@ -8,10 +8,14 @@ const ItemToAdmin = (props) => {
     const handleAdminForm = () => {
         setAdminForm(adminForm => !adminForm)
     }
-
     return (
         <>
             <li className={`admin-coaches-item ${adminForm ? 'active' : ''}`}>
+                {
+                    props.type === 'player' && props.pay.trainsPayed.some(item => item.status === false)
+                        ? <div className='icon-alert'><p>!</p></div>
+                        : ''
+                }
                 <p
                     className={`item-admin-name ${props.type === 'player' ? 'player' : ''}`}>
                     {props.name}

@@ -1,8 +1,7 @@
 import React, {useState, useEffect} from 'react'
-import ListPlayersTraining from './ListPlayersTraining'
+import ListPayPlayer from './ListPayPlayer'
 
-const ModalListPlayers = ({training, date}) => {
-
+const ModalPayPlayer = ({training, date}) => {
     const [create, setCreate] = useState(false)
     const body = document.getElementById('body')
 
@@ -22,16 +21,16 @@ const ModalListPlayers = ({training, date}) => {
                 </div>
                 : ''
         }
-        <button className='edit-button assistance' onClick={() => setCreate(!create)}>Asistencias</button>
+        <button className='edit-button pay' onClick={() => setCreate(!create)}>Pagos</button>
         {
             create
-                ? <ListPlayersTraining training={training} date={date} setCreate={setCreate} create={create} >
+                ? <ListPayPlayer training={training} date={date} setCreate={setCreate} create={create} >
                     <button className='close-create-form' onClick={() => setCreate(!create)}>X</button>
-                </ListPlayersTraining>
+                </ListPayPlayer>
                 : ''
         }
     </>
     )
 }
 
-export default ModalListPlayers
+export default ModalPayPlayer

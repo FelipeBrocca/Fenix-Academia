@@ -117,6 +117,7 @@
     color: var(--white);
     display: block;
     height: 100%;
+    font-size: 13px;
 }
 .finances-list-menu > li > a:hover{
     color: var(--orange);
@@ -127,4 +128,10 @@
 .arrow-menu{
     rotate: -90deg;
     align-self: flex-end;
+}
+
+@media (min-width: 340px) {
+    .finances-list-menu > li > a{
+        font-size: 16px;
+    }
 }

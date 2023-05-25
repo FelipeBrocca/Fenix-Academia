@@ -40,7 +40,7 @@ export const FinancesProvider = ({ children }) => {
         if (create) {
             setFinances([...finances, create.data])
         } else {
-            console.log('no');
+            console.log('Error');
         }
     }
 

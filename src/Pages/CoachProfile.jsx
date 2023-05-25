@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import EditModal from '../components/EditModal/EditModal'
 import { useCoaches } from '../context/CoachesContext'
@@ -7,45 +7,44 @@ import CoachesProfile from '../components/Profile/CoachesProfile'
 
 const CoachProfile = ({ person }) => {
 
-  const { getCoach, updateCoach } = useCoaches()
+  const { coaches, updateCoach } = useCoaches()
   const [coach, setCoach] = useState({})
   const [loading, setLoading] = useState(true)
   const [noCoachFound, setNoCoachFound] = useState(false)
   const params = useParams()
 
 
- useEffect(() => {
-  (async () => {
-    const coachProfile = await getCoach(params.id)
-    if(coachProfile !== undefined && coachProfile !== null && coachProfile.name){
+  useEffect(() => {
+    const coachProfile = coaches.find((coach) => coach._id === params.id)
+    if (coachProfile !== undefined && coachProfile !== null && coachProfile.name) {
       setCoach(coachProfile)
       setLoading(false)
-    } else if (coachProfile === null){
+    } else if (coachProfile === null) {
       setLoading(false)
       setNoCoachFound(true)
     }
-  })()
- }, [params.id, updateCoach, getCoach])
+  }, [params.id, updateCoach, coaches])
 
 
- if (loading) {
-  return <Loader />
-}
-else if (noCoachFound) {
-  return <h3 style={{ color: 'var(--white)' }} className='no-player-found'>No existe este entrenador/a</h3>
-}
-else {
-  return (
-    <main>
+  if (loading) {
+    return <Loader />
+  }
+  else if (noCoachFound) {
+    return <h3 style={{ color: 'var(--white)' }} className='no-player-found'>No existe este entrenador/a</h3>
+  }
+  else {
+    return (
+      <main>
         <div className='top-profile'>
           <Link className='back-to-list' to='/entrenadores/listado'>Volver</Link>
           <EditModal person={coach} id={params.id} />
         </div>
         <CoachesProfile
-        coach={coach}
+          coach={coach}
         />
       </main>
-  )
-}}
+    )
+  }
+}
 
 export default CoachProfile

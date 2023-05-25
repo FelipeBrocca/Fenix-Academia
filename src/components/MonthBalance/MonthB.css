@@ -3,6 +3,8 @@
     width: 100%;
     padding: 5px;
     border-radius: 5px;
+    max-width: 1000px;
+    align-self: center;
 }
 .header-acc-item{
     display: flex;
@@ -53,5 +55,9 @@
     }
     .contentEl div{
         width: 50%;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
     }
 }

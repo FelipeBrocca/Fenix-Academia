@@ -4,16 +4,30 @@ import { usePlayers } from '../../context/PlayersContext'
 import { useCoaches } from '../../context/CoachesContext'
 import Loader from '../Loader/Loader'
 import { useMoney } from '../../context/MoneyContext'
+import { useFinances } from '../../context/FinancesContext'
+
 
 const CloseTraining = ({ training, _id }) => {
 
     const { money } = useMoney()
+    const { finances, updateFinance } = useFinances()
     const { updateTraining } = useTrainings()
     const { updatePlayer, getPlayer } = usePlayers()
     const { updateCoach, coaches, getCoaches } = useCoaches()
     const [loading, setLoading] = useState(false)
     const [coachesToPay, setCoachesToPay] = useState([]);
     const [playersAssis, setPlayersAssis] = useState([])
+    const [todayFinance, setTodayFinance] = useState({})
+
+
+    useEffect(() => {
+        let todayMonth = new Date(training.date.day).getMonth()
+        let todayYear = new Date(training.date.day).getFullYear()
+        let findFin = finances.find(fin => fin.month.value === todayMonth && fin.month.year === todayYear)
+        setTodayFinance(findFin);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [training.date.day])
+
 
     useEffect(() => {
         (async () => {
@@ -35,7 +49,6 @@ const CloseTraining = ({ training, _id }) => {
     const diffHs = Number((diffInMs / (1000 * 60 * 60)).toFixed(1))
 
 
-
     useEffect(() => {
         (async () => {
             const updatedCoachesToPay = [];
@@ -53,26 +66,18 @@ const CloseTraining = ({ training, _id }) => {
         })();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [training.coaches]);
-    
-
-    const handleGiveAssistance = async () => {
-        if (playersAssis[0]) {
-            playersAssis.map(async (player) => {
-                player.assistances = player.assistances + 1
-                await updatePlayer(player._id, player)
-            })
-        }
-    }
 
     const handleSubmit = async (e) => {
         e.preventDefault()
         setLoading(true)
         training.active = false;
+        todayFinance.billing.others = todayFinance.billing.others + training.field.cost
+        todayFinance.pays.playersXSession = todayFinance.pays.playersXSession + training.players.totalPay
         try {
-            await handleGiveAssistance()
             await Promise.all(coachesToPay.map(async (coach) => {
                 await updateCoach(coach._id, coach)
             }));
+            await updateFinance(todayFinance._id, todayFinance)
             await updateTraining(_id, training)
             await getCoaches()
             setLoading(false)

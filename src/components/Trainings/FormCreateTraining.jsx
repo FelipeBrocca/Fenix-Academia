@@ -13,6 +13,9 @@ const FormCreateTraining = ({ children }) => {
     const [loading, setLoading] = useState(false)
     const [coachesOpt, setCoachesOpt] = useState([])
     const [coachesAssis, setCoachesAssis] = useState([])
+    const [field, setField] = useState(true)
+    const [field2, setField2] = useState(false)
+    const [field2Values, setField2Values] = useState({})
     const initialValues = {
         active: true,
         coaches: [],
@@ -24,6 +27,10 @@ const FormCreateTraining = ({ children }) => {
             day: '',
             since: '',
             until: ''
+        },
+        field: {
+            field: '',
+            cost: 0
         },
         techniques: ''
     }
@@ -50,6 +57,11 @@ const FormCreateTraining = ({ children }) => {
         setFormData({ ...formData, [name]: value })
     }
 
+    const handleField2Values = (e) => {
+        const {name, value} = e.target;
+        setField2Values({...field2Values, [name]: name === 'cost' ? parseInt(value) : value})
+    }
+
     useEffect(() => {
         const newOptions = coaches.map(({ _id, name }) => ({
             value: _id,
@@ -65,9 +77,23 @@ const FormCreateTraining = ({ children }) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [coachesAssis])
 
+    const handleField = () => {
+        setField(field => !field)
+        setField2(field2 => !field2)
+    }
+
+    useEffect(() => {
+       setFormData({
+        ...formData, 
+        field: field ? money?.money?.field : field2Values
+       })
+    }, [field2Values, field, field2])
+
     const handleReset = () => {
         setFormData(initialValues)
         setCoachesAssis([])
+        setField(true)
+        setField2(false)
         sinceRef.current.value = ''
         untilRef.current.value = ''
         tecRef.current.value = ''
@@ -85,7 +111,6 @@ const FormCreateTraining = ({ children }) => {
             setLoading(false)
         }
     }
-
 
     return (
         <div className='create-form-container'>
@@ -111,12 +136,38 @@ const FormCreateTraining = ({ children }) => {
                     <Select isMulti isClearable name='coaches' options={coachesOpt} onChange={setCoachesAssis} value={coachesAssis} placeholder="Entrenadores" required />
                 </div>
                 <div className='input-create-container'>
+                    <h3 htmlFor="techniques">Cancha</h3>
+                    <div className='field-container'>
+                        <input type="checkbox" name="field" id="tucu_field"  onChange={handleField} checked={field} />
+                        <label htmlFor='field'>Tucumán Rugby</label>
+                    </div>
+                    <div className='field-container'>
+                        <input type="checkbox" name="field2" id="field2" onChange={handleField} checked={field2}  />
+                        <label htmlFor="field2">Otra</label>
+                    </div>
+                    {
+                        field2
+                            ? <div className='field2-container'>
+                                <div>
+                                    <label htmlFor="field">Nombre: </label>
+                                    <input type="text" name='field' id='field_field' onChange={handleField2Values} />
+                                </div>
+                                <div>
+                                    <label htmlFor="cost">Precio: </label>
+                                    <input type="number" name="cost" id="field" inputMode="numeric" onChange={handleField2Values} required />
+                                </div>
+                            </div>
+                            : ''
+                    }
+                </div>
+                <div className='input-create-container'>
                     <label htmlFor="techniques">Técnicas a trabajar:</label>
                     <textarea name='techniques' style={{ resize: 'none' }} onChange={handleInputChange}
                         placeholder='Detalle de técnicas
                 (Secreto... probá poner títulos entre asteriscos)'
                         ref={tecRef} required />
                 </div>
+
                 {
                     loading
                         ? <Loader />

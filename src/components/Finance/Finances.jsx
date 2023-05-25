@@ -3,7 +3,6 @@ import Select from 'react-select'
 import './Finances.css'
 import AdminCoaches from './AdminCoaches'
 import AdminPlayers from './AdminPlayers'
-import AdminOthers from './AdminOthers'
 import AdminFinances from './AdminFinances'
 import { useLocation } from 'react-router-dom'
 
@@ -17,8 +16,7 @@ const Finances = () => {
   const adminOptions = [
     { value: 0, label: 'Entrenadores' },
     { value: 1, label: 'Jugadores' },
-    { value: 2, label: 'Finanzas' },
-    { value: 3, label: 'Otros' }
+    { value: 2, label: 'Finanzas' }
   ]
 
   return (
@@ -35,8 +33,6 @@ const Finances = () => {
               ? <AdminPlayers />
               : adminOpt.value === 2
                 ? <AdminFinances />
-              : adminOpt.value === 3
-                ? <AdminOthers />
                 : ''
         }
       </div>

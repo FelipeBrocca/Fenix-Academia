@@ -1,27 +1,33 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
 
-const ItemPlayer = ({ id, name, club, roleFilter, ensurance }) => {
+const ItemPlayer = ({ id, name, club, roleFilter, ensurance, pay }) => {
 
-
-    const [active, setActive] = useState(false)
+    const needToPay = pay.trainsPayed.some(it => it.status === false)
 
     return (
         <li>
+            {
+                needToPay
+                    ? <div className='icon-alert' title='Adeuda cuota'>
+                        <p>!</p>
+                    </div>
+                    : ''
+            }
             <p className='p-name'>{name}</p>
             {
                 club !== undefined
                     ? <p className='p-filter'>{club}</p>
                     : ''
             }{
-                ensurance !== undefined && ensurance.paysec && !ensurance.secured
+                ensurance !== undefined && !ensurance.secured
                     ? <span className='icon-alert-container'>
                         {
-                            !ensurance.paysec && ensurance.secured
-                                ? ''
-                                : <div className='icon-alert2' title='No asegurado'>
+                            !ensurance.secured
+                                ? <div className='icon-alert2' title='No asegurado'>
                                     <p>!</p>
                                 </div>
+                                : ''
                         }
                     </span>
                     : ''

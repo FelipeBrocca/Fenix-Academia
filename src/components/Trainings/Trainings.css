@@ -257,16 +257,6 @@ align-self: flex-end;
     align-items: center;
     justify-content: center;
 }
-.edit-button.assistance{
-    width: 100%;
-    max-width: 200px;
-    background-color: var(--green);
-    align-self: center;
-    font-weight: 800;
-}
-.edit-button.assistance:hover{
-    background-color: var(--lightgreen);
-}
 .form-assistance{
     display: flex;
     flex-direction: column;
@@ -359,13 +349,13 @@ align-self: flex-end;
     font-size: 18px;
     border-radius: 5px;
     border: none;
-    background: linear-gradient(to left, var(--green), var(--orange));
+    background-color: var(--lightgreen);
     color: var(--white);
     cursor: pointer;
     transition: all 1s;
 }
 .close-training-form-button:hover{
-    background: linear-gradient(to right, var(--green), var(--orange));
+    background: var(--green);
 }
 .training-contain-in-list{
     display: flex;
@@ -412,4 +402,51 @@ align-self: flex-end;
 }
 .assis-title-container > h3:hover{
     color: var(--orange);
+}
+.buttons-top-tr-container{
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+}
+.edit-button.assistance{
+    width: 45%;
+    max-width: 150px;
+    background-color: var(--green);
+    align-self: center;
+    font-weight: 800;
+    font-size: 16px;
+}
+.edit-button.pay{
+    width: 45%;
+    max-width: 150px;
+    background-color: var(--orange);
+    align-self: center;
+    font-weight: 800;
+    font-size: 16px;
+}
+.edit-button.assistance:hover{
+    background-color: var(--lightgreen);
+}
+.field-container{
+    display: flex;
+    width: 100%;
+    align-items: center;
+    gap: 10px;
+}
+.field2-container{
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+}
+.field2-container div{
+    width: calc(50% - 5px);
+}
+.field2-container div input{
+    width: 100%;
+    outline: none;
+    padding: 5px;
+    height: 30px;
+    border-radius: 5px;
+    border: none;
+    gap: 5px;
 }

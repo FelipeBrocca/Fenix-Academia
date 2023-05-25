@@ -164,7 +164,7 @@ select{
     line-height: 20px;   
     font-weight: bolder;
 }
-.check-input-container > div > input{
+input[type='checkbox']{
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -173,7 +173,7 @@ select{
     background-color: transparent;
     cursor: pointer;
 }
-.check-input-container > div > input::before{
+input[type='checkbox']::before{
     content: "";
     display: inline-block;
     width: 20px;
@@ -183,7 +183,7 @@ select{
     vertical-align: middle;
     border-radius: 50px;
 }
-.check-input-container > div > input:checked::before{
+input[type='checkbox']:checked::before{
     content: "\2713";
     background-color: var(--green);
     color: var(--white);

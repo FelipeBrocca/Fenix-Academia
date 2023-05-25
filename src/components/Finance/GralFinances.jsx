@@ -43,31 +43,39 @@ const GralFinances = ({ current }) => {
         )
     } else {
         return (
-            <div className='top-admin-finances-container'>
-                <h3>VALORES POR ENTRENAMIENTO
-                    <button className='edit-bill-detail' onClick={handleEditBill}>Editar</button>
-                    {
-                        editBill
-                            ? <>
-                                <div className='backdropPopUp' onClick={handleEditBill}></div>
-                                <EditBillForm setEditBill={setEditBill} />
-                            </>
-                            : ''
-                    }
-                </h3>
-                <div className='bill-detail-container'>
-                    <h5>CUOTA JUGADORES</h5>
-                    <h5>$ {values?.playerSession}</h5>
-                </div>
-                <div className='bill-detail-container'>
-                    <h5>SALARIO ENTRENADORES</h5>
-                    <h5>$ {values?.coachesSalary}</h5>
-                </div>
-                <div className='bill-detail-container'>
-                    <h5>VALOR SEGURO</h5>
-                    <h5>$ {values?.secure}</h5>
+            <div className='top-admin-finances-container all'>
+                <div className='top-admin-finances-container bill'>
+                    <h3>VALORES POR ENTRENAMIENTO
+                        <button className='edit-bill-detail' onClick={handleEditBill}>Editar</button>
+                        {
+                            editBill
+                                ? <>
+                                    <div className='backdropPopUp' onClick={handleEditBill}></div>
+                                    <EditBillForm setEditBill={setEditBill} />
+                                </>
+                                : ''
+                        }
+                    </h3>
+                    <div className='bill-detail-container'>
+                        <h5>CUOTA JUGADORES</h5>
+                        <h5>$ {values?.playerSession}</h5>
+                    </div>
+                    <div className='bill-detail-container'>
+                        <h5>SALARIO ENTRENADORES</h5>
+                        <h5>$ {values?.coachesSalary}</h5>
+                    </div>
+                    <div className='bill-detail-container'>
+                        <h5>VALOR SEGURO</h5>
+                        <h5>$ {values?.secure}</h5>
+                    </div>
+                    <div className='bill-detail-container'>
+                        <h5>VALOR TUC. RUGBY</h5>
+                        <h5>$ {values?.field?.cost}</h5>
+                    </div>
                 </div>
                 <div className='gral-finances-container'>
+                    <h3 style={{ color: 'var(--green)', textAlign: 'center' }}>{currentMonth?.month?.month} {currentMonth?.month?.year}
+                    </h3>
                     <ul>
                         <li>
                             <label>Recaudación jugadores: </label>
@@ -87,15 +95,17 @@ const GralFinances = ({ current }) => {
                             <label>Ganancias del mes:</label>
                             {
                                 ganMonth >= 0
-                                    ? <p style={{color: 'var(--green)'}}>
+                                    ? <p style={{ color: 'var(--green)' }}>
                                         {ganMonth}
                                     </p>
-                                    : <p style={{color: 'var(--orange)'}}>
+                                    : <p style={{ color: 'var(--orange)' }}>
                                         {ganMonth}
                                     </p>
                             }
                         </li>
                     </ul>
+                    {/* //AGREGAR FUNCION PARA AGREGAR GASTOS */}
+                        {/* <button>Agregar gasto</button> */}
                 </div>
             </div>
         )

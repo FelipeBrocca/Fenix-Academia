@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import { useTrainings } from '../../context/TrainingsContext'
 import ModalListPlayers from './ModalListPlayers'
 import CloseTraining from './CloseTraining'
+import ModalPayPlayer from './ModalPayPlayer'
 const TrainingsHome = () => {
 
     const { trainings } = useTrainings()
@@ -33,7 +34,7 @@ const TrainingsHome = () => {
             setNextTraining(fakeTraining)
         }
         setLoading(false)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [trainings[0]])
 
     const handleTechniques = () => {
@@ -61,7 +62,6 @@ const TrainingsHome = () => {
     const lines = nextTraining.techniques.split('\n');
     let currentTitleText = null;
     let isTitleLine = false;
-
     return (
         <>
             {
@@ -73,7 +73,14 @@ const TrainingsHome = () => {
                                 <h3>Próximo entrenamiento</h3>
                                 {
                                     dayOfTraining
-                                        ? <ModalListPlayers training={nextTraining} date={dayFormatted} />
+                                        ? <div className='buttons-top-tr-container'>
+                                            <ModalListPlayers training={nextTraining} date={dayFormatted} />
+                                            {
+                                                nextTraining.players.assist && nextTraining.players.assist[0]
+                                                    ? <ModalPayPlayer training={nextTraining} date={dayFormatted} />
+                                                    : ''
+                                            }
+                                        </div>
                                         : ''
                                 }
                             </div>

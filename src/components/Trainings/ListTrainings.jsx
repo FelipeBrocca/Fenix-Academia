@@ -17,13 +17,15 @@ const ListTrainings = () => {
         <>
             <ul className='trainings-list'>
                 {
-                    activeTrainings.map(training => (
+                    activeTrainings[0]
+                    ? activeTrainings.map(training => (
                         <TrainingItem 
                         key={training._id} 
                         training={training}
                         active={true}
                         />
                     ))
+                    : <h4 style={{textAlign: 'center', color: 'var(--green)'}}>Sin entrenamientos próximos</h4>
                 }
             </ul>
             <h2>Entrenamientos pasados</h2>
