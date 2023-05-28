@@ -168,7 +168,7 @@ const FormCoachCreate = ({ children }) => {
                 <input onChange={handleInputChange} value={formData.name} type='text' name='name' placeholder='Nombre' required />
                 <input onChange={handleInputChange} value={formData.dni} type='text' name='dni' placeholder='Dni' inputMode="numeric" required />
                 <input onChange={handleInputChange} value={formData.phone} type='tel' name='phone' placeholder='Telefono' inputMode="numeric" required />
-                <Select name='role' options={roleOptions} isMulti isClearable onChange={setRoles} className='clubs-container-form-create' placeholder='Seleccione rol de entrenador' value={roles} required />
+                <Select inputMode="none" name='role' options={roleOptions} isMulti isClearable onChange={setRoles} className='clubs-container-form-create' placeholder='Seleccione rol de entrenador' value={roles} required />
                 <input onChange={handleInputChange} value={formData.birth} type='date' name='birth' placeholder='Nacimiento' max="2005-12-31" required />
                 <div className='check-input-container ensurance'>
                     <div>
