@@ -123,7 +123,7 @@ const EditTrainingForm = ({ children, training, id }) => {
                 </div>
                 <div className='input-create-container'>
                     <label htmlFor="coaches">Entrenadores:</label>
-                    <Select inputMode="none" isMulti isClearable name='coaches' options={coachesOpt} onChange={setCoachesAssis} value={coachesAssis} required />
+                    <Select isSearchable={ false } isMulti isClearable name='coaches' options={coachesOpt} onChange={setCoachesAssis} value={coachesAssis} required />
                 </div>
                 <div className='input-create-container'>
                     <h3 htmlFor="techniques">Cancha</h3>

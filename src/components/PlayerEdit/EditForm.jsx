@@ -228,11 +228,11 @@ const EditForm = ({ children, player, id }) => {
           <input onChange={handleInputChange} value={formData.phone} type='tel' name='phone' placeholder='Telefono' inputMode="numeric" required />
           <div className='clubs-container-form-create'>
             <div className='select-clubs'>
-              <Select inputMode="none" name='club' options={clubsSelect} onChange={setClubSelected} placeholder={player.club} value={clubSelected} />
+              <Select isSearchable={ false } name='club' options={clubsSelect} onChange={setClubSelected} placeholder={player.club} value={clubSelected} />
             </div>
             <span className='button-modal-create-club' onClick={handleCreateClub}>+</span>
           </div>
-          <Select inputMode="none" name='role' options={roleOptions} isMulti isClearable onChange={setRoles} className='clubs-container-form-create' value={roles} />
+          <Select isSearchable={ false } name='role' options={roleOptions} isMulti isClearable onChange={setRoles} className='clubs-container-form-create' value={roles} />
           <input onChange={handleInputChange} value={formData.birth} type='date' name='birth' placeholder='Nacimiento' max="2012-12-31" required />
           {
             (!player.ensurance.paysec && !player.ensurance.secured)

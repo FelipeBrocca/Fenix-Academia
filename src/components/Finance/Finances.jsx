@@ -23,7 +23,7 @@ const Finances = () => {
     <>
       <div className='select-admin-finances-container'>
         <label>Administrar</label>
-        <Select inputMode="none" options={adminOptions} onChange={setAdminOpt} value={adminOpt} className='select-admin-finance' />
+        <Select isSearchable={ false } options={adminOptions} onChange={setAdminOpt} value={adminOpt} className='select-admin-finance' />
       </div>
       <div className='option-finance-container'>
         {

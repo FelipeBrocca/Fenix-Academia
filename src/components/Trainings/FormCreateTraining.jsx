@@ -133,7 +133,7 @@ const FormCreateTraining = ({ children }) => {
                 </div>
                 <div className='input-create-container'>
                     <label htmlFor="coaches">Entrenadores:</label>
-                    <Select inputMode="none" isMulti isClearable name='coaches' options={coachesOpt} onChange={setCoachesAssis} value={coachesAssis} placeholder="Entrenadores" required />
+                    <Select isSearchable={ false } isMulti isClearable name='coaches' options={coachesOpt} onChange={setCoachesAssis} value={coachesAssis} placeholder="Entrenadores" required />
                 </div>
                 <div className='input-create-container'>
                     <h3 htmlFor="techniques">Cancha</h3>

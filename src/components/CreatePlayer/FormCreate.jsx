@@ -197,11 +197,11 @@ const FormCreate = ({ children }) => {
           <input onChange={handleInputChange} value={formData.phone} type='tel' name='phone' placeholder='Telefono' inputMode="numeric" required />
           <div className='clubs-container-form-create'>
             <div className='select-clubs'>
-              <Select inputMode="none" name='club' placeholder='Seleccione club' options={clubsSelect} onChange={setClubSelected} value={clubSelected} required />
+              <Select isSearchable={ false } name='club' placeholder='Seleccione club' options={clubsSelect} onChange={setClubSelected} value={clubSelected} required />
             </div>
             <span className='button-modal-create-club' onClick={handleCreateClub}>+</span>
           </div>
-          <Select inputMode="none" name='role' options={roleOptions} isMulti isClearable onChange={setRoles} className='clubs-container-form-create' placeholder='Seleccione posiciones' value={roles} required />
+          <Select isSearchable={ false } name='role' options={roleOptions} isMulti isClearable onChange={setRoles} className='clubs-container-form-create' placeholder='Seleccione posiciones' value={roles} required />
           <input onChange={handleInputChange} value={formData.birth} type='date' name='birth' placeholder='Nacimiento' max="2012-12-31" required />
           <div className='check-input-container ensurance'>
             <div>
