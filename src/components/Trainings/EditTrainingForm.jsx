@@ -114,11 +114,11 @@ const EditTrainingForm = ({ children, training, id }) => {
                 <div className='input-create-container time'>
                     <div className='time-create-container'>
                         <label htmlFor="since">Desde:</label>
-                        <input type="time" name='since' onChange={handleInputDateChange} ref={sinceRef} value={formData.date.since} required />
+                        <input type="time" name='since' onChange={handleInputDateChange} ref={sinceRef} value={formData.date.since} disabled={!training.active ? true : false} required />
                     </div>
                     <div className='time-create-container'>
                         <label htmlFor="until">Hasta:</label>
-                        <input type="time" name='until' onChange={handleInputDateChange} ref={untilRef} value={formData.date.until} required />
+                        <input type="time" name='until' onChange={handleInputDateChange} ref={untilRef} value={formData.date.until} disabled={!training.active ? true : false} required />
                     </div>
                 </div>
                 <div className='input-create-container'>
