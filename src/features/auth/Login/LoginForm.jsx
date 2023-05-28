@@ -3,13 +3,12 @@ import { useNavigate } from 'react-router-dom'
 import Loader from '../../../components/Loader/Loader'
 import { useLogin } from '../../../context/LoginContext'
 
-
 const LoginForm = () => {
-
 
   const { logIn } = useLogin()
   const [datos, setDatos] = useState({})
   const [loadingLogin, setLoadingLogin] = useState(false)
+  const [errors, setErrors] = useState('')
 
   const navigation = useNavigate()
 
@@ -22,14 +21,25 @@ const LoginForm = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault()
-    try {
-      setLoadingLogin(true)
-      await logIn(datos)
-        .then(() => {
-          navigation('/')
-        })
-    } catch (error) {
-      console.log(error);
+    if (!datos.username) {
+      setErrors('Ingrese un usuario')
+    } else if (!datos.password) {
+      setErrors('Ingrese una contraseña')
+    } else if (datos.username && datos.username !== process.env.REACT_APP_USU) {
+      setErrors('Usuario inválido')
+    } else if (datos.password && datos.password !== process.env.REACT_APP_PASS) {
+      setErrors('Contraseña inválida')
+    } else {
+      setErrors('')
+      try {
+        setLoadingLogin(true)
+        await logIn(datos)
+          .then(() => {
+            navigation('/')
+          })
+      } catch (error) {
+        console.log(error);
+      }
     }
   }
   return (
@@ -44,8 +54,14 @@ const LoginForm = () => {
               className='login-button'
             >Iniciar sesión</button>
         }
-        <p className='change-password'>Cambiar contraseña</p>
       </form>
+      <div style={{ height: '50px', width: '100%' }}>
+        <p style={{ width: '100%', color: 'red', textAlign: 'center' }}>
+          {
+            errors ? errors : ''
+          }
+        </p>
+      </div>
     </div>
   )
 }

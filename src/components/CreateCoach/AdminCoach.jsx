@@ -58,7 +58,7 @@ const AdminCoach = (props) => {
           let sinceTime = new Date(`${trainToPay.date.day}T${trainToPay.date.since}`);
           let untilTime = new Date(`${trainToPay.date.day}T${trainToPay.date.until}`);
           const differenceInMilliseconds = untilTime.getTime() - sinceTime.getTime();
-          const differenceInHours = differenceInMilliseconds / (1000 * 60 * 60);
+          const differenceInHours = Number((differenceInMilliseconds / (1000 * 60 * 60)).toFixed(1));
           trainToPay.date.diffHs = differenceInHours;
           trainToPay.date.billCoach = differenceInHours * money.money.coachesSalary;
           newTrainingsToPay.push(trainToPay);

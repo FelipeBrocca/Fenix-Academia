@@ -176,6 +176,12 @@ td{
 }
 tfoot > tr > td{
     border: none;
+    height: 40px;
+    text-align: center;
+}
+.thead-pay-train tr th{
+   height: 40px;
+   border: 1px solid var(--grey);
 }
 .view-pays-container{
     position: fixed;
@@ -216,6 +222,12 @@ tfoot > tr > td{
 .view-pays-container > table{
     width: 100%;
     text-align: left;
+}
+.view-pays-container table thead tr th{
+    text-align: center;
+}
+.view-pays-container table tbody tr td{
+    text-align: center;
 }
 .check-input-container.payment-administration > p{
     display: flex;

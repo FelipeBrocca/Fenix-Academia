@@ -4,6 +4,7 @@
     gap: 20px;
     width: 100%;
     color: var(--white);
+    max-width: 1200px;
 }
 .players-list{
     width: 100%;
@@ -31,6 +32,11 @@
     width: 10%;
     text-decoration: none;
     color: var(--green);
+    max-width: 50px;
+    text-align: center;
+}
+.players-list > ul > li > a:hover{
+color: var(--lightgreen);
 }
 .search-container{
     width: 100%;
@@ -110,6 +116,7 @@
   .container-selects-filter > select{
     width: 48%;
     gap: 4%;
+    max-width: 200px;
   }
   .icon-alert{
     width: 20px;

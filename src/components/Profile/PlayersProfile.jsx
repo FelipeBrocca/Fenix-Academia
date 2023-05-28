@@ -31,7 +31,7 @@ const PlayersProfile = ({ player }) => {
 
     useEffect(() => {
         if (player.pay.trainsPayed[0]) {
-            handleLastTraining(player.pay.trainsPayed[player.pay.trainsPayed.length - 1])
+            handleLastTraining(player.pay.trainsPayed[player.pay.trainsPayed.length - 1].tr_id)
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [player.pay.trainsPayed])
@@ -46,7 +46,6 @@ const PlayersProfile = ({ player }) => {
             console.log(error);
         }
     } 
-
     return (
         <div className='player-card'>
             <ul className='profile-data-list'>

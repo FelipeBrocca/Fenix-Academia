@@ -43,10 +43,10 @@ const CloseTraining = ({ training, _id }) => {
     }, [training.players.assist]);
 
 
-    const sinceDate = new Date(`${training.date.day} ${training.date.since}`)
-    const untilDate = new Date(`${training.date.day} ${training.date.until}`)
-    const diffInMs = untilDate - sinceDate;
-    const diffHs = Number((diffInMs / (1000 * 60 * 60)).toFixed(1))
+    // const sinceDate = new Date(`${training.date.day} ${training.date.since}`)
+    // const untilDate = new Date(`${training.date.day} ${training.date.until}`)
+    // const diffInMs = untilDate - sinceDate;
+    // const diffHs = Number((diffInMs / (1000 * 60 * 60)).toFixed(1))
 
 
     useEffect(() => {

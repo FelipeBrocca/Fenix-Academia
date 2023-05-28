@@ -33,7 +33,7 @@ export const PlayersProvider = ({ children }) => {
             console.error(error);
             return null;
         }
-    }, [players]);
+    }, []);
 
 
     const createPlayer = async (player) => {
