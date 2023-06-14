@@ -8,7 +8,7 @@ import AssitancePastTrainings from './AssitancePastTrainings'
 const TrainingItem = ({ training, active }) => {
 
     const { deleteTraining, getTrainings } = useTrainings()
-    const { getPlayer } = usePlayers()
+    const { getPlayer, players } = usePlayers()
     // const [loading, setLoading] = useState(false)
     // const [elimModal, setElimModal] = useState(false)
     const [seeTraining, setSeeTraining] = useState(false)
@@ -28,8 +28,13 @@ const TrainingItem = ({ training, active }) => {
         if (seeAssis) {
             (async () => {
                 await training.players.assist.map(async (id) => {
-                    const playersA = await getPlayer(id)
-                    setPlayersAssisted(players => [...players, playersA.name])
+                    const playersA = players.find(pid => id === pid)
+                    console.log(playersA);
+                    if (playersA) {
+                        setPlayersAssisted(players => [...players, playersA.name])
+                    } else {
+                        setPlayersAssisted(players => [...players, 'Jugador eliminado'])
+                    }
                 })
             })()
         } else {

@@ -3,16 +3,14 @@ import { useTrainings } from '../../context/TrainingsContext'
 import { usePlayers } from '../../context/PlayersContext'
 import { useCoaches } from '../../context/CoachesContext'
 import Loader from '../Loader/Loader'
-import { useMoney } from '../../context/MoneyContext'
 import { useFinances } from '../../context/FinancesContext'
 
 
 const CloseTraining = ({ training, _id }) => {
 
-    const { money } = useMoney()
     const { finances, updateFinance } = useFinances()
     const { updateTraining } = useTrainings()
-    const { updatePlayer, getPlayer } = usePlayers()
+    const { getPlayer } = usePlayers()
     const { updateCoach, coaches, getCoaches } = useCoaches()
     const [loading, setLoading] = useState(false)
     const [coachesToPay, setCoachesToPay] = useState([]);
@@ -43,18 +41,12 @@ const CloseTraining = ({ training, _id }) => {
     }, [training.players.assist]);
 
 
-    // const sinceDate = new Date(`${training.date.day} ${training.date.since}`)
-    // const untilDate = new Date(`${training.date.day} ${training.date.until}`)
-    // const diffInMs = untilDate - sinceDate;
-    // const diffHs = Number((diffInMs / (1000 * 60 * 60)).toFixed(1))
-
-
     useEffect(() => {
         (async () => {
             const updatedCoachesToPay = [];
             for (const coach of training.coaches) {
                 const coachDebt = coaches.find(coa => coa.name == coach.label);
-                if (!coachDebt.pay.trainingsMang.find(t => t.tr_id === training._id)) {
+                if (coachDebt && !coachDebt.pay.trainingsMang.find(t => t.tr_id === training._id)) {
                     coachDebt.pay.trainingsMang.push({
                         tr_id: training._id,
                         statusPay: false
