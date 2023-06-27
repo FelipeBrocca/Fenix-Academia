@@ -2,11 +2,11 @@ import axios from 'axios';
 
 //PROD
 
-export const loggedInAuth = async() => await axios.get(`${process.env.BASEURL}auth/loggedIn`)
+export const loggedInAuth = async() => await axios.get(`${process.env.REACT_APP_BASEURL}auth/loggedIn`)
 
-export const loginRequest = async(user) => await axios.post(`${process.env.BASEURL}auth`, user)
+export const loginRequest = async(user) => await axios.post(`${process.env.REACT_APP_BASEURL}auth`, user)
 
-export const logoutRequest = async() => await axios.post(`${process.env.BASEURL}auth/logout`)
+export const logoutRequest = async() => await axios.post(`${process.env.REACT_APP_BASEURL}auth/logout`)
 
 //DEV
 

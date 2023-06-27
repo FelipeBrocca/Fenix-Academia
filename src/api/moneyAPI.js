@@ -2,10 +2,10 @@ import axios from "axios";
 
 //PROD
 
-export const moneyDetailReq = async (id) => await axios.get(`${process.env.BASEURL}money/${id}`)
-export const createMoneyReq = async (data) => await axios.post(`${process.env.BASEURL}money`, data)
-export const updateMoneyReq = async (id, data) => await axios.put(`${process.env.BASEURL}money/${id}`, data)
-export const deleteMoneyReq = async (id) => await axios.delete(`${process.env.BASEURL}money/${id}`)
+export const moneyDetailReq = async (id) => await axios.get(`${process.env.REACT_APP_BASEURL}money/${id}`)
+export const createMoneyReq = async (data) => await axios.post(`${process.env.REACT_APP_BASEURL}money`, data)
+export const updateMoneyReq = async (id, data) => await axios.put(`${process.env.REACT_APP_BASEURL}money/${id}`, data)
+export const deleteMoneyReq = async (id) => await axios.delete(`${process.env.REACT_APP_BASEURL}money/${id}`)
 
 
 //DEV
