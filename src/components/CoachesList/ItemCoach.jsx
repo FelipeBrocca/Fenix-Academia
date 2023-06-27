@@ -8,7 +8,11 @@ const ItemCoach = ({ _id, image, name, role }) => {
     <li className='coach-item-container'>
       <Link to={`/entrenadores/listado/${_id}`}>
         <div className='coach-image-container'>
-          <Image src={image?.url} alt='img-jug' className='player-image' />
+          <Image src={
+            image
+              ? image.url
+              : 'https://res.cloudinary.com/dlah9v2do/image/upload/v1684277158/userimage_wmdcqv.png'
+          } alt='img-jug' className='player-image' />
         </div>
         <div className='data-coach-container-item'>
           <h3 className='coach-name-item'>{name}</h3>

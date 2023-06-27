@@ -77,7 +77,7 @@ const PlayersList = () => {
                             {
                                 filter === 'role' && roleFilter && roleFilter !== '--Seleccionar filtro--'
                                     ? filteredRolePlayers[0]
-                                        ? filteredRolePlayers?.map(({ _id, name, pay, ensurance }) => (
+                                        ? filteredRolePlayers?.map(({ _id, name, pay, ensurance }, index) => (
                                             <ItemPlayer
                                                 key={_id}
                                                 id={_id}
@@ -85,12 +85,13 @@ const PlayersList = () => {
                                                 pay={pay}
                                                 roleFilter={roleFilter}
                                                 ensurance={ensurance}
+                                                index={index}
                                             />
                                         ))
                                         : <p>No hay jugadores/as de este puesto</p>
                                     : filter === 'club' && clubFilter && clubFilter !== '--Seleccionar filtro--'
                                         ? filteredClubPlayers[0]
-                                            ? filteredClubPlayers?.map(({ _id, name, pay, ensurance, club }) => (
+                                            ? filteredClubPlayers?.map(({ _id, name, pay, ensurance, club }, index) => (
                                                 <ItemPlayer
                                                     key={_id}
                                                     id={_id}
@@ -98,10 +99,11 @@ const PlayersList = () => {
                                                     pay={pay}
                                                     club={club}
                                                     ensurance={ensurance}
+                                                    index={index}
                                                 />
                                             ))
                                             : <p>No hay jugadores/as de este club</p>
-                                        : playersToFilt?.map(({ _id, name, pay, ensurance }) => 
+                                        : playersToFilt?.map(({ _id, name, pay, ensurance }, index) =>
                                         (
                                             <ItemPlayer
                                                 key={_id}
@@ -109,6 +111,7 @@ const PlayersList = () => {
                                                 name={name}
                                                 pay={pay}
                                                 ensurance={ensurance}
+                                                index={index}
                                             />
                                         ))
                             }

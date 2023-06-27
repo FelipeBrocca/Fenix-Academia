@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-const ItemPlayer = ({ id, name, club, roleFilter, ensurance, pay }) => {
+const ItemPlayer = ({ id, name, club, roleFilter, ensurance, pay, index }) => {
 
     const needToPay = pay.trainsPayed.some(it => it.status === false)
 
@@ -14,7 +14,7 @@ const ItemPlayer = ({ id, name, club, roleFilter, ensurance, pay }) => {
                     </div>
                     : ''
             }
-            <p className='p-name'>{name}</p>
+            <span className='p-name'><p style={{color: 'var(--orange)'}}>{index + 1}</p>- {name}</span>
             {
                 club !== undefined
                     ? <p className='p-filter'>{club}</p>

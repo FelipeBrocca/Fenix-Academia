@@ -37,16 +37,20 @@ const CoachesProfile = ({ coach }) => {
         <div className='player-card'>
             <ul className='profile-data-list'>
                 <div className='player-image-container'>
-                    <Image src={coach?.image.url} alt='img-coach' className='player-image' />
+                    <Image src={
+                        coach.image && coach.image.url
+                            ? coach.image.url
+                            : 'https://res.cloudinary.com/dlah9v2do/image/upload/v1684277158/userimage_wmdcqv.png'
+                    } alt='img-coach' className='player-image' />
                 </div>
-                <h2>{coach?.name}</h2>
+                <h2>{coach.name ? coach.name : ''}</h2>
                 <li className='profile-data-item'>
                     <label>Edad:</label>
-                    <p>{age}</p>
+                    <p>{age ? age : ''}</p>
                 </li>
                 <li className='profile-data-item'>
                     <label>DNI:</label>
-                    <p>{coach?.dni}</p>
+                    <p>{coach.dni ? coach.dni : ''}</p>
                 </li>
                 <li className='profile-data-item'>
                     <label>Alta:</label>
@@ -54,15 +58,17 @@ const CoachesProfile = ({ coach }) => {
                 </li>
                 <li className='profile-data-item'>
                     <label>Teléfono: </label>
-                    <p>{coach?.phone}</p>
+                    <p>{coach.phone ? coach.phone : ''}</p>
                 </li>
                 <li className='profile-data-item'>
                     <label>Entrenador/a de:</label>
                     <ul>
                         {
-                            coach?.role.map((role) => (
+                            coach.role[0]
+                            ? coach.role.map((role) => (
                                 <li className='roles-in-profile' key={role}>- {role}</li>
                             ))
+                            : ''
                         }
                     </ul>
                 </li>

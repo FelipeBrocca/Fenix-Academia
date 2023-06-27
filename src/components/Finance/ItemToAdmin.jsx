@@ -12,6 +12,13 @@ const ItemToAdmin = (props) => {
         <>
             <li className={`admin-coaches-item ${adminForm ? 'active' : ''}`}>
                 {
+                    props.ensurance && !props.ensurance.secured
+                        ? <div className='icon-alert2' title='No asegurado'>
+                            <p>!</p>
+                        </div>
+                        : ''
+                }
+                {
                     props.type === 'player' && props.pay.trainsPayed.some(item => item.status === false)
                         ? <div className='icon-alert'><p>!</p></div>
                         : ''

@@ -2,9 +2,9 @@ import axios from "axios";
 
 //PROD
 
-export const getCoachesRequest = async () => await axios.get('https://serverfenix-acad.onrender.com/coaches-hockey')
+export const getCoachesRequest = async () => await axios.get(`${process.env.BASEURL}coaches-hockey`)
 
-export const coachDetailRequest = async (id) => await axios.get(`https://serverfenix-acad.onrender.com/coaches-hockey/${id}`)
+export const coachDetailRequest = async (id) => await axios.get(`${process.env.BASEURL}coaches-hockey/${id}`)
 
 export const newCoachRequest = async (coach) => {
     const form = new FormData()
@@ -20,7 +20,7 @@ export const newCoachRequest = async (coach) => {
         form.append(key, value);
     }
 
-    return await axios.post('https://serverfenix-acad.onrender.com/coaches-hockey', form, {
+    return await axios.post(`${process.env.BASEURL}coaches-hockey`, form, {
         headers: {
             "Content-Type": "multipart/form-data"
         }
@@ -40,14 +40,14 @@ export const updateCoachRequest = async (id, coach) => {
         form.append(key, value);
     }
 
-    return await axios.put(`https://serverfenix-acad.onrender.com/coaches-hockey/${id}`, form, {
+    return await axios.put(`${process.env.BASEURL}coaches-hockey/${id}`, form, {
         headers: {
             "Content-Type": "multipart/form-data"
         }
     })
 }
 
-export const deleteCoachRequest = async (id) => await axios.delete(`https://serverfenix-acad.onrender.com/coaches-hockey/${id}`)
+export const deleteCoachRequest = async (id) => await axios.delete(`${process.env.BASEURL}coaches-hockey/${id}`)
 
 
 

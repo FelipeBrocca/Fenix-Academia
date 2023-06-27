@@ -166,10 +166,10 @@ const FormCoachCreate = ({ children }) => {
                 <label className='form-create-label-image' htmlFor="image">Imagen de perfil</label>
                 <input onChange={handleFileChange} ref={fileInputRef} type='file' name='image' />
                 <input onChange={handleInputChange} value={formData.name} type='text' name='name' placeholder='Nombre' required />
-                <input onChange={handleInputChange} value={formData.dni} type='text' name='dni' placeholder='Dni' inputMode="numeric" required />
-                <input onChange={handleInputChange} value={formData.phone} type='tel' name='phone' placeholder='Telefono' inputMode="numeric" required />
-                <Select isSearchable={ false } name='role' options={roleOptions} isMulti isClearable onChange={setRoles} className='clubs-container-form-create' placeholder='Seleccione rol de entrenador' value={roles} required />
-                <input onChange={handleInputChange} value={formData.birth} type='date' name='birth' placeholder='Nacimiento' max="2005-12-31" required />
+                <input onChange={handleInputChange} value={formData.dni} type='text' name='dni' placeholder='Dni' inputMode="numeric"  />
+                <input onChange={handleInputChange} value={formData.phone} type='tel' name='phone' placeholder='Telefono' inputMode="numeric"  />
+                <Select isSearchable={ false } name='role' options={roleOptions} isMulti isClearable onChange={setRoles} className='clubs-container-form-create' placeholder='Seleccione rol de entrenador' value={roles}  />
+                <input onChange={handleInputChange} value={formData.birth} type='date' name='birth' placeholder='Nacimiento' max="2005-12-31" />
                 <div className='check-input-container ensurance'>
                     <div>
                         <label htmlFor='ensurance'>Pago seguro</label>

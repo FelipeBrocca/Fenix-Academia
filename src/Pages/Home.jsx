@@ -11,9 +11,9 @@ const Home = () => {
       <TrainingsHome />
       <div className='buttons-home-container'>
       <Link to='/jugador/listado' className='button-home-to'>
-        Ver jugadores
+        Jugadores
       </Link>
-      <Link to='/entrenadores/listado' className='button-home-to'>Ver entrenadores</Link>
+      <Link to='/entrenadores/listado' className='button-home-to'>Entrenadores</Link>
       </div>
       <SecureAlert />
     </main>

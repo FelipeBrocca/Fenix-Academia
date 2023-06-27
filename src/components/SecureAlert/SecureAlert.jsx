@@ -22,8 +22,8 @@ const SecureAlert = () => {
     return (
         <div className='sec-alert-container'>
             <h3>Seguros sin habilitar</h3>
+            <h4>Jugadores{playersSec.length > 0 ? `: ${playersSec.length}` : ''} <Link to={'/finanzas'} state={{ admin: { value: 1, label: 'Jugadores' } }}>Admin</Link></h4>
             <ul>
-                <h4>Jugadores <Link to={'/finanzas'} state={{ admin: { value: 1, label: 'Jugadores' } }}>Admin</Link></h4>
                 {
                     playersSec[0]
                         ? playersSec.map((player, index) => (
@@ -34,8 +34,8 @@ const SecureAlert = () => {
                         : <p className='all-secure-alert'>Todos asegurados</p>
                 }
             </ul>
+            <h4>Entrenadores{coachesSec.length > 0 ? `: ${coachesSec.length}` : ''} <Link to={'/finanzas'} state={{ admin: { value: 0, label: 'Entrenadores' } }}>Admin</Link></h4>
             <ul>
-                <h4>Entrenadores <Link to={'/finanzas'} state={{ admin: { value: 0, label: 'Entrenadores' } }}>Admin</Link></h4>
                 {
                     coachesSec[0]
                         ? coachesSec.map((coach, index) => (

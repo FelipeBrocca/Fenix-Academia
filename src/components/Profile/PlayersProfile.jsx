@@ -16,7 +16,7 @@ const PlayersProfile = ({ player }) => {
     const [elimModal, setElimModal] = useState(false)
     const [lastTrain, setLastTrain] = useState({})
     const todayDate = new Date()
-   
+
     useEffect(() => {
         const differenceInTime = todayDate.getTime() - birthPlayer.getTime();
         const differenceInDays = differenceInTime / (1000 * 3600 * 24);
@@ -25,8 +25,8 @@ const PlayersProfile = ({ player }) => {
     }, [birthPlayer])
 
     const handleLastTraining = (id) => {
-       let last = passedTrainings.find(train => train._id === id)
-       setLastTrain(last)
+        let last = passedTrainings.find(train => train._id === id)
+        setLastTrain(last)
     }
 
     useEffect(() => {
@@ -45,25 +45,34 @@ const PlayersProfile = ({ player }) => {
         } catch (error) {
             console.log(error);
         }
-    } 
+    }
+
     return (
         <div className='player-card'>
             <ul className='profile-data-list'>
                 <div className='player-image-container'>
-                    <Image src={player?.image.url} alt='img-jug' className='player-image' />
+                    <Image src={
+                        player.image && player.image.url
+                            ? player.image.url
+                            : 'https://res.cloudinary.com/dlah9v2do/image/upload/v1684277158/userimage_wmdcqv.png'
+                    } alt='img-jug' className='player-image' />
                 </div>
                 <h2>{player?.name}</h2>
                 <li className='profile-data-item'>
                     <label>Club:</label>
-                    <p>{player?.club}</p>
+                    <p>{
+                        player.club
+                            ? player.club
+                            : ''
+                    }</p>
                 </li>
                 <li className='profile-data-item'>
                     <label>Edad:</label>
-                    <p>{age}</p>
+                    <p>{age ? age : ''}</p>
                 </li>
                 <li className='profile-data-item'>
                     <label>DNI:</label>
-                    <p>{player?.dni}</p>
+                    <p>{player.dni ? player.dni : ''}</p>
                 </li>
                 <li className='profile-data-item'>
                     <label>Alta:</label>
@@ -71,15 +80,17 @@ const PlayersProfile = ({ player }) => {
                 </li>
                 <li className='profile-data-item'>
                     <label>Teléfono: </label>
-                    <p>{player?.phone}</p>
+                    <p>{player.phone ? player.phone : ''}</p>
                 </li>
                 <li className='profile-data-item'>
                     <label>Posiciones:</label>
                     <ul>
                         {
-                            player?.role.map((role) => (
-                                <li className='roles-in-profile' key={role}>- {role}</li>
-                            ))
+                            player.role[0]
+                                ? player?.role.map((role) => (
+                                    <li className='roles-in-profile' key={role}>- {role}</li>
+                                ))
+                                : ''
                         }
                     </ul>
                 </li>
@@ -104,10 +115,10 @@ const PlayersProfile = ({ player }) => {
                 </li>
                 <li className='profile-data-item'>
                     <label>Último entrenamiento:</label>
-                    <span style={{display:'flex', alignItems:'center'}}>
+                    <span style={{ display: 'flex', alignItems: 'center' }}>
                         {
                             lastTrain && lastTrain.date
-                                ? <p style={{fontSize:'13px'}}>{lastTrain.date.day}</p>
+                                ? <p style={{ fontSize: '13px' }}>{lastTrain.date.day}</p>
                                 : ''
                         }
                     </span>
