@@ -84,6 +84,9 @@ const ListPlayersTraining = ({ children, training, date, create, setCreate }) =>
         training.players.assist = playersChecked
         try {
             await Promise.all(playersActive.map(async (player) => {
+                if (player.birth === null) {
+                    player.birth = new Date('1970-01-01')
+                }
                 await updatePlayer(player._id, player)
             }))
             await updateTraining(training._id, training)

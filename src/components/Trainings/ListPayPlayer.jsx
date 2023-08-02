@@ -99,7 +99,7 @@ const ListPayPlayer = ({ children, training, date, setCreate }) => {
 
     return (
         <div className='create-form-container'>
-            <h3>Pagos de: {date}</h3>
+            <h3>Pagos de: {date.day}/{date.month}/{date.year}</h3>
             {children}
             <div className='search-player'>
                 <input type='text' placeholder='Buscar jugador/a' onChange={handleBusqueda} value={busqueda} />
