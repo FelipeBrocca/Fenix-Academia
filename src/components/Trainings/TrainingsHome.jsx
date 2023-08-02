@@ -10,7 +10,7 @@ const TrainingsHome = () => {
     const { trainings } = useTrainings()
     const [loading, setLoading] = useState(true)
     const [showTechniques, setShowTechniques] = useState(false)
-    const [dayFormatted, setDayFormatted] = useState('')
+    const [dayFormatted, setDayFormatted] = useState()
     const [dayOfTraining, setDayOfTraining] = useState(false)
     const [fakeTraining] = useState({
         active: true,
@@ -42,20 +42,28 @@ const TrainingsHome = () => {
     }
 
     const todayDate = new Date()
-    const formattedTodayDate = `${todayDate.getDate()}/${todayDate.getMonth() + 1}/${todayDate.getFullYear()}`;
+    const formattedTodayDate = { day: todayDate.getDate(), month: todayDate.getMonth() + 1, year: todayDate.getFullYear() };
     useEffect(() => {
-        if (formattedTodayDate >= dayFormatted && dayFormatted !== '1/1/2000') {
-            setDayOfTraining(true)
-        } else {
-            setDayOfTraining(false)
-        }
+        if (dayFormatted === '1/1/2000') {
+            setDayOfTraining(false);
+          } else if (dayFormatted) {
+            const isTrainingDay =
+              formattedTodayDate.year > dayFormatted.year ||
+              (formattedTodayDate.year === dayFormatted.year &&
+                formattedTodayDate.month > dayFormatted.month) ||
+              (formattedTodayDate.year === dayFormatted.year &&
+                formattedTodayDate.month === dayFormatted.month &&
+                formattedTodayDate.day >= dayFormatted.day);
+      
+            setDayOfTraining(isTrainingDay);
+          }
     }, [formattedTodayDate, dayFormatted, trainings])
 
 
     useEffect(() => {
         const date = nextTraining.date.day;
         const newDate = new Date(date)
-        const formatDate = `${newDate.getUTCDate()}/${newDate.getUTCMonth() + 1}/${newDate.getUTCFullYear()}`;
+        const formatDate = { day: newDate.getUTCDate(), month: newDate.getUTCMonth() + 1, year: newDate.getUTCFullYear() };
         setDayFormatted(formatDate)
     }, [nextTraining.date.day])
 
@@ -88,7 +96,10 @@ const TrainingsHome = () => {
                                 <div className='date-hour-container-training-home'>
                                     <div className='date-training-home'>
                                         <label>Fecha: </label>
-                                        <p>{dayFormatted ? dayFormatted : '-/-/-'}</p>
+                                        <p>{
+                                            dayFormatted
+                                                ? `${dayFormatted.day}/${dayFormatted.month}/${dayFormatted.year}`
+                                                : '-/-/-'}</p>
                                     </div>
                                     <div className='hour-training-home'>
                                         <label>Horario: </label>

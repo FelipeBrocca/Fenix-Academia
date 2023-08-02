@@ -97,7 +97,7 @@ const ListPlayersTraining = ({ children, training, date, create, setCreate }) =>
 
     return (
         <div className='create-form-container'>
-            <h3>Asistencias de: {date}</h3>
+            <h3>Asistencias de: {date.day}/{date.month}/{date.year}</h3>
             {children}
             <div className='search-player'>
                 <input type='text' placeholder='Buscar jugador/a' onChange={handleBusqueda} value={busqueda} />
